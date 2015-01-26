@@ -32,20 +32,24 @@
 
     ;; Vertical groups
     (for [x (range 3)]
-      (take-nth 3 (drop x [1 2 3 4 5 6 7 8 9])))
-
-    ;; top-right to bottom-left diagonal
-    (->> board
-         (drop 2)
-         (take-nth 2)
-         (take 3))
+      (take-nth 3 (drop x board)))
 
     ;; top-left to bottom-right diagonal
-    (take-nth 4 board))
+    [(take-nth 4 board)
+     ;; top-right to bottom-left diagonal
+     (->> board
+          (drop 2)
+          (take-nth 2)
+          (take 3))])
+
+   ;; Check all different combinations for a winning combination
    (map (fn [section]
-          (and
-           (apply = section)
-           (apply not= " " section))))
+          (if (and
+               (apply = section)
+               (apply not= " " section))
+            (first section)
+            nil)))
+
   (some identity)))
 
 (defn next-move [board to-play]
