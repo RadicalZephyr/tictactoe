@@ -46,7 +46,7 @@
           (and
            (apply = section)
            (apply not= " " section))))
-   some))
+  (some identity)))
 
 (defn next-move [board to-play]
   board)
