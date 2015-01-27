@@ -1,5 +1,9 @@
 (ns tictactoe.board)
 
+(def empty-board [" " " " " "
+                  " " " " " "
+                  " " " " " "])
+
 (defn all-board-groups [board]
   (concat
    ;; Horizontal groups
