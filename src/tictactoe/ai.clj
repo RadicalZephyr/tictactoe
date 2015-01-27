@@ -7,19 +7,16 @@
 (defn- has-winning-move? [row]
   (let [all-but-one (dec (count row))]
     (->> (frequencies row)
-         (map (fn [[k v]]
+         (some (fn [[k v]]
                 (if (= v all-but-one)
-                  k nil)))
-         (filter identity)
-         first)))
+                  k nil))))))
 
 (defn blank-location [row]
   (->> row
        (map-indexed (fn [i val]
               (if (= " " val)
                 i nil)))
-       (filter identity)
-       first))
+       (some identity)))
 
 (defn- play-winning-move [board])
 
