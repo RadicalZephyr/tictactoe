@@ -17,7 +17,8 @@
     (when-let [move (winning-move raw-row)]
       (some (fn [[pos val]]
               (when (= " " val)
-                [pos move])) indexed-row))))
+                [pos move]))
+            indexed-row))))
 
 (defn- has-winning-move? [board]
   (->> board
