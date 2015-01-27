@@ -1,4 +1,5 @@
-(ns tictactoe.board)
+(ns tictactoe.board
+  (:require [clojure.string :as s]))
 
 (def empty-board [" " " " " "
                   " " " " " "
@@ -45,6 +46,9 @@
                 (apply not= " " section))
              (first section)
              nil)))))
+
+(defn cats-game? [board]
+  (not-any? s/blank? board))
 
 (defn xy->index [[x y]]
   (+ (dec x)
