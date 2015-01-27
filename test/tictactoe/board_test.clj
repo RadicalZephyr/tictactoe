@@ -1,5 +1,5 @@
-(ns tictactoe.util-test
-  (:require [tictactoe.util :refer :all]
+(ns tictactoe.board-test
+  (:require [tictactoe.board :refer :all]
             [clojure.test :refer :all]))
 
 (deftest winner?-test

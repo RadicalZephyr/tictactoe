@@ -1,6 +1,6 @@
 (ns tictactoe.cli
   (:require [tictactoe.ai :as ai]
-            [tictactoe.util :as util]
+            [tictactoe.board :as board]
             [clojure.pprint :as pp]
             [clojure.tools.reader.edn :as edn]))
 
@@ -27,18 +27,18 @@
         (recur)))))
 
 (defn make-ai-move [board mark]
-  (util/make-move board mark (ai/best-move board)))
+  (board/make-move board mark (ai/best-move board)))
 
 (defn next-move [board to-play mark]
   (case to-play
     :ai (make-ai-move board mark)
-    :player (util/make-move board (mark) (read-move))))
+    :player (board/make-move board (mark) (read-move))))
 
 (def next-player {:player :ai
                   :ai :player})
 
 (defn game-loop [board to-play marks]
-  (if-let [winner (util/winner? board)]
+  (if-let [winner (board/winner? board)]
     (case winner
       :player (println "How did this happen?!?!?!"
                        "The AI is suppposed to be UNBEATABLE!!!")

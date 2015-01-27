@@ -1,4 +1,4 @@
-(ns tictactoe.util)
+(ns tictactoe.board)
 
 (defn all-board-groups [board]
   (concat
