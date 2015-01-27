@@ -1,5 +1,6 @@
 (ns tictactoe.game
-  (:gen-class))
+  (:gen-class)
+  (:require [tictactoe.cli :as cli]))
 
 (defn -main [& args]
-  (println "Hey it's tictactoe!"))
+  (cli/start-game))
