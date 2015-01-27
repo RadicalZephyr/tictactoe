@@ -13,6 +13,14 @@
          (filter identity)
          first)))
 
+(defn blank-location [row]
+  (->> row
+       (map-indexed (fn [i val]
+              (if (= " " val)
+                i nil)))
+       (filter identity)
+       first))
+
 (defn- play-winning-move [board])
 
 (defn- play-best-available-move [board])
