@@ -27,10 +27,15 @@
               (map winning-group)
               (filter identity)
               (group-by second))]
-    (when (and
-           (not (empty? winning-moves))
-           (contains? winning-moves mark))
-      (get-in winning-moves [mark 0 0]))))
+    (when (not (empty? winning-moves))
+      (cond (contains? winning-moves mark)
+            (get-in winning-moves [mark 0 0])
+
+            :else (->> winning-moves ;; This is ugly! What to do about
+                       vals          ;; it though?
+                       first
+                       first
+                       first)))))
 
 (defn- play-winning-move [board mark])
 
