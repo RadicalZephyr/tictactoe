@@ -4,7 +4,13 @@
 (defn- all-index-pairs []
   (board/all-board-groups (range 9)))
 
-(defn- has-winning-move? [board])
+(defn- has-winning-move? [row]
+  (->> (frequencies row)
+       (map (fn [[k v]]
+              (if (= v 2)
+                k nil)))
+       (filter identity)
+       first))
 
 (defn- play-winning-move [board])
 
