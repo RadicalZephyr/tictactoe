@@ -61,5 +61,9 @@
 (defn get-pos [board pos]
   (get board (xy->index pos)))
 
+(defn valid-move? [board pos]
+  (= (get-pos board pos)
+     " "))
+
 (def next-player {:player :ai
                   :ai :player})
