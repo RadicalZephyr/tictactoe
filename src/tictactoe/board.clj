@@ -46,14 +46,20 @@
              (first section)
              nil)))))
 
-(defn make-move [board mark [x y]]
-  (let [pos (+ (dec x)
-               (* 3 (dec y)))]
-    (if (= (nth board pos)
+(defn xy->index [[x y]]
+  (+ (dec x)
+     (* 3 (dec y))))
+
+(defn make-move [board mark pos]
+  (let [index (xy->index pos)]
+    (if (= (nth board index)
            " ")
-      (assoc board pos mark)
+      (assoc board index mark)
       (throw (ex-info "Illegal move." {:position pos
                                        :board board})))))
+
+(defn get-pos [board pos]
+  (get board (xy->index pos)))
 
 (def next-player {:player :ai
                   :ai :player})
