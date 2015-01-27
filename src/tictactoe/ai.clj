@@ -14,8 +14,10 @@
 
 (defn- is-winning-group? [indexed-row]
   (let [raw-row (map second indexed-row)]
-    (if-let [move (winning-move raw-row)]
-      nil)))
+    (when-let [move (winning-move raw-row)]
+      (some (fn [[pos val]]
+              (when (= " " val)
+                [pos move])) indexed-row))))
 
 (defn- has-winning-move? [board]
   (->> board
