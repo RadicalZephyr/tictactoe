@@ -1,9 +1,6 @@
 (ns tictactoe.ai
   (:require [tictactoe.board :as board]))
 
-(defn- all-index-pairs []
-  (board/all-board-groups (range 9)))
-
 (defn- has-winning-move? [row]
   (let [all-but-one (dec (count row))]
     (->> (frequencies row)

@@ -18,6 +18,13 @@
          (take-nth 2)
          (take 3))]))
 
+(defn- all-index-pairs [board]
+  (map vector
+       (for [y (range 2)
+             x (range 2)]
+         [x y])
+       board))
+
 (defn winner? [board]
   (->>
    (all-board-groups board)
