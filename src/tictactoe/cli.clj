@@ -16,6 +16,7 @@
 
 (defn read-move []
   (print "Enter your move [x y]: ")
+  (flush)
   (let [input (edn/read {:default unknown-val}
                         *in*)]
     (if (and (coll? input)
