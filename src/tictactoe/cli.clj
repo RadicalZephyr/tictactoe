@@ -5,10 +5,15 @@
             [clojure.tools.reader.edn :as edn]))
 
 (defn print-board [board]
-  (pp/cl-format *out* "~:{+---+---+---+~%~
-                          | ~C | ~C | ~C |~%~}~
+  (pp/cl-format *out* "~%  1   2   3~%~
+                       ~:{+---+---+---+~%~
+                          | ~C | ~C | ~C | ~D~%~}~
                           +---+---+---+~%"
-                (partition 3 board)))
+                (->> (range 1 4)
+                     (map vector)
+                     (map concat
+                          (partition 3 board))
+                     reverse)))
 
 (defn unknown-val [tag val]
   {:unknown-tag tag
