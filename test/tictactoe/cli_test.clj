@@ -8,11 +8,48 @@
                      " " " " " "
                      " " " " " "])
            nil) "Empty board should have no winner.")
+
     (is (= (winner? ["x" "x" "o"
                      "o" "x" "x"
                      "x" "o" "o"])
            nil) "Cat's game should have no winner.")
+
     (is (= (winner? ["x" "x" " "
                      " " "x" "o"
                      " " "o" "o"])
-           nil) "Unfinished game should have no winner.")))
+           nil) "Unfinished game should have no winner."))
+
+  (doseq [mark ["x" "o" "b"]]
+   (testing "All winning positions"
+     (is (= (winner? [mark mark mark
+                      " " " " " "
+                      " " " " " "])
+            mark))
+     (is (= (winner? [" " " " " "
+                      mark mark mark
+                      " " " " " "])
+            mark))
+     (is (= (winner? [" " " " " "
+                      " " " " " "
+                      mark mark mark])
+            mark))
+     (is (= (winner? [mark " " " "
+                      mark " " " "
+                      mark " " " "])
+            mark))
+     (is (= (winner? [" " mark " "
+                      " " mark " "
+                      " " mark " "])
+            mark))
+     (is (= (winner? [" " " " mark
+                      " " " " mark
+                      " " " " mark])
+            mark))
+     (is (= (winner? [mark " " " "
+                      " " mark " "
+                      " " " " mark])
+            mark))
+     (is (= (winner? [" " " " mark
+                      " " mark " "
+                      mark " " " "])
+            mark)))))
