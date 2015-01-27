@@ -26,11 +26,10 @@
        (map winning-group)
        (filter identity)))
 
-(defn- play-winning-move [board])
+(defn- play-winning-move [board mark])
 
-(defn- play-best-available-move [board])
+(defn- play-best-available-move [board mark])
 
-(defn best-move [board]
-  (cond
-    (has-winning-move? board) (play-winning-move board)
-    :else (play-best-available-move board)))
+(defn best-move [board mark]
+  (or (play-winning-move board mark)
+      (play-best-available-move board)))
