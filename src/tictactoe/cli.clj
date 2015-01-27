@@ -34,14 +34,16 @@
         (println "I didn't understand that move.  Please try again.")
         (recur)))))
 
-(defn make-ai-move [board mark]
-  (board/make-move board mark (ai/best-move board mark)))
+(defn make-ai-move [board marks]
+  (board/make-move board marks (ai/best-move board marks)))
 
-(defn next-move [board to-play mark]
+(defn next-move [board to-play marks]
   (print-board board)
   (case to-play
-    :ai (make-ai-move board mark)
-    :player (board/make-move board mark (read-move))))
+    :ai (make-ai-move board marks)
+    :player (board/make-move board
+                             (marks to-play)
+                             (read-move))))
 
 (defn game-loop [board to-play marks]
   (if-let [winner (board/winner? board)]
@@ -49,7 +51,7 @@
       :player (println "How did this happen?!?!?!"
                        "The AI is suppposed to be UNBEATABLE!!!")
       :ai (println "The AI wins again. As it should."))
-    (recur (next-move board to-play (marks to-play))
+    (recur (next-move board to-play marks)
            (board/next-player to-play)
            marks)))
 

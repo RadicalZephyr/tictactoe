@@ -41,8 +41,9 @@
   (when-let [move (get-winning-move board mark)]
     (board/make-move board mark move)))
 
-(defn- play-best-available-move [board mark])
+(defn- play-best-available-move [board marks])
 
-(defn best-move [board mark]
-  (or (play-winning-move board mark)
-      (play-best-available-move board)))
+(defn best-move [board marks]
+  (let [my-mark (marks :ai)]
+      (or (play-winning-move board my-mark)
+          (play-best-available-move board marks))))
