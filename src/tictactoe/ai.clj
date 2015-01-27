@@ -47,7 +47,7 @@
 (defn get-winning-move [board mark]
   (let [winning-moves
         (->> board
-              board/all-indexed-board-groups
+              board/all-indexed-attacks
               (map winning-group)
               (filter identity)
               (group-by second))]

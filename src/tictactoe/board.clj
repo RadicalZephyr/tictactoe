@@ -5,7 +5,7 @@
 
 (def empty-board (vec (repeat 9 blank)))
 
-(defn all-board-groups [board]
+(defn all-attacks [board]
   (concat
    ;; Horizontal groups
    (partition 3 board)
@@ -30,14 +30,14 @@
          [y x])
        board))
 
-(defn all-indexed-board-groups [board]
+(defn all-indexed-attacks [board]
   (->> board
        indexed-board
-       all-board-groups))
+       all-attacks))
 
 (defn winner? [board]
   (->>
-   (all-board-groups board)
+   (all-attacks board)
 
    ;; Check all different combinations for a winning combination
    (some (fn [section]
