@@ -24,9 +24,9 @@
 
 (defn indexed-board [board]
   (map vector
-       (for [x (range 3)
-             y (range 3)]
-         [x y])
+       (for [x (range 1 4)
+             y (range 1 4)]
+         [y x])
        board))
 
 (defn all-indexed-board-groups [board]
