@@ -1,6 +1,8 @@
-(ns tictactoe.ai)
+(ns tictactoe.ai
+  (:require [tictactoe.board :as board]))
 
-(defn- is-winning-move? [board [x y]])
+(defn- all-index-pairs []
+  (board/all-board-groups (range 9)))
 
 (defn- has-winning-move? [board])
 
