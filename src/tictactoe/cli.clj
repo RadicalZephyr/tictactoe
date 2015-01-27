@@ -5,10 +5,10 @@
             [clojure.tools.reader.edn :as edn]))
 
 (defn print-board [board]
-  (pp/cl-format *out* "~%  1   2   3~%~
-                       ~:{+---+---+---+~%~
+  (pp/cl-format *out* "~:{+---+---+---+~%~
                           | ~C | ~C | ~C | ~D~%~}~
-                          +---+---+---+~%"
+                          +---+---+---+~
+                        ~%  1   2   3~%~%"
                 (->> (range 1 4)
                      (map vector)
                      (map concat
