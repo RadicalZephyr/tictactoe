@@ -1,5 +1,7 @@
 (ns tictactoe.ai)
 
+(defn- is-winning-move? [board [x y]])
+
 (defn- has-winning-move? [board])
 
 (defn- play-winning-move [board])
