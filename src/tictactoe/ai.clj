@@ -5,12 +5,13 @@
   (board/all-board-groups (range 9)))
 
 (defn- has-winning-move? [row]
-  (->> (frequencies row)
-       (map (fn [[k v]]
-              (if (= v 2)
-                k nil)))
-       (filter identity)
-       first))
+  (let [all-but-one (dec (count row))]
+    (->> (frequencies row)
+         (map (fn [[k v]]
+                (if (= v all-but-one)
+                  k nil)))
+         (filter identity)
+         first)))
 
 (defn- play-winning-move [board])
 
