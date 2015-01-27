@@ -1,6 +1,7 @@
 (ns tictactoe.ai
   (:require [tictactoe.board :as board
-                             :refer [blank]]))
+                             :refer [blank]]
+            [tictactoe.attack :refer [classify]]))
 
 ;; Tic-tac-toe game analysis: There is only one fundamental thing in
 ;; tic-tac-toe and that is a three-in-a-row.  We will call this an
@@ -14,8 +15,8 @@
 ;; A potential attack is one where no player has claimed any of the
 ;; squares in it.
 
-;; A null is one where no player can claim because both players have
-;; played in the attack at least once.
+;; A null attack is one where no player can claim because both players
+;; have played in the attack at least once.
 
 ;; A threat is one in which the opposing player has claimed that
 ;; attack by placing at least one piece in it, and the other's are
