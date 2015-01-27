@@ -45,3 +45,20 @@
            nil))
     (is (= (winning-move '("o" "o" "x"))
            nil))))
+
+(deftest is-winning-group?-test
+  (testing "False positives"
+    (is (= (winning-group '([[0 0] "x"] [[0 1] "o"] [[0 2] "o"]))
+           nil))
+    (is (= (winning-group '([[0 0] "o"] [[0 1] "x"] [[0 2] "o"]))
+           nil))
+    (is (= (winning-group '([[0 0] "o"] [[0 1] "o"] [[0 2] "x"]))
+           nil)))
+
+  (testing "True positives"
+    (is (= (winning-group '([[0 0] " "] [[0 1] "o"] [[0 2] "o"]))
+           [[0 0] "o"]))
+    (is (= (winning-group '([[0 0] "o"] [[0 1] " "] [[0 2] "o"]))
+           [[0 1] "o"]))
+    (is (= (winning-group '([[0 0] "o"] [[0 1] "o"] [[0 2] " "]))
+           [[0 2] "o"]))))
