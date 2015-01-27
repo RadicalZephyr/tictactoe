@@ -54,3 +54,24 @@
             [[0 1] mark]))
       (is (= (winning-group [[[0 0] mark] [[0 1] mark] [[0 2] " "]])
              [[0 2] mark])))))
+
+(deftest get-winning-move-test
+  (testing "True negatives"
+    (is (= (get-winning-move [" " " " " "
+                              " " " " " "
+                              " " " " " "]
+                             "x")
+           nil))
+    (is (= (get-winning-move ["o" "x" "o"
+                              "o" "x" "o"
+                              "x" "o" "x"]
+                             "x")
+           nil))
+    (is (= (get-winning-move ["o" "x" " "
+                              "x" " " "o"
+                              " " "o" "x"]
+                             "x")
+           nil)))
+
+  (testing "True positives"
+    ))
