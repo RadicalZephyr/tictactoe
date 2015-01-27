@@ -1,7 +1,7 @@
 (ns tictactoe.attack)
 
 (defn classify [attack my-mark]
-  (let [marks (distinct attack)]
+  (let [marks (vec (distinct attack))]
     (cond
       (apply = " " marks)              :potential
       (or (= (count marks)
