@@ -7,4 +7,5 @@
                  [org.clojure/tools.reader "0.8.13"]]
   :main ^:skip-aot tictactoe.game
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all}
+             :dev {:dependencies [[org.clojure/math.combinatorics "0.0.8"]]}})
