@@ -73,5 +73,53 @@
                              "x")
            nil)))
 
-  (testing "True positives"
+  (testing "Simple positives"
+    (doseq [mark ["x" "o"]]
+      (is (= (get-winning-move [" " "x" "x"
+                                " " " " " "
+                                " " " " " "]
+                               mark)
+             [0 0]))
+      (is (= (get-winning-move ["x" "x" " "
+                                " " " " " "
+                                " " " " " "]
+                               mark)
+             [0 2]))
+
+      (is (= (get-winning-move [" " " " " "
+                                "x" " " " "
+                                "x" " " " "]
+                               mark)
+             [0 0]))
+      (is (= (get-winning-move ["x" " " " "
+                                "x" " " " "
+                                " " " " " "]
+                               mark)
+             [2 0]))
+
+      (is (= (get-winning-move [" " " " " "
+                                " " "x" " "
+                                " " " " "x"]
+                               mark)
+             [0 0]))
+      (is (= (get-winning-move ["x" " " " "
+                                " " "x" " "
+                                " " " " " "]
+                               mark)
+             [2 2]))
+
+      (is (= (get-winning-move [" " " " " "
+                                " " "x" " "
+                                "x" " " " "]
+                               mark)
+             [0 2]))
+      (is (= (get-winning-move [" " " " "x"
+                                " " "x" " "
+                                " " " " " "]
+                               mark)
+             [2 0]))
+
+      ))
+
+  (testing "Multiple positives"
     ))
