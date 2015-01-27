@@ -1,7 +1,7 @@
 (ns tictactoe.ai
   (:require [tictactoe.board :as board]))
 
-(defn winning-move [row]
+(defn check-winning-move [row]
   (let [freqs (frequencies row)]
     (when (and (= (count freqs)
                 2)
@@ -14,13 +14,13 @@
 
 (defn winning-group [indexed-row]
   (let [raw-row (map second indexed-row)]
-    (when-let [move (winning-move raw-row)]
+    (when-let [move (check-winning-move raw-row)]
       (some (fn [[pos val]]
               (when (= " " val)
                 [pos move]))
             indexed-row))))
 
-(defn winning-move [board mark]
+(defn get-winning-move [board mark]
   (let [winning-moves
         (->> board
               board/all-indexed-board-groups
