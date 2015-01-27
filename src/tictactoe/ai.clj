@@ -20,11 +20,17 @@
                 [pos move]))
             indexed-row))))
 
-(defn- has-winning-move? [board]
-  (->> board
-       board/all-indexed-board-groups
-       (map winning-group)
-       (filter identity)))
+(defn winning-move [board mark]
+  (let [winning-moves
+        (->> board
+              board/all-indexed-board-groups
+              (map winning-group)
+              (filter identity)
+              (group-by second))]
+    (when (and
+           (not (empty? winning-moves))
+           (contains? winning-moves mark))
+      (get-in winning-moves [mark 0 0]))))
 
 (defn- play-winning-move [board mark])
 
