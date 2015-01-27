@@ -12,7 +12,7 @@
            (remove #{" "})
            first))))
 
-(defn- is-winning-group? [indexed-row]
+(defn winning-group [indexed-row]
   (let [raw-row (map second indexed-row)]
     (when-let [move (winning-move raw-row)]
       (some (fn [[pos val]]
@@ -22,7 +22,7 @@
 (defn- has-winning-move? [board]
   (->> board
        board/all-indexed-board-groups
-       (map is-winning-group?)
+       (map winning-group)
        (filter identity)))
 
 (defn- play-winning-move [board])
