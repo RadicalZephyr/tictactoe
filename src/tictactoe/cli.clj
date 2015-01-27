@@ -48,3 +48,28 @@
     (recur (next-move board to-play (marks to-play))
            (next-player to-play)
            marks)))
+
+(defn assign-marks [goes-first]
+  {goes-first "x"
+   (next-player goes-first) "o"})
+
+(defn start-game []
+  (println "Let's play tictactoe!")
+  (println "Who should go first, player or ai?")
+
+;; Read something, keywordize it and then ensure that it's either
+;; :player or :ai.  All other cases will end up nil. It's safe to call
+;; keyword on pretty much any clojure data type.  Everything that
+;; doesn't make sense just returns nil, and this allows you to accept
+;; keywords, symbols or strings.
+  (if-let [goes-first (-> (edn/read {:default unknown-val}
+                                    *in*)
+                          keyword
+                          #{:player :ai})]
+    (game-loop board/empty-board
+               goes-first
+               (assign-marks goes-first))
+    (do
+      (println "Sorry, I didn't understand that."
+               "Please only enter \"player\" or \"ai\".")
+      (recur))))
