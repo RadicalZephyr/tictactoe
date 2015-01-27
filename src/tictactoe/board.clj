@@ -18,7 +18,7 @@
          (take-nth 2)
          (take 3))]))
 
-(defn- all-index-pairs [board]
+(defn- all-indexed-board-groups [board]
   (map vector
        (for [y (range 2)
              x (range 2)]
