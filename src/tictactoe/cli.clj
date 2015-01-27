@@ -83,7 +83,8 @@
 (defn start-game []
   (println "Let's play tictactoe!")
   (loop []
-    (println "Who should go first, player or ai?")
+    (print "Who should go first, player or ai? ")
+    (flush)
 
     ;; Read something, keywordize it and then ensure that it's either
     ;; :player or :ai.  All other cases will end up nil. It's safe to call
