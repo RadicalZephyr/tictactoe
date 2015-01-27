@@ -10,12 +10,14 @@
                           +---+---+---+~%"
                 (partition 3 board)))
 
+(defn unknown-val [tag val]
+  {:unknown-tag tag
+   :value val})
+
 (defn read-move []
   (print "Enter your move [x y]: ")
-  (let [my-unknown (fn [tag val] {:unknown-tag tag
-                                  :value val})
-        input (edn/read {:default my-unknown
-                         :eof nil} *in*)]
+  (let [input (edn/read {:default unknown-val}
+                        *in*)]
     (if (and (coll? input)
              (sequential? input)
              (= (count input)
