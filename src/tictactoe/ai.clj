@@ -37,7 +37,9 @@
                        first
                        first)))))
 
-(defn- play-winning-move [board mark])
+(defn- play-winning-move [board mark]
+  (when-let [move (get-winning-move board mark)]
+    (board/make-move board mark move)))
 
 (defn- play-best-available-move [board mark])
 
