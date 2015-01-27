@@ -29,7 +29,7 @@
         (recur)))))
 
 (defn make-ai-move [board mark]
-  (board/make-move board mark (ai/best-move board)))
+  (board/make-move board mark (ai/best-move board mark)))
 
 (defn next-move [board to-play mark]
   (case to-play
