@@ -1,5 +1,6 @@
 (ns tictactoe.cli
-  (:require [clojure.pprint :as pp]
+  (:require [tictactoe.ai :as ai]
+            [clojure.pprint :as pp]
             [clojure.tools.reader.edn :as edn]))
 
 (defn print-board [board]
@@ -62,7 +63,7 @@
                                        :board board})))))
 
 (defn make-ai-move [board mark]
-  board)
+  (make-move board mark (ai/best-move board)))
 
 (defn next-move [board to-play mark]
   (case to-play
