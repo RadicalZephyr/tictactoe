@@ -35,14 +35,12 @@
    (all-board-groups board)
 
    ;; Check all different combinations for a winning combination
-   (map (fn [section]
-          (if (and
-               (apply = section)
-               (apply not= " " section))
-            (first section)
-            nil)))
-
-   (some identity)))
+   (some (fn [section]
+           (if (and
+                (apply = section)
+                (apply not= " " section))
+             (first section)
+             nil)))))
 
 (defn make-move [board mark [x y]]
   (let [pos (+ (dec x)
