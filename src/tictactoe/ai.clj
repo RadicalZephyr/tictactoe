@@ -2,11 +2,11 @@
   (:require [tictactoe.board :as board]))
 
 (defn winning-move [row]
-  (let [all-but-one (dec (count row))
-        freqs (frequencies row)]
+  (let [freqs (frequencies row)]
     (when (and (= (count freqs)
                 2)
-             (contains? freqs " "))
+               (= (freqs " ")
+                  1))
       (->> freqs
            keys
            (remove #{" "})
