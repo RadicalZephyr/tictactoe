@@ -18,10 +18,10 @@
          (take-nth 2)
          (take 3))]))
 
-(defn- all-indexed-board-groups [board]
+(defn all-indexed-board-groups [board]
   (map vector
-       (for [y (range 2)
-             x (range 2)]
+       (for [x (range 3)
+             y (range 3)]
          [x y])
        board))
 
