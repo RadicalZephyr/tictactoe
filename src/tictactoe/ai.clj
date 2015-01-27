@@ -1,5 +1,6 @@
 (ns tictactoe.ai
-  (:require [tictactoe.board :as board]))
+  (:require [tictactoe.board :as board
+                             :refer [blank]]))
 
 ;; Tic-tac-toe game analysis: There is only one fundamental thing in
 ;; tic-tac-toe and that is a three-in-a-row.  We will call this an
@@ -27,18 +28,18 @@
   (let [freqs (frequencies row)]
     (when (and (= (count freqs)
                 2)
-               (= (freqs " ")
+               (= (freqs blank)
                   1))
       (->> freqs
            keys
-           (remove #{" "})
+           (remove #{blank})
            first))))
 
 (defn winning-group [indexed-row]
   (let [raw-row (map second indexed-row)]
     (when-let [move (check-winning-move raw-row)]
       (some (fn [[pos val]]
-              (when (= " " val)
+              (when (= blank val)
                 [pos move]))
             indexed-row))))
 
@@ -70,7 +71,7 @@
 
 (defn not-taken [board pos]
   (when (= (board/get-pos board pos)
-           " ")
+           blank)
     pos))
 
 (defn- get-best-available-move [board mark]

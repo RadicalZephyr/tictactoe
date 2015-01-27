@@ -1,9 +1,9 @@
 (ns tictactoe.board
   (:require [clojure.string :as s]))
 
-(def empty-board [" " " " " "
-                  " " " " " "
-                  " " " " " "])
+(def blank " ")
+
+(def empty-board (vec (repeat 9 blank)))
 
 (defn all-board-groups [board]
   (concat
@@ -43,7 +43,7 @@
    (some (fn [section]
            (if (and
                 (apply = section)
-                (apply not= " " section))
+                (apply not= blank section))
              (first section)
              nil)))))
 
@@ -57,7 +57,7 @@
 (defn make-move [board mark pos]
   (let [index (xy->index pos)]
     (if (= (nth board index)
-           " ")
+           blank)
       (assoc board index mark)
       (throw (ex-info "Illegal move." {:position pos
                                        :board board})))))
@@ -67,7 +67,7 @@
 
 (defn valid-move? [board pos]
   (= (get-pos board pos)
-     " "))
+     blank))
 
 (def next-player {:player :ai
                   :ai :player})
