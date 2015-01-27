@@ -33,6 +33,7 @@
   (board/make-move board mark (ai/best-move board mark)))
 
 (defn next-move [board to-play mark]
+  (print-board board)
   (case to-play
     :ai (make-ai-move board mark)
     :player (board/make-move board mark (read-move))))
