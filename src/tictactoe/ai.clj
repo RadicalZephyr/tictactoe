@@ -8,13 +8,6 @@
                 (if (= v all-but-one)
                   k nil))))))
 
-(defn blank-location [row]
-  (->> row
-       (map-indexed (fn [i val]
-              (if (= " " val)
-                i nil)))
-       (some identity)))
-
 (defn- play-winning-move [board])
 
 (defn- play-best-available-move [board])
