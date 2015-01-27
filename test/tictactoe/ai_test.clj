@@ -48,17 +48,20 @@
 
 (deftest is-winning-group?-test
   (testing "False positives"
-    (is (= (winning-group '([[0 0] "x"] [[0 1] "o"] [[0 2] "o"]))
-           nil))
-    (is (= (winning-group '([[0 0] "o"] [[0 1] "x"] [[0 2] "o"]))
-           nil))
-    (is (= (winning-group '([[0 0] "o"] [[0 1] "o"] [[0 2] "x"]))
-           nil)))
+    (doseq [mark ["x" "o"]
+            op-mark ["o" "x"]]
+      (is (= (winning-group [[[0 0] mark] [[0 1] op-mark] [[0 2] op-mark]])
+             nil))
+      (is (= (winning-group [[[0 0] op-mark] [[0 1] mark] [[0 2] op-mark]])
+             nil))
+      (is (= (winning-group [[[0 0] op-mark] [[0 1] op-mark] [[0 2] mark]])
+             nil))))
 
   (testing "True positives"
-    (is (= (winning-group '([[0 0] " "] [[0 1] "o"] [[0 2] "o"]))
-           [[0 0] "o"]))
-    (is (= (winning-group '([[0 0] "o"] [[0 1] " "] [[0 2] "o"]))
-           [[0 1] "o"]))
-    (is (= (winning-group '([[0 0] "o"] [[0 1] "o"] [[0 2] " "]))
-           [[0 2] "o"]))))
+    (doseq [mark ["x" "o"]]
+      (is (= (winning-group [[[0 0] " "] [[0 1] mark] [[0 2] mark]])
+            [[0 0] mark]))
+      (is (= (winning-group [[[0 0] mark] [[0 1] " "] [[0 2] mark]])
+            [[0 1] mark]))
+      (is (= (winning-group [[[0 0] mark] [[0 1] mark] [[0 2] " "]])
+             [[0 2] mark])))))
