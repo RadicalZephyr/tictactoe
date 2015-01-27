@@ -26,42 +26,19 @@
         (println "I didn't understand that move.  Please try again.")
         (recur)))))
 
-(defn winner? [board]
-  (->>
-   (util/all-board-groups board)
-
-   ;; Check all different combinations for a winning combination
-   (map (fn [section]
-          (if (and
-               (apply = section)
-               (apply not= " " section))
-            (first section)
-            nil)))
-
-  (some identity)))
-
-(defn make-move [board mark [x y]]
-  (let [pos (+ (dec x)
-               (* 3 (dec y)))]
-    (if (= (nth board pos)
-           " ")
-      (assoc board pos mark)
-      (throw (ex-info "Illegal move." {:position pos
-                                       :board board})))))
-
 (defn make-ai-move [board mark]
-  (make-move board mark (ai/best-move board)))
+  (util/make-move board mark (ai/best-move board)))
 
 (defn next-move [board to-play mark]
   (case to-play
     :ai (make-ai-move board mark)
-    :player (make-move board (mark) (read-move))))
+    :player (util/make-move board (mark) (read-move))))
 
 (def next-player {:player :ai
                   :ai :player})
 
 (defn game-loop [board to-play marks]
-  (if-let [winner (winner? board)]
+  (if-let [winner (util/winner? board)]
     (case winner
       :player (println "How did this happen?!?!?!"
                        "The AI is suppposed to be UNBEATABLE!!!")

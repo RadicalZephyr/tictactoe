@@ -17,3 +17,26 @@
          (drop 2)
          (take-nth 2)
          (take 3))]))
+
+(defn winner? [board]
+  (->>
+   (all-board-groups board)
+
+   ;; Check all different combinations for a winning combination
+   (map (fn [section]
+          (if (and
+               (apply = section)
+               (apply not= " " section))
+            (first section)
+            nil)))
+
+   (some identity)))
+
+(defn make-move [board mark [x y]]
+  (let [pos (+ (dec x)
+               (* 3 (dec y)))]
+    (if (= (nth board pos)
+           " ")
+      (assoc board pos mark)
+      (throw (ex-info "Illegal move." {:position pos
+                                       :board board})))))
