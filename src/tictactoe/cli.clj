@@ -39,13 +39,21 @@
                    (marks to-play)
                    (ai/best-move board marks)))
 
+(defn make-player-move [board mark]
+  (let [move (read-move)]
+    (if (board/valid-move? board move)
+      (board/make-move board mark move)
+      (do
+        (println "Sorry," move "is not a valid move.")
+        (println "Please enter another move.")
+        (recur board mark)))))
+
 (defn next-move [board to-play marks]
   (print-board board)
   (case to-play
-    :ai (make-ai-move board to-play marks)
-    :player (board/make-move board
-                             (marks to-play)
-                             (read-move))))
+    :ai     (make-ai-move board to-play marks)
+    :player (make-player-move board
+                              (marks to-play))))
 
 (defn game-loop [board to-play marks]
   (if-let [winner (board/winner? board)]
