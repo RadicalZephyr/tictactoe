@@ -15,6 +15,16 @@
       (is (= (classify attack  "x" "o")
              :null))
       (is (= (classify attack  "o" "x")
+             :null)))
+    (doseq [attack (permutations ["x" "o" "x"])]
+      (is (= (classify attack  "x" "o")
+             :null))
+      (is (= (classify attack  "o" "x")
+             :null)))
+    (doseq [attack (permutations ["o" "o" "x"])]
+      (is (= (classify attack  "x" "o")
+             :null))
+      (is (= (classify attack  "o" "x")
              :null))))
   (testing "Identify threats"
     (doseq [mark ["x" "o"]]
