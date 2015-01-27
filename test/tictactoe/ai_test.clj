@@ -80,45 +80,45 @@
                                 " " " " " "
                                 " " " " " "]
                                op-mark)
-             [0 0]))
+             [1 1]))
       (is (= (get-winning-move [mark mark " "
                                 " " " " " "
                                 " " " " " "]
                                op-mark)
-             [0 2]))
+             [3 1]))
 
       (is (= (get-winning-move [" " " " " "
                                 mark " " " "
                                 mark " " " "]
                                op-mark)
-             [0 0]))
+             [1 1]))
       (is (= (get-winning-move [mark " " " "
                                 mark " " " "
                                 " " " " " "]
                                op-mark)
-             [2 0]))
+             [1 3]))
 
       (is (= (get-winning-move [" " " " " "
                                 " " mark " "
                                 " " " " mark]
                                op-mark)
-             [0 0]))
+             [1 1]))
       (is (= (get-winning-move [mark " " " "
                                 " " mark " "
                                 " " " " " "]
                                op-mark)
-             [2 2]))
+             [3 3]))
 
       (is (= (get-winning-move [" " " " " "
                                 " " mark " "
                                 mark " " " "]
                                op-mark)
-             [0 2]))
+             [3 1]))
       (is (= (get-winning-move [" " " " mark
                                 " " mark " "
                                 " " " " " "]
                                op-mark)
-             [2 0]))))
+             [1 3]))))
 
   (testing "Multiple positives"
     ))
