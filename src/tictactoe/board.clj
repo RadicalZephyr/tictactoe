@@ -54,3 +54,6 @@
       (assoc board pos mark)
       (throw (ex-info "Illegal move." {:position pos
                                        :board board})))))
+
+(def next-player {:player :ai
+                  :ai :player})

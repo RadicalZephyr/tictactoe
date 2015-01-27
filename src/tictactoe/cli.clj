@@ -43,9 +43,6 @@
     :ai (make-ai-move board mark)
     :player (board/make-move board mark (read-move))))
 
-(def next-player {:player :ai
-                  :ai :player})
-
 (defn game-loop [board to-play marks]
   (if-let [winner (board/winner? board)]
     (case winner
@@ -53,12 +50,12 @@
                        "The AI is suppposed to be UNBEATABLE!!!")
       :ai (println "The AI wins again. As it should."))
     (recur (next-move board to-play (marks to-play))
-           (next-player to-play)
+           (board/next-player to-play)
            marks)))
 
 (defn assign-marks [goes-first]
   {goes-first "X"
-   (next-player goes-first) "O"})
+   (board/next-player goes-first) "O"})
 
 (defn start-game []
   (println "Let's play tictactoe!")
