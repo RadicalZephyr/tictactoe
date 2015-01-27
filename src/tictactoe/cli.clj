@@ -52,8 +52,22 @@
 
   (some identity)))
 
-(defn next-move [board to-play mark]
+(defn make-move [board mark [x y]]
+  (let [pos (+ (dec x)
+               (* 3 (dec y)))]
+    (if (= (nth board pos)
+           " ")
+      (assoc board pos mark)
+      (throw (ex-info "Illegal move." {:position pos
+                                       :board board})))))
+
+(defn make-ai-move [board mark]
   board)
+
+(defn next-move [board to-play mark]
+  (case to-play
+    :ai (make-ai-move board mark)
+    :player (make-move board (mark) (read-move))))
 
 (def next-player {:player :ai
                   :ai :player})
