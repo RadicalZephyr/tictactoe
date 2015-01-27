@@ -57,8 +57,8 @@
            marks)))
 
 (defn assign-marks [goes-first]
-  {goes-first "x"
-   (next-player goes-first) "o"})
+  {goes-first "X"
+   (next-player goes-first) "O"})
 
 (defn start-game []
   (println "Let's play tictactoe!")
