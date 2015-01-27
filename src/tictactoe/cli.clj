@@ -56,11 +56,13 @@
                               (marks to-play))))
 
 (defn game-loop [board to-play marks]
-  (if-let [winner (board/winner? board)]
+  (if-let [winner (or (board/winner? board)
+                      (board/cats-game? board))]
     (case winner
       :player (println "How did this happen?!?!?!"
                        "The AI is suppposed to be UNBEATABLE!!!")
-      :ai (println "The AI wins again. As it should."))
+      :ai (println "The AI wins again. As it should.")
+      false (println "It's a draw. This time..."))
     (recur (next-move board to-play marks)
            (board/next-player to-play)
            marks)))
