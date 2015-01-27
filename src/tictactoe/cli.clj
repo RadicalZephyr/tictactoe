@@ -34,7 +34,7 @@
 (defn next-move [board to-play mark]
   (case to-play
     :ai (make-ai-move board mark)
-    :player (board/make-move board (mark) (read-move))))
+    :player (board/make-move board mark (read-move))))
 
 (def next-player {:player :ai
                   :ai :player})
