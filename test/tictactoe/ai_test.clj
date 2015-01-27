@@ -74,52 +74,51 @@
            nil)))
 
   (testing "Simple positives"
-    (doseq [mark ["x" "o"]]
-      (is (= (get-winning-move [" " "x" "x"
+    (doseq [mark ["x" "o"]
+            op-mark ["o" "x"]]
+      (is (= (get-winning-move [" " mark mark
                                 " " " " " "
                                 " " " " " "]
-                               mark)
+                               op-mark)
              [0 0]))
-      (is (= (get-winning-move ["x" "x" " "
+      (is (= (get-winning-move [mark mark " "
                                 " " " " " "
                                 " " " " " "]
-                               mark)
+                               op-mark)
              [0 2]))
 
       (is (= (get-winning-move [" " " " " "
-                                "x" " " " "
-                                "x" " " " "]
-                               mark)
+                                mark " " " "
+                                mark " " " "]
+                               op-mark)
              [0 0]))
-      (is (= (get-winning-move ["x" " " " "
-                                "x" " " " "
+      (is (= (get-winning-move [mark " " " "
+                                mark " " " "
                                 " " " " " "]
-                               mark)
+                               op-mark)
              [2 0]))
 
       (is (= (get-winning-move [" " " " " "
-                                " " "x" " "
-                                " " " " "x"]
-                               mark)
+                                " " mark " "
+                                " " " " mark]
+                               op-mark)
              [0 0]))
-      (is (= (get-winning-move ["x" " " " "
-                                " " "x" " "
+      (is (= (get-winning-move [mark " " " "
+                                " " mark " "
                                 " " " " " "]
-                               mark)
+                               op-mark)
              [2 2]))
 
       (is (= (get-winning-move [" " " " " "
-                                " " "x" " "
-                                "x" " " " "]
-                               mark)
+                                " " mark " "
+                                mark " " " "]
+                               op-mark)
              [0 2]))
-      (is (= (get-winning-move [" " " " "x"
-                                " " "x" " "
+      (is (= (get-winning-move [" " " " mark
+                                " " mark " "
                                 " " " " " "]
-                               mark)
-             [2 0]))
-
-      ))
+                               op-mark)
+             [2 0]))))
 
   (testing "Multiple positives"
     ))
