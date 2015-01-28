@@ -10,7 +10,7 @@ Download from http://www.zephyrizing.net/tictactoe/tictactoe-0.1.0-standalone.ja
 
 To play the game, run this in a terminal (make sure you have Java 7 installed!):
 
-    $ java -jar tictactoe-0.1.0-standalone.jar
+    $ java -jar tictactoe-0.1.0-standalone.jar tictactoe.Game
 
 ## License
 
