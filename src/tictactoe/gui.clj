@@ -9,6 +9,8 @@
 
 (def board (atom board/empty-board))
 
+(def grid-rects (atom nil))
+
 (defn get-canvas []
   (s/select @root [:#canvas]))
 
@@ -61,6 +63,7 @@
                             :stroke (g/stroke
                                      :width 5))
         rects (get-grid-rects root)]
+    (reset! grid-rects rects)
     (dorun
      (map (fn [r]
             (g/draw g2d r rect-style))
