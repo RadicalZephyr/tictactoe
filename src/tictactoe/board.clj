@@ -72,5 +72,9 @@
   (= (get-pos board pos)
      blank))
 
+(defn valid-move-i? [board index]
+  (= (get board index)
+     blank))
+
 (def next-player {:player :ai
                   :ai :player})
