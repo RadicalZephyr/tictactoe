@@ -2,7 +2,8 @@
   (:require  [tictactoe.ai :as ai]
              [tictactoe.board :as board]
              [seesaw.core :as s]
-             [seesaw.bind :as b]))
+             [seesaw.bind :as b]
+             [seesaw.graphics :as g]))
 
 (def root (atom nil))
 
@@ -16,8 +17,28 @@
    (-> frame
        s/show!)))
 
-(defn draw-board [c g])
+(defn fit-grid-to-screen [padding [screen-w screen-h]]
+  (let [grid-w 3
+        grid-h 3
+        padcount-w (inc grid-w)
+        padcount-h (inc grid-h)
+        rect-width (- screen-w
+                      (* padding
+                         padcount-w))
+        rect-height (- screen-h
+                       (* padding
+                          padcount-h))]
+    [(quot rect-width  grid-w)
+     (quot rect-height grid-h)
+     (rem rect-width  grid-w)
+     (rem rect-height grid-h)]))
 
+(defn draw-board [c g]
+  (let [[w h]]
+   (g/draw g
+           (g/rect 10 10 10 10)
+           (g/style :foreground :black
+                    :background nil))))
 
 (defn mouse-click [e])
 
