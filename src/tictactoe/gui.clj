@@ -52,35 +52,30 @@
                              (get-size root))]
     (grid->rect [20 10] [w h] dim)))
 
-
 (defn draw-letter [g2d rect letter style]
-  (case letter
-    "x" (do
-          (.draw g2d (java.awt.geom.Line2D$Float.
-                      (+ (* 0.1 (.getWidth rect))
-                         (.getMinX rect))
-                      (- (.getMaxY rect)
-                         (* 0.1 (.getHeight rect)))
-                      (- (.getMaxX rect)
-                         (* 0.1 (.getHeight rect)))
-                      (+ (* 0.1 (.getWidth rect))
-                         (.getMinY rect))))
-          (.draw g2d (java.awt.geom.Line2D$Float.
-                      (+ (* 0.1 (.getWidth rect))
-                       (.getMinX rect))
-                      (+ (* 0.1 (.getHeight rect))
-                       (.getMinY rect))
-                      (- (.getMaxX rect)
-                       (* 0.1 (.getWidth rect)))
-                      (- (.getMaxY rect)
-                       (* 0.1 (.getHeight rect))))))
-    "o" (g/draw g2d (g/ellipse (+ (* 0.1 (.getWidth  rect))
-                                  (.getMinX   rect))
-                               (+ (* 0.1 (.getHeight rect))
-                                  (.getMinY   rect))
-                               (* 0.8 (.getWidth  rect))
-                               (* 0.8 (.getHeight rect)))
-                style)))
+  (let [min-x (.getMinX rect)
+        min-y (.getMinY rect)
+        max-x (.getMaxX rect)
+        max-y (.getMaxY rect)
+        width (.getWidth rect)
+        height (.getHeight rect)]
+    (case letter
+      "x" (do
+            (.draw g2d (java.awt.geom.Line2D$Float.
+                        (+ (* 0.1 width) min-x)
+                        (- max-y (* 0.1 height))
+                        (- max-x (* 0.1 height))
+                        (+ (* 0.1 width) min-y)))
+            (.draw g2d (java.awt.geom.Line2D$Float.
+                        (+ (* 0.1 width) min-x)
+                        (+ (* 0.1 height) min-y)
+                        (- max-x (* 0.1 width))
+                        (- max-y (* 0.1 height)))))
+      "o" (g/draw g2d (g/ellipse (+ (* 0.1 width) min-x)
+                                 (+ (* 0.1 height) min-y)
+                                 (* 0.8 width)
+                                 (* 0.8 height))
+                  style))))
 
 (defn draw-board [canvas g2d]
   (let [root (s/to-root canvas)
