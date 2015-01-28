@@ -1,6 +1,5 @@
 (ns tictactoe.gui
-  (:require [clojure.string :refer [upper-case]]
-            [tictactoe.ai :as ai]
+  (:require [tictactoe.ai :as ai]
             [tictactoe.board :as board]
             [seesaw.core :as s]
             [seesaw.bind :as b]
@@ -54,8 +53,24 @@
     (grid->rect [20 10] [w h] dim)))
 
 
-(defn draw-letter [g2d rect letter]
-  (.drawString g2d letter (.getCenterX rect) (.getCenterY rect)))
+(defn draw-letter [g2d rect letter style]
+  (case letter
+    "x" (do
+          (.draw g2d (java.awt.geom.Line2D$Float.
+                       (.getMinX rect)
+                       (.getMaxY rect)
+                       (.getMaxX rect)
+                       (.getMinY rect)))
+          (.draw g2d (java.awt.geom.Line2D$Float.
+                       (.getMinX rect)
+                       (.getMinY rect)
+                       (.getMaxX rect)
+                       (.getMaxY rect))))
+    "o" (g/draw g2d (g/ellipse (.getMinX   rect)
+                               (.getMinY   rect)
+                               (.getWidth  rect)
+                               (.getHeight rect))
+                style)))
 
 (defn draw-board [canvas g2d]
   (let [root (s/to-root canvas)
@@ -69,7 +84,7 @@
             (g/draw g2d r rect-style)
             (when (not= mark " ")
               (draw-letter
-               g2d r (upper-case mark))))
+               g2d r mark rect-style)))
           rects
           @board))))
 
