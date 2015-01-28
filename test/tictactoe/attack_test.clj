@@ -81,16 +81,16 @@
                [[2 1] {~key 2}] [[2 2] {~key 4}] [[2 3] {~key 2}]
                [[3 1] {~key 3}] [[3 2] {~key 2}] [[3 3] {~key 3}])))))))
 
-(deftest rank-spaces-test
+(deftest rank-moves-test
   (testing "Output"
     (is (= (sort
-            (rank-spaces board/empty-board "x" "o"))
+            (rank-moves board/empty-board "x" "o"))
            (sort
             '([[1 1] 3] [[1 2] 2] [[1 3] 3]
               [[2 1] 2] [[2 2] 4] [[2 3] 2]
               [[3 1] 3] [[3 2] 2] [[3 3] 3]))))
     (is (= (sort
-            (rank-spaces [" " " " "x"
+            (rank-moves [" " " " "x"
                           " " "o" "x"
                           " " "o" " "]
                          "x" "o"))

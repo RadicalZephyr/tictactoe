@@ -41,7 +41,7 @@
          [pos {stat rank}])
        space-list))
 
-(defn rank-space [[pos stats]]
+(defn rank-move [[pos stats]]
   [pos (+ (* 1000 (get stats :win  0))
           (* 100  (get stats :loss 0))
           (* 10   (get stats :threat 0))
@@ -49,7 +49,7 @@
           (* 1    (get stats :potential 0))
           (* -1    (get stats :null 0)))])
 
-(defn rank-spaces [board my-mark other-mark]
+(defn rank-moves [board my-mark other-mark]
   (->>
    (classify-board board
                    my-mark
@@ -67,4 +67,4 @@
    (filter (fn [[pos info :as datum]]
              (when (board/valid-move? board pos)
                datum)))
-   (map rank-space)))
+   (map rank-move)))
