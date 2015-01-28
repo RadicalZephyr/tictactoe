@@ -65,9 +65,13 @@
         rects (get-grid-rects root)]
     (reset! grid-rects rects)
     (dorun
-     (map (fn [r]
-            (g/draw g2d r rect-style))
-          rects))))
+     (map (fn [r mark]
+            (g/draw g2d r rect-style)
+            (when (not= mark " ")
+              (draw-letter
+               g2d r (upper-case mark))))
+          rects
+          @board))))
 
 (defn mouse-click [e]
   (let [pt (.getPoint e)
