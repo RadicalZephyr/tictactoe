@@ -70,11 +70,10 @@
                      (.contains r pt))
                    @grid-rects)
         click-index (.indexOf rects true)]
-    (when (board/valid-move-i? click-index)
-      (swap! board (board/make-move-i "o" click-index))
+    (when (board/valid-move-i? @board click-index)
+      (swap! board board/make-move-i "o" click-index)
       (swap! board (fn [board]
-                     (board/make-move
-                      "x"
+                     (board/make-move board "x"
                       (ai/best-ranked-move board {:ai "x"
                                                   :player "o"})))))))
 
