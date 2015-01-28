@@ -54,6 +54,10 @@
   (+ (dec x)
      (* 3 (dec y))))
 
+(defn index->xy [index]
+  [(inc (rem index 3))
+   (inc (quot index 3))])
+
 (defn make-move [board mark pos]
   (let [index (xy->index pos)]
     (if (= (nth board index)
