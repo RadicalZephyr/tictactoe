@@ -33,11 +33,23 @@
         (is (= (classify attack (op-mark mark) mark)
                :threat)
             (str "Attack: " (vec attack) " and mark: " mark)))))
+  (testing "Identify losses"
+    (doseq [mark ["x" "o"]]
+      (doseq [attack (permutations [" " mark mark])]
+        (is (= (classify attack (op-mark mark) mark)
+               :loss)
+            (str "Attack: " (vec attack) " and mark: " mark)))))
   (testing "Identify shots"
     (doseq [mark ["x" "o"]]
       (doseq [attack (permutations [" " " " mark])]
         (is (= (classify attack mark (op-mark mark))
                :shot)
+            (str "Attack: " (vec attack) " and mark: " mark)))))
+  (testing "Identify wins"
+    (doseq [mark ["x" "o"]]
+      (doseq [attack (permutations [" " mark mark])]
+        (is (= (classify attack mark (op-mark mark))
+               :win)
             (str "Attack: " (vec attack) " and mark: " mark))))))
 
 (deftest get-space-frequencies-test
