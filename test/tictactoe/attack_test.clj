@@ -56,13 +56,14 @@
 
 (deftest invert-stat-position-test
   (testing "Output"
-    (is (= (sort
-            (invert-stat-position
-             [:potential
-              {[1 1] 3 [1 2] 2 [1 3] 3
-               [2 1] 2 [2 2] 4 [2 3] 2
-               [3 1] 3 [3 2] 2 [3 3] 3}]))
-           (sort
-            '([[1 1] {:potential 3}] [[1 2] {:potential 2}] [[1 3] {:potential 3}]
-              [[2 1] {:potential 2}] [[2 2] {:potential 4}] [[2 3] {:potential 2}]
-              [[3 1] {:potential 3}] [[3 2] {:potential 2}] [[3 3] {:potential 3}]))))))
+    (doseq [key [:potential :shot :threat]]
+     (is (= (sort
+             (invert-stat-position
+              [key
+               {[1 1] 3 [1 2] 2 [1 3] 3
+                [2 1] 2 [2 2] 4 [2 3] 2
+                [3 1] 3 [3 2] 2 [3 3] 3}]))
+            (sort
+             `([[1 1] {~key 3}] [[1 2] {~key 2}] [[1 3] {~key 3}]
+               [[2 1] {~key 2}] [[2 2] {~key 4}] [[2 3] {~key 2}]
+               [[3 1] {~key 3}] [[3 2] {~key 2}] [[3 3] {~key 3}])))))))
