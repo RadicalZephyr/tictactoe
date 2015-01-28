@@ -93,6 +93,12 @@
           rects
           @board))))
 
+(defn end-game? []
+  (when (or
+         (board/winner? @board)
+         (board/cats-game? @board))
+    (reset! board board/empty-board)))
+
 (defn mouse-click [e]
   (let [pt (.getPoint e)
         rects (map (fn [r]
@@ -101,10 +107,12 @@
         click-index (.indexOf rects true)]
     (when (board/valid-move-i? @board click-index)
       (swap! board board/make-move-i "o" click-index)
+      (end-game?)
       (swap! board (fn [board]
                      (board/make-move board "x"
                       (ai/best-ranked-move board {:ai "x"
-                                                  :player "o"})))))))
+                                                  :player "o"}))))
+      (end-game?))))
 
 (defn show-frame [frame]
   (s/invoke-later
