@@ -1,9 +1,10 @@
 (ns tictactoe.gui
-  (:require  [tictactoe.ai :as ai]
-             [tictactoe.board :as board]
-             [seesaw.core :as s]
-             [seesaw.bind :as b]
-             [seesaw.graphics :as g]))
+  (:require [clojure.string :refer [upper-case]]
+            [tictactoe.ai :as ai]
+            [tictactoe.board :as board]
+            [seesaw.core :as s]
+            [seesaw.bind :as b]
+            [seesaw.graphics :as g]))
 
 (def root (atom nil))
 
@@ -51,6 +52,10 @@
                              10 dim
                              (get-size root))]
     (grid->rect [20 10] [w h] dim)))
+
+
+(defn draw-letter [g2d rect letter]
+  (.drawString g2d letter (.getCenterX rect) (.getCenterY rect)))
 
 (defn draw-board [canvas g2d]
   (let [root (s/to-root canvas)
