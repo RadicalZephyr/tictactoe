@@ -17,10 +17,8 @@
    (-> frame
        s/show!)))
 
-(defn fit-grid-to-screen [padding [screen-w screen-h]]
-  (let [grid-w 3
-        grid-h 3
-        padcount-w (inc grid-w)
+(defn fit-grid-to-screen [padding [grid-w grid-h] [screen-w screen-h]]
+  (let [padcount-w (inc grid-w)
         padcount-h (inc grid-h)
         rect-width (- screen-w
                       (* padding
@@ -33,12 +31,37 @@
      (rem rect-width  grid-w)
      (rem rect-height grid-h)]))
 
-(defn draw-board [c g]
-  (let [[w h]]
-   (g/draw g
-           (g/rect 10 10 10 10)
-           (g/style :foreground :black
-                    :background nil))))
+(defn get-coord [padding size x]
+  (+ padding (* size x)))
+
+(defn grid->rect [[pw ph] [w h] [x-len y-len]]
+  (let [coord-x (partial get-coord pw w)
+        coord-y (partial get-coord ph h)]
+    (for [y (range y-len)
+          x (range x-len)]
+      (g/rect (coord-x x) (coord-y y)
+              w           h))))
+
+(defn get-size [frame]
+  (let [dim (s/config frame :size)
+        w (.width dim)
+        h (.height dim)]
+    [w h]))
+
+(defn draw-board [canvas g2d]
+  (let [root (s/to-root canvas)
+        rect-style (g/style :foreground "black"
+                            :stroke (g/stroke
+                                     :width 5))
+        dim [3 3]
+        [w h slop-w slop-h] (fit-grid-to-screen
+                             10 dim
+                             (get-size root))
+        draw-rects (grid->rect [20 10] [w h] dim)]
+    (dorun
+     (map (fn [r]
+            (g/draw g2d r rect-style))
+          draw-rects))))
 
 (defn mouse-click [e])
 
