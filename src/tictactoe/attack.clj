@@ -16,3 +16,22 @@
   (group-by #(classify (map second %)
                        my-mark other-mark)
             (board/all-indexed-attacks board)))
+
+(defn get-space-frequencies [attack-list]
+  (frequencies
+   (mapcat #(map first %)
+           attack-list)))
+
+(defn rank-spaces [board my-mark other-mark]
+  (->>
+   (classify-board board
+                   my-mark
+                   other-mark)
+   (map (fn [[k v]]
+          [k (get-space-frequencies v)]))
+   (map (fn [[stat space-list]]
+          (map (fn [[pos rank]]
+                 [pos {stat rank}])
+               space-list)))
+   (map #(into {} %))
+   (apply merge-with merge)))
