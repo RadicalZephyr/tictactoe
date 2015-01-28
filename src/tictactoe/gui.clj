@@ -48,20 +48,23 @@
         h (.height dim)]
     [w h]))
 
+(defn get-grid-rects [root]
+  (let [dim [3 3]
+        [w h slop-w slop-h] (fit-grid-to-screen
+                             10 dim
+                             (get-size root))]
+    (grid->rect [20 10] [w h] dim)))
+
 (defn draw-board [canvas g2d]
   (let [root (s/to-root canvas)
         rect-style (g/style :foreground "black"
                             :stroke (g/stroke
                                      :width 5))
-        dim [3 3]
-        [w h slop-w slop-h] (fit-grid-to-screen
-                             10 dim
-                             (get-size root))
-        draw-rects (grid->rect [20 10] [w h] dim)]
+        rects (get-grid-rects root)]
     (dorun
      (map (fn [r]
             (g/draw g2d r rect-style))
-          draw-rects))))
+          rects))))
 
 (defn mouse-click [e])
 
