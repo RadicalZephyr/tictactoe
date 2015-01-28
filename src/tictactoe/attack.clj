@@ -41,6 +41,14 @@
          [pos {stat rank}])
        space-list))
 
+(defn rank-space [[pos stats]]
+  [pos (+ (* 1000 (get stats :win  0))
+          (* 100  (get stats :loss 0))
+          (* 10   (get stats :threat 0))
+          (* 10   (get stats :shot 0))
+          (* 1    (get stats :potential 0))
+          (* -1    (get stats :null 0)))])
+
 (defn rank-spaces [board my-mark other-mark]
   (->>
    (classify-board board
@@ -58,4 +66,5 @@
    ;; Finally, filter out all spaces that aren't legal moves
    (filter (fn [[pos info :as datum]]
              (when (board/valid-move? board pos)
-               datum)))))
+               datum)))
+   (map rank-space)))

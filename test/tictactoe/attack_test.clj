@@ -83,18 +83,16 @@
 
 (deftest rank-spaces-test
   (testing "Output"
-    (is (= (rank-spaces board/empty-board "x" "o")
-           '([[2 2] {:potential 4}] [[2 3] {:potential 2}] [[3 3] {:potential 3}]
-             [[1 1] {:potential 3}] [[1 3] {:potential 3}] [[3 1] {:potential 3}]
-             [[2 1] {:potential 2}] [[1 2] {:potential 2}] [[3 2] {:potential 2}])))
+    (is (= (sort
+            (rank-spaces board/empty-board "x" "o"))
+           (sort
+            '([[1 1] 3] [[1 2] 2] [[1 3] 3]
+              [[2 1] 2] [[2 2] 4] [[2 3] 2]
+              [[3 1] 3] [[3 2] 2] [[3 3] 3]))))
     (is (= (sort
             (rank-spaces [" " " " "x"
                           " " "o" "x"
                           " " "o" " "]
                          "x" "o"))
            (sort
-            '([[3 3] {:win 1, :threat 2}]
-              [[1 1] {:shot 1, :potential 1, :threat 1}]
-              [[1 3] {:potential 1, :null 1, :threat 1}]
-              [[2 1] {:shot 1, :loss 1}]
-              [[1 2] {:potential 1, :null 1}]))))))
+            '([[1 1] 21] [[1 2] 0] [[1 3] 10] [[2 1] 110] [[3 3] 1020]))))))
