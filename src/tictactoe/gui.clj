@@ -14,11 +14,6 @@
 (defn get-canvas []
   (s/select @root [:#canvas]))
 
-(defn show-frame [frame]
-  (s/invoke-later
-   (-> frame
-       s/show!)))
-
 (defn fit-grid-to-screen [padding [grid-w grid-h] [screen-w screen-h]]
   (let [padcount-w (inc grid-w)
         padcount-h (inc grid-h)
@@ -83,14 +78,22 @@
                       (ai/best-ranked-move board {:ai "x"
                                                   :player "o"})))))))
 
+(defn show-frame [frame]
+  (s/invoke-later
+   (-> frame
+       s/show!)
+   (b/bind board (b/b-do [_]
+                     (s/repaint! (get-canvas))))
+   (s/listen (get-canvas)
+       :mouse-released mouse-click)))
+
 (defn -main [& args]
   (compare-and-set!
    root nil (s/frame :title "Tic-Tac-Toe"
                      :size [600 :by 480]
-                     :content (s/canvas :id :canvas
-                                        :paint draw-board)))
-  (show-frame @root)
-  (b/bind board (b/b-do [_]
-                    (s/repaint! (get-canvas))))
-  (s/listen (get-canvas)
-      :mouse-released mouse-click))
+                     :content
+                     (s/border-panel
+                      :center
+                      (s/canvas :id :canvas
+                                :paint draw-board))))
+  (show-frame @root))
