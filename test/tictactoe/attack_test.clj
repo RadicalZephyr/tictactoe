@@ -81,8 +81,8 @@
                           " " "o" " "]
                          "x" "o"))
            (sort
-            '([[3 3] {:shot 1, :threat 2}]
+            '([[3 3] {:win 1, :threat 2}]
               [[1 1] {:shot 1, :potential 1, :threat 1}]
               [[1 3] {:potential 1, :null 1, :threat 1}]
-              [[2 1] {:shot 1, :threat 1}]
+              [[2 1] {:shot 1, :loss 1}]
               [[1 2] {:potential 1, :null 1}]))))))

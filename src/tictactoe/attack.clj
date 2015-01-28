@@ -3,14 +3,28 @@
                              :refer [blank]]))
 
 (defn classify [attack my-mark other-mark]
-  (let [marks (set attack)]
+  (let [marks (set attack)
+        freqs (frequencies attack)]
     (cond
-      (= #{blank}            marks) :potential
-      (= #{blank my-mark}    marks) :shot
-      (= #{blank other-mark} marks) :threat
+      (= #{blank}            marks)
+      :potential
+      (= #{blank my-mark}    marks)
+      (if (= (freqs board/blank)
+             2)
+        :shot
+        :win)
+
+      (= #{blank other-mark} marks)
+      (if (= (freqs board/blank)
+             2)
+        :threat
+        :loss)
+
       (or (= #{blank my-mark other-mark} marks)
-          (= #{my-mark other-mark}       marks)) :null
-      :else                                      :unknown)))
+          (= #{my-mark other-mark}       marks))
+      :null
+
+      :else :unknown)))
 
 (defn classify-board [board my-mark other-mark]
   (group-by #(classify (map second %)
