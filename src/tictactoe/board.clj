@@ -61,7 +61,6 @@
       (assoc board index mark)
       (throw (ex-info "Illegal move." {:position pos
                                        :board board})))))
-
 (defn get-pos [board pos]
   (get board (xy->index pos)))
 

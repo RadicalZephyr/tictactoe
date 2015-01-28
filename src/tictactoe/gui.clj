@@ -69,7 +69,14 @@
             (g/draw g2d r rect-style))
           rects))))
 
-(defn mouse-click [e])
+(defn mouse-click [e]
+  (let [pt (.getPoint e)
+        rects (map (fn [r]
+                     (.contains r pt))
+                   @grid-rects)
+        click-index (.indexOf rects true)]
+
+    ))
 
 (defn -main [& args]
   (compare-and-set!
@@ -81,4 +88,4 @@
   (b/bind board (b/b-do [_]
                     (s/repaint! (get-canvas))))
   (s/listen (get-canvas)
-      :mouse-clicked mouse-click))
+      :mouse-released mouse-click))
