@@ -68,7 +68,7 @@
 (defn -main [& args]
   (compare-and-set!
    root nil (s/frame :title "Tic-Tac-Toe"
-                     :size [640 :by 480]
+                     :size [600 :by 480]
                      :content (s/canvas :id :canvas
                                         :paint draw-board)))
   (show-frame @root)
