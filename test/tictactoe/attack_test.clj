@@ -1,5 +1,6 @@
 (ns tictactoe.attack-test
   (:require [tictactoe.attack :refer :all]
+            [tictactoe.board :as board]
             [clojure.test :refer :all]
             [clojure.math.combinatorics :refer [permutations]]))
 
@@ -67,3 +68,23 @@
              `([[1 1] {~key 3}] [[1 2] {~key 2}] [[1 3] {~key 3}]
                [[2 1] {~key 2}] [[2 2] {~key 4}] [[2 3] {~key 2}]
                [[3 1] {~key 3}] [[3 2] {~key 2}] [[3 3] {~key 3}])))))))
+
+(deftest rank-spaces-test
+  (testing "Output"
+    (is (= (rank-spaces board/empty-board "x" "o")
+           {[2 2] {:potential 4} [2 3] {:potential 2} [3 3] {:potential 3}
+            [1 1] {:potential 3} [1 3] {:potential 3} [3 1] {:potential 3}
+            [2 1] {:potential 2} [1 2] {:potential 2} [3 2] {:potential 2}}))
+    (is (= (rank-spaces [" " " " "x"
+                         " " "o" "x"
+                         " " "o" " "]
+                        "x" "o")
+           {[1 1] {:potential 1 :threat 1 :shot 1}
+            [2 1] {:threat 1 :shot 1}
+            [1 2] {:potential 1 :null 1}
+            [1 3] {:potential 1 :threat 1 :null 1}
+            [3 1] {:shot 2 :null 1}
+            [2 2] {:threat 2 :null 2}
+            [3 2] {:shot 1 :null 1}
+            [2 3] {:threat 2}
+            [3 3] {:shot 1 :threat 2}}))))
