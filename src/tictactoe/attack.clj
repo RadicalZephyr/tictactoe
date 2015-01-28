@@ -27,37 +27,11 @@
          [pos {stat rank}])
        space-list))
 
-(defn duplicate-space-pos [attack]
-  (let [space (some (fn [[pos val :as square]]
-                      (when (= val board/blank)
-                        square))
-                    attack)]
-    (conj attack space)))
-
-(defn weight-attack [attack my-mark other-mark]
-  (let [marks (frequencies (map second attack))]
-    (cond
-      ;; We want to weight the remaining space in a double threat/shot
-      ;; more heavily
-      (or (= #{" " 1 my-mark 2}
-             marks)
-          (= #{" " 1 other-mark 2}
-             marks))
-      (duplicate-space-pos attack))
-    :else attack))
-
 (defn rank-spaces [board my-mark other-mark]
   (->>
    (classify-board board
                    my-mark
                    other-mark)
-
-   ;; We can mangle the attacks now because classification is done
-   (map (fn [[k v]]
-          [k (map #(weight-attack %
-                                  my-mark
-                                  other-mark)
-                  v)]))
 
    ;; Now count up how many times each space appears in each category
    (map (fn [[k v]]
