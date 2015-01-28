@@ -37,7 +37,7 @@
 (defn make-ai-move [board to-play marks]
   (board/make-move board
                    (marks to-play)
-                   (ai/best-move board marks)))
+                   (ai/best-ranked-move board marks)))
 
 (defn make-player-move [board mark]
   (let [move (read-move)]
