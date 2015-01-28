@@ -1,7 +1,7 @@
 (ns tictactoe.ai
   (:require [tictactoe.board :as board
                              :refer [blank]]
-            [tictactoe.attack :refer [classify]]))
+            [tictactoe.attack :refer [rank-moves]]))
 
 ;; Tic-tac-toe game analysis: There is only one fundamental thing in
 ;; tic-tac-toe and that is a three-in-a-row.  We will call this an
@@ -83,3 +83,14 @@
   (let [my-mark (marks :ai)]
       (or (get-winning-move board my-mark)
           (get-best-available-move board my-mark))))
+
+(defn best-ranked-move [board marks]
+  (let [my-mark (marks :ai)
+        other-mark (marks :player)]
+    (->>
+     (rank-moves board my-mark other-mark)
+     (sort (fn [[p1 v1] [p2 v2]]
+             (compare v2 v1)))
+     first
+     ((fn [[pos ranking]]
+        pos)))))
