@@ -22,6 +22,11 @@
    (mapcat #(map first %)
            attack-list)))
 
+(defn invert-stat-position [[stat space-list]]
+  (map (fn [[pos rank]]
+         [pos {stat rank}])
+       space-list))
+
 (defn rank-spaces [board my-mark other-mark]
   (->>
    (classify-board board
@@ -29,9 +34,6 @@
                    other-mark)
    (map (fn [[k v]]
           [k (get-space-frequencies v)]))
-   (map (fn [[stat space-list]]
-          (map (fn [[pos rank]]
-                 [pos {stat rank}])
-               space-list)))
+   (map invert-stat-position)
    (map #(into {} %))
    (apply merge-with merge)))
