@@ -58,23 +58,26 @@
   [(inc (rem index 3))
    (inc (quot index 3))])
 
+(defn make-move-i [board mark index]
+  (if (= (nth board index)
+         blank)
+    (assoc board index mark)
+    (throw (ex-info "Illegal move." {:position (index->xy index)
+                                     :board board}))))
+
 (defn make-move [board mark pos]
-  (let [index (xy->index pos)]
-    (if (= (nth board index)
-           blank)
-      (assoc board index mark)
-      (throw (ex-info "Illegal move." {:position pos
-                                       :board board})))))
+  (make-move-i board mark (xy->index pos)))
+
 (defn get-pos [board pos]
   (get board (xy->index pos)))
-
-(defn valid-move? [board pos]
-  (= (get-pos board pos)
-     blank))
 
 (defn valid-move-i? [board index]
   (= (get board index)
      blank))
+
+(defn valid-move? [board pos]
+  (valid-move-i? board (xy->index pos)))
+
 
 (def next-player {:player :ai
                   :ai :player})
