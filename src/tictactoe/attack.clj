@@ -58,8 +58,16 @@
                                   my-mark
                                   other-mark)
                   v)]))
+
+   ;; Now count up how many times each space appears in each category
    (map (fn [[k v]]
           [k (get-space-frequencies v)]))
    (map invert-stat-position)
+   ;; Make them all back into dictionaries separately so we don't lose data
    (map #(into {} %))
-   (apply merge-with merge)))
+   ;; Then merge them together
+   (apply merge-with merge)
+   ;; Finally, filter out all spaces that aren't legal moves
+   (filter (fn [[pos info :as datum]]
+             (when (board/valid-move? board pos)
+               datum)))))
