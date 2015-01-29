@@ -34,9 +34,9 @@
 (defn valid-move-input? [input]
   (cond
     (number? input) (case input
-                      (1 2 3) (when-let [y (valid-move-input?
-                                            (safe-read))]
-                                (when (number? y)
+                      (1 2 3) (let [y (safe-read)]
+                                (when (and (number? y)
+                                           (>= 3 y 1))
                                   [input y]))
                       (11 12 13
                        21 22 23
