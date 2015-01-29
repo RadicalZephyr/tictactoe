@@ -39,8 +39,8 @@
                                 (when (number? y)
                                   [input y]))
                       (11 12 13
-                          21 22 23
-                          31 32 33) (num->xy input)
+                       21 22 23
+                       31 32 33) (num->xy input)
                       nil)
     (and (coll? input)
          (sequential? input)
@@ -86,16 +86,16 @@
     (do
       (print-board board)
       (cond
-       (= (marks :player)
-          winner)
-       (println "How did this happen?!?!?!"
-                "The AI is suppposed to be UNBEATABLE!!!")
+        (= (marks :player)
+           winner)
+        (println "How did this happen?!?!?!"
+                 "The AI is suppposed to be UNBEATABLE!!!")
 
-       (= (marks :ai)
-          winner)
-       (println "The AI wins again. As it should.")
+        (= (marks :ai)
+           winner)
+        (println "The AI wins again. As it should.")
 
-       :else (println "It's a draw. This time...")))
+        :else (println "It's a draw. This time...")))
 
     (recur (next-move board to-play marks)
            (board/next-player to-play)
