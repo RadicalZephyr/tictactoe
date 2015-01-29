@@ -10,7 +10,18 @@ Download from http://www.zephyrizing.net/tictactoe/tictactoe-0.1.0-standalone.ja
 
 To play the game, run this in a terminal (make sure you have Java 7 installed!):
 
-    $ java -jar tictactoe-0.1.0-standalone.jar tictactoe.Game
+    $ java -jar tictactoe-0.1.0-standalone.jar
+
+You can pass `-g` or `--gui` as options to run a graphical version. By
+default it runs a text based game.
+
+## Hacking
+
+If you want to play with the code, you need some variant of
+[Leiningen][lein] 2 or later. Download, and in the source folder run
+`lein run` to launch the game.
+
+[lein]: http://leiningen.org/
 
 ## License
 
