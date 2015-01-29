@@ -100,11 +100,16 @@
 
 (defn end-game? []
   (when (and @playing
-         (or
-          (board/winner? @board)
-          (board/cats-game? @board)))
-    (swap! playing not)
-    true))
+             (or
+              (board/winner? @board)
+              (board/cats-game? @board)))
+    (swap! playing not))
+
+  ;; This is a bit janky. End game is sort of overloaded with
+  ;; functionality, because it has this side-effect of changing the
+  ;; game state.  But in a certain way it's return value should ALWAYS
+  ;; be whether or not we are continuing to play the game.
+  (not @playing))
 
 (defn mouse-click [e]
   (if (not (end-game?))
