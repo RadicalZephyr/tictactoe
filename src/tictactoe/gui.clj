@@ -111,6 +111,10 @@
   ;; be whether or not we are continuing to play the game.
   @playing)
 
+(defn reset-board! []
+  (swap! playing not)
+  (reset! board board/empty-board))
+
 (defn mouse-click [e]
   (if (keep-playing?)
    (let [pt (.getPoint e)
@@ -124,9 +128,7 @@
          (swap! board (fn [board]
                         (board/make-move board (@marks :ai)
                                          (ai/best-ranked-move board @marks)))))))
-   (do
-     (swap! playing not)
-     (reset! board board/empty-board))))
+   (reset-board!)))
 
 (defn show-frame [frame]
   (s/invoke-later
