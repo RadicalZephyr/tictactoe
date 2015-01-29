@@ -13,6 +13,9 @@
 
 (def playing (atom true))
 
+(def marks (atom {:ai "x"
+                  :player "o"}))
+
 (defn get-canvas []
   (s/select @root [:#canvas]))
 
@@ -109,12 +112,11 @@
                     @grid-rects)
          click-index (.indexOf rects true)]
      (when (board/valid-move-i? @board click-index)
-       (swap! board board/make-move-i "o" click-index)
+       (swap! board board/make-move-i (@marks :player) click-index)
        (end-game?)
        (swap! board (fn [board]
-                      (board/make-move board "x"
-                                       (ai/best-ranked-move board {:ai "x"
-                                                                   :player "o"}))))
+                      (board/make-move board (@marks :ai)
+                                       (ai/best-ranked-move board @marks))))
        (end-game?)))
    (do
      (swap! playing not)
@@ -128,6 +130,10 @@
                      (s/repaint! (get-canvas))))
    (s/listen (get-canvas)
        :mouse-released mouse-click)))
+
+(defn swap-marks [{:keys [ai player]}]
+  {:ai player
+   :player ai})
 
 (defn -main [& args]
   (compare-and-set!
