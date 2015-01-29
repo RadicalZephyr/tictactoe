@@ -27,7 +27,7 @@
   (->> input
        str
        seq  ;; This read string is safe because we KNOW it's a number!
-       (map (comp read-string
+       (map (comp edn/read-string
                   str))
        vec))
 
