@@ -86,11 +86,15 @@
 
 (defn best-ranked-move [board marks]
   (let [my-mark (marks :ai)
-        other-mark (marks :player)]
-    (->>
-     (rank-moves board my-mark other-mark)
-     (sort (fn [[p1 v1] [p2 v2]]
-             (compare v2 v1)))
-     first
-     ((fn [[pos ranking]]
-        pos)))))
+        other-mark (marks :player)
+        sorted-moves (->>
+                      (rank-moves board my-mark other-mark)
+                      (sort (fn [[p1 v1] [p2 v2]]
+                              (compare v2 v1)))
+                      )
+        [_ highest-score] (first sorted-moves)
+        better-moves (filter (fn [[pos val]]
+                               (>= val (dec highest-score)))
+                             sorted-moves)]
+    (first
+     (rand-nth better-moves))))
