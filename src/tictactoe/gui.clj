@@ -99,9 +99,10 @@
           @board))))
 
 (defn end-game? []
-  (when (or
-         (board/winner? @board)
-         (board/cats-game? @board))
+  (when (and @playing
+         (or
+          (board/winner? @board)
+          (board/cats-game? @board)))
     (swap! playing not)
     true))
 
