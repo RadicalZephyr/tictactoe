@@ -98,7 +98,7 @@
           rects
           @board))))
 
-(defn end-game? []
+(defn keep-playing? []
   (when (and @playing
              (or
               (board/winner? @board)
@@ -109,10 +109,10 @@
   ;; functionality, because it has this side-effect of changing the
   ;; game state.  But in a certain way it's return value should ALWAYS
   ;; be whether or not we are continuing to play the game.
-  (not @playing))
+  @playing)
 
 (defn mouse-click [e]
-  (if (not (end-game?))
+  (if (keep-playing?)
    (let [pt (.getPoint e)
          rects (map (fn [r]
                       (.contains r pt))
@@ -120,7 +120,7 @@
          click-index (.indexOf rects true)]
      (when (board/valid-move-i? @board click-index)
        (swap! board board/make-move-i (@marks :player) click-index)
-       (when (not (end-game?))
+       (when (keep-playing?)
          (swap! board (fn [board]
                         (board/make-move board (@marks :ai)
                                          (ai/best-ranked-move board @marks)))))))
