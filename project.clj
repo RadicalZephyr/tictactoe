@@ -1,6 +1,6 @@
 (defproject tictactoe "0.1.0-SNAPSHOT"
   :description "A tictactoe game with an UNBEATABLE AI."
-  :url "https://www.github.com/radicalzephyr/tictactoe"
+  :url "http://www.zephyrizing.net/tictactoe/"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
