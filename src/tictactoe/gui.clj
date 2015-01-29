@@ -107,14 +107,13 @@
     true))
 
 (defn mouse-click [e]
-  (if @playing
+  (if (not (end-game?))
    (let [pt (.getPoint e)
          rects (map (fn [r]
                       (.contains r pt))
                     @grid-rects)
          click-index (.indexOf rects true)]
-     (when (and (not (end-game?))
-                (board/valid-move-i? @board click-index))
+     (when (board/valid-move-i? @board click-index)
        (swap! board board/make-move-i (@marks :player) click-index)
        (when (not (end-game?))
          (swap! board (fn [board]
