@@ -19,11 +19,14 @@
   {:unknown-tag tag
    :value val})
 
+(defn safe-read []
+  (edn/read {:default unknown-val}
+            *in*))
+
 (defn read-move []
   (print "Enter your move [x y]: ")
   (flush)
-  (let [input (edn/read {:default unknown-val}
-                        *in*)]
+  (let [input (safe-read)]
     (if (and (coll? input)
              (sequential? input)
              (= (count input)
@@ -91,8 +94,7 @@
     ;; keyword on pretty much any clojure data type.  Everything that
     ;; doesn't make sense just returns nil, and this allows you to accept
     ;; keywords, symbols or strings.
-    (if-let [goes-first (-> (edn/read {:default unknown-val}
-                                      *in*)
+    (if-let [goes-first (-> (safe-read)
                             keyword
                             #{:player :ai})]
       (game-loop board/empty-board
