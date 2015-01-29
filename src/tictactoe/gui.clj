@@ -102,7 +102,8 @@
   (when (or
          (board/winner? @board)
          (board/cats-game? @board))
-    (swap! playing not)))
+    (swap! playing not)
+    true))
 
 (defn mouse-click [e]
   (if @playing
@@ -111,13 +112,13 @@
                       (.contains r pt))
                     @grid-rects)
          click-index (.indexOf rects true)]
-     (when (board/valid-move-i? @board click-index)
+     (when (and (not (end-game?))
+                (board/valid-move-i? @board click-index))
        (swap! board board/make-move-i (@marks :player) click-index)
-       (end-game?)
-       (swap! board (fn [board]
-                      (board/make-move board (@marks :ai)
-                                       (ai/best-ranked-move board @marks))))
-       (end-game?)))
+       (when (not (end-game?))
+         (swap! board (fn [board]
+                        (board/make-move board (@marks :ai)
+                                         (ai/best-ranked-move board @marks)))))))
    (do
      (swap! playing not)
      (reset! board board/empty-board))))
