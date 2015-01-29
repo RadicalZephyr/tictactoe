@@ -23,16 +23,38 @@
   (edn/read {:default unknown-val}
             *in*))
 
+(defn num->xy [input]
+  (->> input
+       str
+       seq  ;; This read string is safe because we KNOW it's a number!
+       (map (comp read-string
+                  str))
+       vec))
+
+(defn valid-move-input? [input]
+  (cond
+    (number? input) (case input
+                      (1 2 3) (when-let [y (valid-move-input?
+                                            (safe-read))]
+                                (when (number? y)
+                                  [input y]))
+                      (11 12 13
+                          21 22 23
+                          31 32 33) (num->xy input)
+                      nil)
+    (and (coll? input)
+         (sequential? input)
+         (= (count input)
+            2)
+         (every? number? input)) input
+    :else nil))
+
 (defn read-move []
   (print "Enter your move [x y]: ")
   (flush)
   (let [input (safe-read)]
-    (if (and (coll? input)
-             (sequential? input)
-             (= (count input)
-                2)
-             (every? number? input))
-      (vec input)
+    (if-let [move (valid-move-input? input)]
+      move
       (do
         (println "I didn't understand that move.  Please try again.")
         (recur)))))
