@@ -142,6 +142,9 @@
                      :on-close :exit
                      :content
                      (s/border-panel
+                      :bottom (s/action :name "Swap marks"
+                                        :command
+                                        #(swap! marks swap-marks))
                       :center
                       (s/canvas :id :canvas
                                 :paint draw-board))))
