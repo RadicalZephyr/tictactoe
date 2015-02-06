@@ -5,23 +5,31 @@
 
 (def empty-board (vec (repeat 9 blank)))
 
+(defn horizontal-attacks [board]
+  (partition 3 board))
+
+(defn vertical-attacks [board]
+  (for [x (range 3)]
+    (take-nth 3 (drop x board))))
+
+(defn top-left->bottom-right-attack [board]
+  (take-nth 4 board))
+
+(defn top-right->bottom-left-attack [board]
+  (->> board
+       (drop 2)
+       (take-nth 2)
+       (take 3)))
+
+(defn diagonal-attacks [board]
+  [(top-left->bottom-right-attack board)
+   (top-right->bottom-left-attack board)])
+
 (defn all-attacks [board]
   (concat
-   ;; Horizontal groups
-   (partition 3 board)
-
-   ;; Vertical groups
-   (for [x (range 3)]
-     (take-nth 3 (drop x board)))
-
-   ;; top-left to bottom-right diagonal
-   [(take-nth 4 board)
-
-    ;; top-right to bottom-left diagonal
-    (->> board
-         (drop 2)
-         (take-nth 2)
-         (take 3))]))
+   (horizontal-attacks board)
+   (vertical-attacks board)
+   (diagonal-attacks board)))
 
 (defn indexed-board [board]
   (map vector
