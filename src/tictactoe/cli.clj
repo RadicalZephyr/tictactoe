@@ -105,11 +105,10 @@
   {goes-first "X"
    (board/next-player goes-first) "O"})
 
-(defn start-game []
-  (println "Let's play tictactoe!")
+(defn read-player []
+  (print "Who should go first, player or ai? ")
+  (flush)
   (loop []
-    (print "Who should go first, player or ai? ")
-    (flush)
 
     ;; Read something, keywordize it and then ensure that it's either
     ;; :player or :ai.  All other cases will end up nil. It's safe to call
@@ -119,10 +118,21 @@
     (if-let [goes-first (-> (safe-read)
                             keyword
                             #{:player :ai})]
-      (game-loop board/empty-board
-                 goes-first
-                 (assign-marks goes-first))
+      goes-first
       (do
         (println "Sorry, I didn't understand that."
-                 "Please only enter \"player\" or \"ai\".")
+                 "Please enter either \"player\" or \"ai\".")
         (recur)))))
+
+(defn play-again? []
+  nil)
+
+(defn start-game []
+  (println "Let's play tictactoe!")
+  (loop [goes-first (read-player)]
+    (game-loop board/empty-board
+               goes-first
+               (assign-marks goes-first))
+
+    (when (play-again?)
+      (recur (read-player)))))
