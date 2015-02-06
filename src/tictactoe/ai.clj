@@ -85,8 +85,8 @@
           (get-best-available-move board my-mark))))
 
 (defn best-ranked-move [board marks]
-  (let [my-mark (marks :ai)
-        other-mark (marks :player)]
+  (let [{my-mark :ai
+         other-mark :player} marks]
     (->>
      (rank-moves board my-mark other-mark)
      (sort (fn [[p1 v1] [p2 v2]]
