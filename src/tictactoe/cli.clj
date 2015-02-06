@@ -55,7 +55,10 @@
        (sequential? input)
        (= (count input)
           2)
-       (every? number? input)))
+       (every? (fn [x]
+                 (and (number? x)
+                      (> 4 x 0)))
+               input)))
 
 (defn valid-move-input? [input]
   (cond
