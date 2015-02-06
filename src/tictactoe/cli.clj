@@ -4,16 +4,24 @@
             [clojure.pprint :as pp]
             [clojure.tools.reader.edn :as edn]))
 
+(defn label-board [board]
+  (->> (range 1 4)
+       (map vector)
+       (map concat
+            (partition 3 board))))
+
 (defn print-board [board]
   (pp/cl-format *out* "~:{+---+---+---+~%~
                           | ~C | ~C | ~C | ~D~%~}~
                           +---+---+---+~
                         ~%  1   2   3~%~%"
-                (->> (range 1 4)
-                     (map vector)
-                     (map concat
-                          (partition 3 board))
-                     reverse)))
+                ;; Print the board so that the lower-left corner is
+                ;; 1,1 This conforms to the typical cartesian
+                ;; coordinate system and so should be more intuitive
+                ;; to understand.
+                (-> board
+                    label-board
+                    reverse)))
 
 (defn unknown-val [tag val]
   {:unknown-tag tag

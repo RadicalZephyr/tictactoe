@@ -1,5 +1,4 @@
 ## Little
-- Comment tictactoe.cli/print-board, maybe extract function
 - Extract functions from all-attacks
 - Test AI performance in tricky sub-cases
 - Improve test coverage in general
