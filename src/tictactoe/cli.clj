@@ -39,22 +39,28 @@
                   str))
        vec))
 
+(defn validate-number-input [input]
+  (case input
+    (1 2 3) (let [y (safe-read)]
+              (when (and (number? y)
+                         (>= 3 y 1))
+                [input y]))
+    (11 12 13
+        21 22 23
+        31 32 33) (num->xy input)
+        nil))
+
+(defn is-move-collection? [input]
+  (and (coll? input)
+       (sequential? input)
+       (= (count input)
+          2)
+       (every? number? input)))
+
 (defn valid-move-input? [input]
   (cond
-    (number? input) (case input
-                      (1 2 3) (let [y (safe-read)]
-                                (when (and (number? y)
-                                           (>= 3 y 1))
-                                  [input y]))
-                      (11 12 13
-                       21 22 23
-                       31 32 33) (num->xy input)
-                      nil)
-    (and (coll? input)
-         (sequential? input)
-         (= (count input)
-            2)
-         (every? number? input)) input
+    (number? input) (validate-number-input input)
+    (is-move-collection? input) input
     :else nil))
 
 (defn read-move []
