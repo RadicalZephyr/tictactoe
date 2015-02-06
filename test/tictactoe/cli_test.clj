@@ -2,6 +2,27 @@
   (:require [tictactoe.cli :refer :all]
             [clojure.test :refer :all]))
 
+(deftest label-board-test
+  (testing ""
+    (is (= (label-board [0 0 0
+                         0 0 0
+                         0 0 0])
+           '((0 0 0 1)
+             (0 0 0 2)
+             (0 0 0 3))))
+    (is (= (label-board [0 0 1
+                         0 2 0
+                         3 0 0])
+           '((0 0 1 1)
+             (0 2 0 2)
+             (3 0 0 3))))
+    (is (= (label-board [1 0 0
+                         0 2 0
+                         0 0 3])
+           '((1 0 0 1)
+             (0 2 0 2)
+             (0 0 3 3))))))
+
 (deftest num->xy-test
   (testing "Regular numbers"
     (is (= (num->xy 11)
