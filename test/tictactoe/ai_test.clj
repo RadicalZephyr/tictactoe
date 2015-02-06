@@ -118,7 +118,4 @@
                                 " " mark " "
                                 " " " " " "]
                                op-mark)
-             [1 3]))))
-
-  (testing "Multiple positives"
-    ))
+             [1 3])))))
