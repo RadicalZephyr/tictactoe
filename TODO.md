@@ -1,5 +1,4 @@
 ## Little
-- Add "play again?" option to console game
 - Comment tictactoe.cli/print-board, maybe extract function
 - Extract functions from all-attacks
 - Test AI performance in tricky sub-cases

@@ -125,7 +125,16 @@
         (recur)))))
 
 (defn play-again? []
-  nil)
+  (print "Would you like to play again? ")
+  (flush)
+  (loop [again (safe-read)]
+    (cond
+      (#{'y 'yes} again) true
+      (#{'n 'no}  again) false
+      :else (do
+              (println "Sorry, I didn't understand that."
+                       "Please enter either \"yes\" or \"no\".")
+              (recur (safe-read))))))
 
 (defn start-game []
   (println "Let's play tictactoe!")
