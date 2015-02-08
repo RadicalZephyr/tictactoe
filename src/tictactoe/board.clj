@@ -3,7 +3,8 @@
 
 (def blank " ")
 
-(def empty-board (vec (repeat 9 blank)))
+(def empty-board
+  (vec (repeat 9 blank)))
 
 (defn horizontal-attacks [board]
   (partition 3 board))
