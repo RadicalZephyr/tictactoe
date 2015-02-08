@@ -33,9 +33,9 @@
 
 (defn indexed-board [board]
   (map vector
-       (for [x (range 1 4)
-             y (range 1 4)]
-         [y x])
+       (for [y (range 1 4)
+             x (range 1 4)]
+         [x y])
        board))
 
 (defn all-indexed-attacks [board]
