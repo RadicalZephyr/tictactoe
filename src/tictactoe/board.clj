@@ -43,15 +43,17 @@
        indexed-board
        all-attacks))
 
-(defn winner? [board]
+(defn winning-attack? [attack]
+  (and
+   (apply = attack)
+   (apply not= blank attack)))
+
   (->> board
        all-attacks
 
        ;; Check all different combinations for a winning combination
        (some (fn [attack]
-               (if (and
-                    (apply = attack)
-                    (apply not= blank attack))
+               (if (winning-attack? attack)
                  (first attack)
                  nil)))))
 
