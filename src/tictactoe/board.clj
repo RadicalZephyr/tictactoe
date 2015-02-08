@@ -48,6 +48,7 @@
    (apply = attack)
    (apply not= blank attack)))
 
+(defn which-winner? [board]
   (->> board
        all-attacks
 

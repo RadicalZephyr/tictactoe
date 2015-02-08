@@ -98,7 +98,7 @@
                               (marks to-play))))
 
 (defn game-loop [board to-play marks]
-  (if-let [winner (or (board/winner? board)
+  (if-let [winner (or (board/which-winner? board)
                       (board/cats-game? board))]
     (do
       (print-board board)

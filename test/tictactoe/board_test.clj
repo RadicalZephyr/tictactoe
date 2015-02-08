@@ -2,54 +2,54 @@
   (:require [tictactoe.board :refer :all]
             [clojure.test :refer :all]))
 
-(deftest winner?-test
+(deftest which-winner?-test
   (testing "No false positives"
-    (is (= (winner? [" " " " " "
+    (is (= (which-winner? [" " " " " "
                      " " " " " "
                      " " " " " "])
            nil) "Empty board should have no winner.")
 
-    (is (= (winner? ["x" "x" "o"
+    (is (= (which-winner? ["x" "x" "o"
                      "o" "x" "x"
                      "x" "o" "o"])
            nil) "Cat's game should have no winner.")
 
-    (is (= (winner? ["x" "x" " "
+    (is (= (which-winner? ["x" "x" " "
                      " " "x" "o"
                      " " "o" "o"])
            nil) "Unfinished game should have no winner."))
 
   (doseq [mark ["x" "o" "b"]]
    (testing "All winning positions"
-     (is (= (winner? [mark mark mark
+     (is (= (which-winner? [mark mark mark
                       " " " " " "
                       " " " " " "])
             mark))
-     (is (= (winner? [" " " " " "
+     (is (= (which-winner? [" " " " " "
                       mark mark mark
                       " " " " " "])
             mark))
-     (is (= (winner? [" " " " " "
+     (is (= (which-winner? [" " " " " "
                       " " " " " "
                       mark mark mark])
             mark))
-     (is (= (winner? [mark " " " "
+     (is (= (which-winner? [mark " " " "
                       mark " " " "
                       mark " " " "])
             mark))
-     (is (= (winner? [" " mark " "
+     (is (= (which-winner? [" " mark " "
                       " " mark " "
                       " " mark " "])
             mark))
-     (is (= (winner? [" " " " mark
+     (is (= (which-winner? [" " " " mark
                       " " " " mark
                       " " " " mark])
             mark))
-     (is (= (winner? [mark " " " "
+     (is (= (which-winner? [mark " " " "
                       " " mark " "
                       " " " " mark])
             mark))
-     (is (= (winner? [" " " " mark
+     (is (= (which-winner? [" " " " mark
                       " " mark " "
                       mark " " " "])
             mark)))))

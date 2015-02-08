@@ -101,7 +101,7 @@
 (defn keep-playing? []
   (when (and @playing
              (or
-              (board/winner? @board)
+              (board/which-winner? @board)
               (board/cats-game? @board)))
     (swap! playing not))
 
