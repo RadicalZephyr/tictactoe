@@ -48,11 +48,11 @@
        all-attacks
 
        ;; Check all different combinations for a winning combination
-       (some (fn [section]
+       (some (fn [attack]
                (if (and
-                    (apply = section)
-                    (apply not= blank section))
-                 (first section)
+                    (apply = attack)
+                    (apply not= blank attack))
+                 (first attack)
                  nil)))))
 
 (defn cats-game? [board]
