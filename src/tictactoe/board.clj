@@ -44,16 +44,16 @@
        all-attacks))
 
 (defn winner? [board]
-  (->>
-   (all-attacks board)
+  (->> board
+       all-attacks
 
-   ;; Check all different combinations for a winning combination
-   (some (fn [section]
-           (if (and
-                (apply = section)
-                (apply not= blank section))
-             (first section)
-             nil)))))
+       ;; Check all different combinations for a winning combination
+       (some (fn [section]
+               (if (and
+                    (apply = section)
+                    (apply not= blank section))
+                 (first section)
+                 nil)))))
 
 (defn cats-game? [board]
   (not-any? s/blank? board))
