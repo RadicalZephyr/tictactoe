@@ -6,6 +6,19 @@
 (def empty-board
   (vec (repeat 9 blank)))
 
+(defprotocol IndexedCell
+  "A protocol for interacting with a single board cell."
+  (index [cell])
+  (mark  [cell]))
+
+(defn make-indexed-cell [index mark]
+  [index mark])
+
+(extend-type clojure.lang.IPersistentVector
+  IndexedCell
+  (index [cell] (first cell))
+  (mark  [cell] (second cell)))
+
 (defn horizontal-attacks [board]
   (partition 3 board))
 
