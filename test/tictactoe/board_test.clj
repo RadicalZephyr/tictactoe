@@ -59,6 +59,6 @@
     (is (= (sort
             (indexed-board [1 2 3 4 5 6 7 8 9]))
            (sort
-            [[[1 1] 1] [[2 1] 2] [[3 1] 3]
-             [[1 2] 4] [[2 2] 5] [[3 2] 6]
-             [[1 3] 7] [[2 3] 8] [[3 3] 9]])))))
+            [(make-indexed-cell [1 1] 1) (make-indexed-cell [2 1] 2) (make-indexed-cell [3 1] 3)
+             (make-indexed-cell [1 2] 4) (make-indexed-cell [2 2] 5) (make-indexed-cell [3 2] 6)
+             (make-indexed-cell [1 3] 7) (make-indexed-cell [2 3] 8) (make-indexed-cell [3 3] 9)])))))
