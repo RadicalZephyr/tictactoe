@@ -37,11 +37,11 @@
            first))))
 
 (defn winning-group [indexed-row]
-  (let [raw-row (map second indexed-row)]
+  (let [raw-row (map board/mark indexed-row)]
     (when-let [move (check-winning-move raw-row)]
-      (some (fn [[pos val]]
-              (when (= blank val)
-                [pos move]))
+      (some (fn [cell]
+              (when (= blank (board/mark cell))
+                [(board/index cell) move]))
             indexed-row))))
 
 (defn get-winning-move [board mark]
@@ -53,13 +53,13 @@
               (group-by second))]
     (when (not (empty? winning-moves))
       (cond (contains? winning-moves mark)
-            (get-in winning-moves [mark 0 0])
+            (board/index (get-in winning-moves [mark 0]))
 
             :else (->> winning-moves ;; This is ugly! What to do about
                        vals          ;; it though?
                        first
                        first
-                       first)))))
+                       board/index)))))
 
 (def move-ranking
   "The priority ordering of all the different moves in the
