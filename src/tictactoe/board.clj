@@ -11,8 +11,18 @@
   (index [cell])
   (mark  [cell]))
 
+(defrecord ICell [_index _mark]
+  java.lang.Comparable
+  (compareTo [this o] (.compareTo
+                       (index this)
+                       (index o)))
+
+  IndexedCell
+  (index [_] _index)
+  (mark  [_] _mark))
+
 (defn make-indexed-cell [index mark]
-  [index mark])
+  (ICell. index mark))
 
 (extend-type clojure.lang.IPersistentVector
   IndexedCell
