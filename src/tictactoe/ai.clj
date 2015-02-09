@@ -56,10 +56,10 @@
       (cond (contains? winning-moves mark)
             (board/index (get-in winning-moves [mark 0]))
 
-            :else (->> winning-moves ;; This is ugly! What to do about
-                       vals          ;; it though?
-                       first
-                       first
+            :else (->> winning-moves
+                       vals
+                       first ; Get the first winning move list
+                       first ; Get the first move off that list
                        board/index)))))
 
 (def move-ranking
