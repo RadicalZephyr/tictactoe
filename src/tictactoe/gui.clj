@@ -16,8 +16,8 @@
 (def marks {:ai "x"
             :player "o"})
 
-(defn get-canvas []
-  (s/select @root [:#canvas]))
+(defn get-canvas [frame]
+  (s/select frame [:#canvas]))
 
 (defn fit-grid-to-screen [padding [grid-w grid-h] [screen-w screen-h]]
   (let [padcount-w (inc grid-w)
@@ -135,8 +135,8 @@
    (-> frame
        s/show!)
    (b/bind board (b/b-do [_]
-                     (s/repaint! (get-canvas))))
-   (s/listen (get-canvas)
+                     (s/repaint! (get-canvas frame))))
+   (s/listen (get-canvas frame)
        :mouse-released mouse-click)))
 
 (defn -main [& args]
