@@ -27,13 +27,13 @@
       :else :unknown)))
 
 (defn classify-board [board my-mark other-mark]
-  (group-by #(classify (map second %)
+  (group-by #(classify (map board/mark %)
                        my-mark other-mark)
             (board/all-indexed-attacks board)))
 
 (defn get-space-frequencies [attack-list]
   (frequencies
-   (mapcat #(map first %)
+   (mapcat #(map board/index %)
            attack-list)))
 
 (defn invert-stat-position [[stat space-list]]

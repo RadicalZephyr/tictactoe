@@ -46,7 +46,7 @@
    (diagonal-attacks board)))
 
 (defn indexed-board [board]
-  (map vector
+  (map make-indexed-cell
        (for [y (range 1 4)
              x (range 1 4)]
          [x y])
