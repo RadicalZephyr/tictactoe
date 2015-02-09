@@ -5,54 +5,54 @@
 (deftest which-winner?-test
   (testing "No false positives"
     (is (= (which-winner? [" " " " " "
-                     " " " " " "
-                     " " " " " "])
+                           " " " " " "
+                           " " " " " "])
            nil) "Empty board should have no winner.")
 
     (is (= (which-winner? ["x" "x" "o"
-                     "o" "x" "x"
-                     "x" "o" "o"])
+                           "o" "x" "x"
+                           "x" "o" "o"])
            nil) "Cat's game should have no winner.")
 
     (is (= (which-winner? ["x" "x" " "
-                     " " "x" "o"
-                     " " "o" "o"])
+                           " " "x" "o"
+                           " " "o" "o"])
            nil) "Unfinished game should have no winner."))
 
   (doseq [mark ["x" "o" "b"]]
-   (testing "All winning positions"
-     (is (= (which-winner? [mark mark mark
-                      " " " " " "
-                      " " " " " "])
-            mark))
-     (is (= (which-winner? [" " " " " "
-                      mark mark mark
-                      " " " " " "])
-            mark))
-     (is (= (which-winner? [" " " " " "
-                      " " " " " "
-                      mark mark mark])
-            mark))
-     (is (= (which-winner? [mark " " " "
-                      mark " " " "
-                      mark " " " "])
-            mark))
-     (is (= (which-winner? [" " mark " "
-                      " " mark " "
-                      " " mark " "])
-            mark))
-     (is (= (which-winner? [" " " " mark
-                      " " " " mark
-                      " " " " mark])
-            mark))
-     (is (= (which-winner? [mark " " " "
-                      " " mark " "
-                      " " " " mark])
-            mark))
-     (is (= (which-winner? [" " " " mark
-                      " " mark " "
-                      mark " " " "])
-            mark)))))
+    (testing "All winning positions"
+      (is (= (which-winner? [mark mark mark
+                             " " " " " "
+                             " " " " " "])
+             mark))
+      (is (= (which-winner? [" " " " " "
+                             mark mark mark
+                             " " " " " "])
+             mark))
+      (is (= (which-winner? [" " " " " "
+                             " " " " " "
+                             mark mark mark])
+             mark))
+      (is (= (which-winner? [mark " " " "
+                             mark " " " "
+                             mark " " " "])
+             mark))
+      (is (= (which-winner? [" " mark " "
+                             " " mark " "
+                             " " mark " "])
+             mark))
+      (is (= (which-winner? [" " " " mark
+                             " " " " mark
+                             " " " " mark])
+             mark))
+      (is (= (which-winner? [mark " " " "
+                             " " mark " "
+                             " " " " mark])
+             mark))
+      (is (= (which-winner? [" " " " mark
+                             " " mark " "
+                             mark " " " "])
+             mark)))))
 
 (deftest indexed-groups-test
   (testing "Output"
