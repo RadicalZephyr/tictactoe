@@ -33,8 +33,9 @@
                   1))
       (->> freqs
            keys
-           (remove #{blank})
-           first))))
+           (some (fn [el]
+                   (when (not (#{" "} el))
+                     el)))))))
 
 (defn winning-group [indexed-row]
   (let [raw-row (map board/mark indexed-row)]
