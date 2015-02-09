@@ -114,36 +114,21 @@
 ;;; #################################################################
 ;;; Game Flow handling functions
 ;;; #################################################################
-(defn keep-playing? []
-  (when (and (:playing? @game-state)
-             (or
-              (board/which-winner? (:board @game-state))
-              (board/cats-game? (:board @game-state))))
-    (swap! game-state update-in [:playing?] not))
 
-  ;; This is a bit janky. End game is sort of overloaded with
-  ;; functionality, because it has this side-effect of changing the
-  ;; game state.  But in a certain way it's return value should ALWAYS
-  ;; be whether or not we are continuing to play the game.
-  (:playing? @game-state))
+(defn click->index [e]
+  (let [pt (.getPoint e)
+        rects (map (fn [r]
+                     (.contains r pt))
+                   (get-grid-rects (s/to-root e)))]
+    (.indexOf rects true)))
 
-(defn mouse-click [e]
-  (if (keep-playing?)
-   (let [pt (.getPoint e)
-         rects (map (fn [r]
-                      (.contains r pt))
-                    (get-grid-rects (s/to-root e)))
-         click-index (.indexOf rects true)]
-     (when (board/valid-move-i? (:board @game-state) click-index)
-       (swap! game-state update-in [:board]
-              board/make-move-i (marks :player) click-index)
-       (when (keep-playing?)
-         (swap! game-state update-in [:board]
-                (fn [board]
-                  (board/make-move board (marks :ai)
-                                   (ai/best-ranked-move board marks)))))))
-   (reset-board!)))
+(defn make-move [player index])
 
+(defn handle-click [e]
+  (if (:playing? @game-state)
+    (make-move :player
+               (click->index e))
+    (swap! game-state update-in [:playing?] not)))
 
 ;;; #################################################################
 ;;; Basic GUI Setup
@@ -157,7 +142,7 @@
            (b/b-do [_]
                (s/repaint! (get-canvas frame))))
    (s/listen (get-canvas frame)
-       :mouse-released mouse-click)))
+       :mouse-released handle-click)))
 
 (defn -main [& args]
   (compare-and-set!
