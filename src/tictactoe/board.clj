@@ -13,7 +13,7 @@
 
 (defrecord ICell [_index _mark]
   java.lang.Comparable
-  (compareTo [this o] (.compareTo
+  (compareTo [this o] (compare
                        (index this)
                        (index o)))
 
