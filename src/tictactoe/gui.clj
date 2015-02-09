@@ -150,3 +150,6 @@
                       (s/canvas :id :canvas
                                 :paint draw-board))))
   (show-frame @root))
+
+;; TODO: remove!!
+(use 'seesaw.dev)
