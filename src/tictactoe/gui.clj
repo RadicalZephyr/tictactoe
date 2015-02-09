@@ -16,8 +16,21 @@
 (def marks {:ai "o"
             :player "x"})
 
+
+;;; #################################################################
+;;; Utility Functions
+;;; #################################################################
+
+(defn reset-board! []
+  (reset! game-state starting-board-state))
+
 (defn get-canvas [frame]
   (s/select frame [:#canvas]))
+
+
+;;; #################################################################
+;;; Drawing/sizing functions
+;;; #################################################################
 
 (defn fit-grid-to-screen [padding [grid-w grid-h] [screen-w screen-h]]
   (let [padcount-w (inc grid-w)
@@ -97,6 +110,10 @@
           rects
           (:board @game-state)))))
 
+
+;;; #################################################################
+;;; Game Flow handling functions
+;;; #################################################################
 (defn keep-playing? []
   (when (and (:playing? @game-state)
              (or
@@ -109,9 +126,6 @@
   ;; game state.  But in a certain way it's return value should ALWAYS
   ;; be whether or not we are continuing to play the game.
   (:playing? @game-state))
-
-(defn reset-board! []
-  (reset! game-state starting-board-state))
 
 (defn mouse-click [e]
   (if (keep-playing?)
@@ -129,6 +143,11 @@
                   (board/make-move board (marks :ai)
                                    (ai/best-ranked-move board marks)))))))
    (reset-board!)))
+
+
+;;; #################################################################
+;;; Basic GUI Setup
+;;; #################################################################
 
 (defn show-frame [frame]
   (s/invoke-later
