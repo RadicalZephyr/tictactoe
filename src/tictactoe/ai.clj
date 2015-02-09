@@ -25,8 +25,8 @@
 ;; whether we have claimed two of the slots in the attack or only one.
 
 
-(defn check-winning-move [row]
-  (let [freqs (frequencies row)]
+(defn check-winning-move [attack]
+  (let [freqs (frequencies attack)]
     (when (and (= (count freqs)
                 2)
                (= (freqs blank)
@@ -37,13 +37,13 @@
                    (when (not (#{" "} el))
                      el)))))))
 
-(defn winning-group [indexed-row]
-  (let [raw-row (map board/mark indexed-row)]
-    (when-let [move (check-winning-move raw-row)]
+(defn winning-group [indexed-attack]
+  (let [raw-attack (map board/mark indexed-attack)]
+    (when-let [move (check-winning-move raw-attack)]
       (some (fn [cell]
               (when (= blank (board/mark cell))
                 [(board/index cell) move]))
-            indexed-row))))
+            indexed-attack))))
 
 (defn get-winning-move [board mark]
   (let [winning-moves
