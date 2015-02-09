@@ -143,7 +143,7 @@
   (compare-and-set!
    root nil (s/frame :title "Tic-Tac-Toe"
                      :size [600 :by 480]
-                     :on-close :exit
+                     ;; :on-close :exit TODO: remove
                      :content
                      (s/border-panel
                       :center
