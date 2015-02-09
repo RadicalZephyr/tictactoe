@@ -62,6 +62,10 @@
                        first ; Get the first move off that list
                        board/index)))))
 
+;;; #################################################################
+;;; The most basic naive heuristic for playing tic-tac-toe
+;;; #################################################################
+
 (def move-ranking
   "The priority ordering of all the different moves in the
   game. Basically, the corners are superior to the middle which is
@@ -85,6 +89,12 @@
       (or (get-winning-move board my-mark)
           (get-best-available-move board my-mark))))
 
+;;; #################################################################
+;;; Better performance than the naive heuristic, but still makes bad
+;;; moves.  Generally does fairly well except in predicting the
+;;; opponent creating a fork.
+;;; #################################################################
+
 (defn best-ranked-move [board marks]
   (let [{my-mark :ai
          other-mark :player} marks]
@@ -96,6 +106,12 @@
      ((fn [[pos ranking]]
         pos)))))
 
+;;; #################################################################
+;;; AI that uses the minimax decision algorithm.  Should be impossible
+;;; to beat.
+;;; #################################################################
+
+;; Pseudocode:
 
 ;; function minimax(node, depth, maximizingPlayer)
 ;;   if depth = 0 or node is a terminal node
