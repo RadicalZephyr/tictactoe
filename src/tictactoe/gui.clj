@@ -7,14 +7,14 @@
 
 (def root (atom nil))
 
-(def board (atom board/empty-board))
+(def starting-board-state {:board board/empty-board
+                           :playing? true
+                           :to-play :player})
 
-(def grid-rects (atom nil))
+(def game-state (atom starting-board-state))
 
-(def playing (atom true))
-
-(def marks {:ai "x"
-            :player "o"})
+(def marks {:ai "o"
+            :player "x"})
 
 (defn get-canvas [frame]
   (s/select frame [:#canvas]))
@@ -88,7 +88,6 @@
                             :stroke (g/stroke
                                      :width 5))
         rects (get-grid-rects root)]
-    (reset! grid-rects rects)
     (dorun
      (map (fn [r mark]
             (g/draw g2d r rect-style)
@@ -96,46 +95,48 @@
               (draw-letter
                g2d r mark rect-style)))
           rects
-          @board))))
+          (:board @game-state)))))
 
 (defn keep-playing? []
-  (when (and @playing
+  (when (and (:playing? @game-state)
              (or
-              (board/which-winner? @board)
-              (board/cats-game? @board)))
-    (swap! playing not))
+              (board/which-winner? (:board @game-state))
+              (board/cats-game? (:board @game-state))))
+    (swap! game-state update-in [:playing?] not))
 
   ;; This is a bit janky. End game is sort of overloaded with
   ;; functionality, because it has this side-effect of changing the
   ;; game state.  But in a certain way it's return value should ALWAYS
   ;; be whether or not we are continuing to play the game.
-  @playing)
+  (:playing? @game-state))
 
 (defn reset-board! []
-  (swap! playing not)
-  (reset! board board/empty-board))
+  (reset! game-state starting-board-state))
 
 (defn mouse-click [e]
   (if (keep-playing?)
    (let [pt (.getPoint e)
          rects (map (fn [r]
                       (.contains r pt))
-                    @grid-rects)
+                    (get-grid-rects (s/to-root e)))
          click-index (.indexOf rects true)]
-     (when (board/valid-move-i? @board click-index)
-       (swap! board board/make-move-i (marks :player) click-index)
+     (when (board/valid-move-i? (:board @game-state) click-index)
+       (swap! game-state update-in [:board]
+              board/make-move-i (marks :player) click-index)
        (when (keep-playing?)
-         (swap! board (fn [board]
-                        (board/make-move board (marks :ai)
-                                         (ai/best-ranked-move board marks)))))))
+         (swap! game-state update-in [:board]
+                (fn [board]
+                  (board/make-move board (marks :ai)
+                                   (ai/best-ranked-move board marks)))))))
    (reset-board!)))
 
 (defn show-frame [frame]
   (s/invoke-later
    (-> frame
        s/show!)
-   (b/bind board (b/b-do [_]
-                     (s/repaint! (get-canvas frame))))
+   (b/bind game-state
+           (b/b-do [_]
+               (s/repaint! (get-canvas frame))))
    (s/listen (get-canvas frame)
        :mouse-released mouse-click)))
 
