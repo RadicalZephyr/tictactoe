@@ -179,8 +179,9 @@
     (do
       (swap! game-state toggle-playing)
       (reset-board!)
-      (process-move nil)))) ; We attempt to make an AI move here in
-                            ; case the AI should go first
+
+      ;; We attempt to make an AI move here in case the AI should go first
+      (process-move nil))))
 
 
 
