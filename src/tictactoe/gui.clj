@@ -190,12 +190,17 @@
 ;;; #################################################################
 
 (defn show-board [root]
-  (s/config!
-   root
-   :content (s/border-panel
-             :center
-             (s/canvas :id :canvas
-                       :paint draw-board))))
+  (let [canvas (s/canvas :id :canvas
+                         :paint draw-board)]
+    (s/config!
+     root
+     :content (s/border-panel
+               :center canvas))
+    (b/bind game-state
+            (b/b-do [_]
+                (s/repaint! canvas)))
+    (s/listen canvas
+        :mouse-released handle-click)))
 
 (defn start-game [player e]
   (set-order! player)
@@ -227,12 +232,7 @@
   (s/invoke-later
    (-> frame
        s/show!)
-   (s/config! frame :content (show-choose-player frame))
-   (b/bind game-state
-           (b/b-do [_]
-               (s/repaint! (get-canvas frame))))
-   (s/listen (get-canvas frame)
-       :mouse-released handle-click)))
+   (s/config! frame :content (show-choose-player frame))))
 
 (defn -main [& args]
   (compare-and-set!
