@@ -33,12 +33,12 @@
 (defn get-canvas [frame]
   (s/select frame [:#canvas]))
 
-(defn swap-order [{plays-first :plays-first
-                   {:keys [player ai]} :marks
-                   :as state}]
-  (-> state
-      (assoc :plays-first (board/next-player plays-first))
-      (assoc :marks {:ai player :player ai})))
+(defn set-order! [first]
+  (swap! game-state (fn [state]
+                      (-> state
+                          (assoc :plays-first first)
+                          (assoc :marks {first "x"
+                                         (board/next-player first) "o"})))))
 
 (defn toggle-playing [state]
   (update-in state [:playing?] not))
