@@ -34,9 +34,14 @@
   (update-in state [:to-play] board/next-player))
 
 (defn do-move [state player index]
-  (-> state
-      (update-in [:board] board/make-move-i (marks player) index)
-      next-player))
+  (let [new-state (-> state
+                      (update-in [:board] board/make-move-i (marks player) index)
+                      next-player)]
+    (if-let [winner (or
+                     (board/which-winner? (:board new-state))
+                     (board/cats-game? (:board new-state)))]
+      (toggle-playing new-state)
+      new-state)))
 
 
 ;;; #################################################################
