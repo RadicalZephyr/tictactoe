@@ -7,22 +7,28 @@
 
 (def root (atom nil))
 
-(def starting-board-state {:board board/empty-board
-                           :playing? true
-                           :to-play :player})
-
-(def game-state (atom starting-board-state))
-
-(def marks {:ai "o"
-            :player "x"})
+(def game-state (atom {:board board/empty-board
+                       :playing? true
+                       :to-play :player
+                       :marks {:ai     "o"
+                               :player "x"}
+                       :plays-first :player}))
 
 
 ;;; #################################################################
 ;;; Utility Functions
 ;;; #################################################################
 
+(defn marks [key]
+  (-> @game-state
+      :marks
+      key))
+
 (defn reset-board! []
-  (reset! game-state starting-board-state))
+  (swap! game-state (fn [state]
+                      (-> state
+                          (assoc :board board/empty-board)
+                          (assoc :playing? true)))))
 
 (defn get-canvas [frame]
   (s/select frame [:#canvas]))
