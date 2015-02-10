@@ -198,7 +198,8 @@
                        :paint draw-board))))
 
 (defn start-game [player e]
-  )
+  (set-order! player)
+  (show-board (s/to-root e)))
 
 (defn show-choose-player [root & winner]
   (let [[w h] (get-size root)]
