@@ -26,7 +26,8 @@
   (swap! game-state (fn [state]
                       (-> state
                           (assoc :board board/empty-board)
-                          (assoc :playing? true)))))
+                          (assoc :playing? true)
+                          (assoc :to-play (:plays-first state))))))
 
 (defn get-canvas [frame]
   (s/select frame [:#canvas]))
