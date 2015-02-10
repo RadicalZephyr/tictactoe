@@ -208,31 +208,34 @@
 
 (defn show-choose-player [root & winner]
   (let [[w h] (get-size root)]
-    (s/vertical-panel
-     :items [:fill-v
-             (s/horizontal-panel
-              :items
-              [:fill-h
-               (s/label :text "Who should play first?"
-                        :font (font/font :name :serif
-                                         :size 32))
-               :fill-h])
-             [:fill-v (* 0.1 h)]
-             (s/horizontal-panel
-              :items [:fill-h :fill-h
-                      (s/action :name "Player"
-                                :handler (partial start-game :player))
-                      :fill-h
-                      (s/action :name "AI"
-                                :handler (partial start-game :ai))
-                      :fill-h :fill-h])
-             :fill-v])))
+    (s/config!
+     root
+     :content
+     (s/vertical-panel
+      :items [:fill-v
+              (s/horizontal-panel
+               :items
+               [:fill-h
+                (s/label :text "Who should play first?"
+                         :font (font/font :name :serif
+                                          :size 32))
+                :fill-h])
+              [:fill-v (* 0.1 h)]
+              (s/horizontal-panel
+               :items [:fill-h :fill-h
+                       (s/action :name "Player"
+                                 :handler (partial start-game :player))
+                       :fill-h
+                       (s/action :name "AI"
+                                 :handler (partial start-game :ai))
+                       :fill-h :fill-h])
+              :fill-v]))))
 
 (defn show-frame [frame]
   (s/invoke-later
    (-> frame
-       s/show!)
-   (s/config! frame :content (show-choose-player frame))))
+       show-choose-player
+       s/show!)))
 
 (defn -main [& args]
   (compare-and-set!
