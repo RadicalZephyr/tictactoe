@@ -189,17 +189,18 @@
 ;;; Basic GUI Setup
 ;;; #################################################################
 
-(defn show-frame [frame]
-  (s/invoke-later
-   (-> frame
-       s/show!)
-   (b/bind game-state
-           (b/b-do [_]
-               (s/repaint! (get-canvas frame))))
-   (s/listen (get-canvas frame)
-       :mouse-released handle-click)))
+(defn show-board [root]
+  (s/config!
+   root
+   :content (s/border-panel
+             :center
+             (s/canvas :id :canvas
+                       :paint draw-board))))
 
-(defn choose-player [root & winner]
+(defn start-game [player e]
+  )
+
+(defn show-choose-player [root & winner]
   (let [[w h] (get-size root)]
     (s/vertical-panel
      :items [:fill-v
@@ -214,25 +215,30 @@
              (s/horizontal-panel
               :items [:fill-h :fill-h
                       (s/action :name "Player"
-                                :command (fn [e]
-                                           ))
+                                :command (partial start-game :player))
                       :fill-h
                       (s/action :name "AI"
-                                :command (fn [e]
-                                           ))
+                                :command (partial start-game :ai))
                       :fill-h :fill-h])
              :fill-v])))
+
+(defn show-frame [frame]
+  (s/invoke-later
+   (-> frame
+       s/show!)
+   (s/config! frame :content (show-choose-player frame))
+   (b/bind game-state
+           (b/b-do [_]
+               (s/repaint! (get-canvas frame))))
+   (s/listen (get-canvas frame)
+       :mouse-released handle-click)))
 
 (defn -main [& args]
   (compare-and-set!
    root nil (s/frame :title "Tic-Tac-Toe"
                      :size [600 :by 480]
                      ;; :on-close :exit TODO: remove
-                     :content
-                     (s/border-panel
-                      :center
-                      (s/canvas :id :canvas
-                                :paint draw-board))))
+                     ))
   (show-frame @root))
 
 ;; TODO: remove!!
