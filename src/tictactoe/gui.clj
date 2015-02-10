@@ -136,7 +136,7 @@
 (defn process-move [e]
   (when (:playing? @game-state)
     (cond
-      (and (= (:to-move @game-state)
+      (and (= (:to-play @game-state)
               :player)
            (not (nil? e)))
       (do
@@ -144,18 +144,24 @@
         ;; The AI should always play right after the player
         (recur nil))
 
-      (and (= (:to-move @game-state)
+      (and (= (:to-play @game-state)
               :ai)
            (nil? e))
-      (swap! game-state do-move :ai (ai/best-ranked-move
-                                     (:board @game-state) marks))
+      (swap! game-state do-move :ai (-> @game-state
+                                        :board
+                                        (ai/best-ranked-move marks)
+                                        board/xy->index))
 
       :else nil)))
 
 (defn handle-click [e]
   (if (:playing? @game-state)
     (process-move e)
-    (swap! game-state toggle-playing)))
+    (do
+      (swap! game-state toggle-playing)
+      (process-move nil)))) ; We attempt to make an AI move here in
+                            ; case the AI should go first
+
 
 
 ;;; #################################################################
