@@ -4,4 +4,3 @@
 
 ## Big
 - Fix AI so it can't be beaten
-- Clean up GUI state usage
