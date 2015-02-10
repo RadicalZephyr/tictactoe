@@ -173,15 +173,12 @@
 
       :else nil)))
 
+(declare show-choose-player)
+
 (defn handle-click [e]
   (if (:playing? @game-state)
     (process-move e)
-    (do
-      (swap! game-state toggle-playing)
-      (reset-board!)
-
-      ;; We attempt to make an AI move here in case the AI should go first
-      (process-move nil))))
+    (show-choose-player (s/to-root e))))
 
 
 
@@ -204,7 +201,10 @@
 
 (defn start-game [player e]
   (set-order! player)
-  (show-board (s/to-root e)))
+  (reset-board!)
+  (show-board (s/to-root e))
+  ;; We attempt to make an AI move here in case the AI should go first
+  (process-move nil))
 
 (defn show-choose-player [root & winner]
   (let [[w h] (get-size root)]
