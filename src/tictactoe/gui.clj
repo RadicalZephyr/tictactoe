@@ -3,6 +3,7 @@
             [tictactoe.board :as board]
             [seesaw.core :as s]
             [seesaw.bind :as b]
+            [seesaw.font :as font]
             [seesaw.graphics :as g]))
 
 (def root (atom nil))
@@ -199,15 +200,27 @@
 
 (defn choose-player [root & winner]
   (let [[w h] (get-size root)]
-    (s/flow-panel
-     :align :center
-     :items
-     [(s/vertical-panel
-       :items [[:fill-v (* 0.35 h)]
-               "Who should play first?"
-               (s/horizontal-panel
-                :items [(s/action :name "Player" :command (fn [e] nil))
-                        (s/action :name "AI"     :command (fn [e] nil))])])])))
+    (s/vertical-panel
+     :items [:fill-v
+             (s/horizontal-panel
+              :items
+              [:fill-h
+               (s/label :text "Who should play first?"
+                        :font (font/font :name :serif
+                                         :size 32))
+               :fill-h])
+             [:fill-v (* 0.1 h)]
+             (s/horizontal-panel
+              :items [:fill-h :fill-h
+                      (s/action :name "Player"
+                                :command (fn [e]
+                                           ))
+                      :fill-h
+                      (s/action :name "AI"
+                                :command (fn [e]
+                                           ))
+                      :fill-h :fill-h])
+             :fill-v])))
 
 (defn -main [& args]
   (compare-and-set!
