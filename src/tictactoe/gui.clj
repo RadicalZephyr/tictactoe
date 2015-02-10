@@ -197,6 +197,18 @@
    (s/listen (get-canvas frame)
        :mouse-released handle-click)))
 
+(defn choose-player [root & winner]
+  (let [[w h] (get-size root)]
+    (s/flow-panel
+     :align :center
+     :items
+     [(s/vertical-panel
+       :items [[:fill-v (* 0.35 h)]
+               "Who should play first?"
+               (s/horizontal-panel
+                :items [(s/action :name "Player" :command (fn [e] nil))
+                        (s/action :name "AI"     :command (fn [e] nil))])])])))
+
 (defn -main [& args]
   (compare-and-set!
    root nil (s/frame :title "Tic-Tac-Toe"
