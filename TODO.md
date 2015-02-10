@@ -1,6 +1,7 @@
 ## Little
 - Test AI performance in tricky sub-cases
 - Improve test coverage in general
+- Remove dev conveniences in tictactoe.gui
 
 ## Big
 - Fix AI so it can't be beaten
