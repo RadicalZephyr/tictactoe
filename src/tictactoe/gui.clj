@@ -225,10 +225,10 @@
               [:fill-v (* 0.1 h)]
               (s/horizontal-panel
                :items [:fill-h :fill-h
-                       (s/action :name "Player"
+                       (s/action :name "Human"
                                  :handler (partial start-game :player))
                        :fill-h
-                       (s/action :name "AI"
+                       (s/action :name "Computer"
                                  :handler (partial start-game :ai))
                        :fill-h :fill-h])
               :fill-v]))))
