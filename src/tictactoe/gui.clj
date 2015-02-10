@@ -149,8 +149,10 @@
   (let [pt (.getPoint e)
         rects (map (fn [r]
                      (.contains r pt))
-                   (get-grid-rects (s/to-root e)))]
-    (.indexOf rects true)))
+                   (get-grid-rects (s/to-root e)))
+        index (.indexOf rects true)]
+    (when (not= index -1)
+      index)))
 
 (defn process-move [e]
   (when (:playing? @game-state)
@@ -158,8 +160,8 @@
       (and (= (:to-play @game-state)
               :player)
            (not (nil? e)))
-      (do
-        (swap! game-state do-move :player (click->index e))
+      (when-let [index (click->index e)]
+        (swap! game-state do-move :player index)
         ;; The AI should always play right after the player
         (recur nil))
 
