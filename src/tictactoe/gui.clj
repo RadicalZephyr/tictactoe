@@ -133,10 +133,28 @@
                    (get-grid-rects (s/to-root e)))]
     (.indexOf rects true)))
 
+(defn process-move [e]
+  (when (:playing? @game-state)
+    (cond
+      (and (= (:to-move @game-state)
+              :player)
+           (not (nil? e)))
+      (do
+        (swap! game-state do-move :player (click->index e))
+        ;; The AI should always play right after the player
+        (recur nil))
+
+      (and (= (:to-move @game-state)
+              :ai)
+           (nil? e))
+      (swap! game-state do-move :ai (ai/best-ranked-move
+                                     (:board @game-state) marks))
+
+      :else nil)))
+
 (defn handle-click [e]
   (if (:playing? @game-state)
-    (swap! game-state do-move :player
-             (click->index e))
+    (process-move e)
     (swap! game-state toggle-playing)))
 
 
