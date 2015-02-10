@@ -105,21 +105,23 @@
         max-x (.getMaxX rect)
         max-y (.getMaxY rect)
         width (.getWidth rect)
-        height (.getHeight rect)]
+        height (.getHeight rect)
+        inset-w (* 0.1 width)
+        inset-h (* 0.1 height)]
     (case letter
       "x" (do
             (.draw g2d (java.awt.geom.Line2D$Float.
-                        (+ (* 0.1 width) min-x)
-                        (- max-y (* 0.1 height))
-                        (- max-x (* 0.1 height))
-                        (+ (* 0.1 width) min-y)))
+                        (+ inset-w min-x)
+                        (- max-y inset-h)
+                        (- max-x inset-h)
+                        (+ inset-w min-y)))
             (.draw g2d (java.awt.geom.Line2D$Float.
-                        (+ (* 0.1 width) min-x)
-                        (+ (* 0.1 height) min-y)
-                        (- max-x (* 0.1 width))
-                        (- max-y (* 0.1 height)))))
-      "o" (g/draw g2d (g/ellipse (+ (* 0.1 width) min-x)
-                                 (+ (* 0.1 height) min-y)
+                        (+ inset-w min-x)
+                        (+ inset-h min-y)
+                        (- max-x inset-w)
+                        (- max-y inset-h))))
+      "o" (g/draw g2d (g/ellipse (+ inset-w min-x)
+                                 (+ inset-h min-y)
                                  (* 0.8 width)
                                  (* 0.8 height))
                   style))))
