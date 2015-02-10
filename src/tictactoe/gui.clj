@@ -27,6 +27,17 @@
 (defn get-canvas [frame]
   (s/select frame [:#canvas]))
 
+(defn toggle-playing [state]
+  (update-in state [:playing?] not))
+
+(defn next-player [state]
+  (update-in state [:to-play] board/next-player))
+
+(defn do-move [state player index]
+  (-> state
+      (update-in [:board] board/make-move-i (marks player) index)
+      next-player))
+
 
 ;;; #################################################################
 ;;; Drawing/sizing functions
@@ -122,13 +133,12 @@
                    (get-grid-rects (s/to-root e)))]
     (.indexOf rects true)))
 
-(defn make-move [player index])
-
 (defn handle-click [e]
   (if (:playing? @game-state)
-    (make-move :player
-               (click->index e))
-    (swap! game-state update-in [:playing?] not)))
+    (swap! game-state do-move :player
+             (click->index e))
+    (swap! game-state toggle-playing)))
+
 
 ;;; #################################################################
 ;;; Basic GUI Setup
