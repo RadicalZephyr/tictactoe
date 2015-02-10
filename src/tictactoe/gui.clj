@@ -19,10 +19,8 @@
 ;;; Utility Functions
 ;;; #################################################################
 
-(defn marks [key]
-  (-> @game-state
-      :marks
-      key))
+(defn get-marks []
+  (:marks @game-state))
 
 (defn reset-board! []
   (swap! game-state (fn [state]
@@ -41,7 +39,8 @@
 
 (defn do-move [state player index]
   (let [new-state (-> state
-                      (update-in [:board] board/make-move-i (marks player) index)
+                      (update-in [:board] board/make-move-i
+                                 ((get-marks) player) index)
                       next-player)]
     (if-let [winner (or
                      (board/which-winner? (:board new-state))
@@ -160,7 +159,7 @@
            (nil? e))
       (swap! game-state do-move :ai (-> @game-state
                                         :board
-                                        (ai/best-ranked-move marks)
+                                        (ai/best-ranked-move (get-marks))
                                         board/xy->index))
 
       :else nil)))
