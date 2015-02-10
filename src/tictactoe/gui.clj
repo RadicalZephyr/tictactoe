@@ -17,7 +17,7 @@
 
 
 ;;; #################################################################
-;;; Utility Functions
+;;; Game State Manipulation Functions
 ;;; #################################################################
 
 (defn get-marks []
@@ -29,9 +29,6 @@
                           (assoc :board board/empty-board)
                           (assoc :playing? true)
                           (assoc :to-play (:plays-first state))))))
-
-(defn get-canvas [frame]
-  (s/select frame [:#canvas]))
 
 (defn set-order! [first]
   (swap! game-state (fn [state]
@@ -183,7 +180,6 @@
   (if (:playing? @game-state)
     (process-move e)
     (show-choose-player (s/to-root e))))
-
 
 
 ;;; #################################################################
