@@ -75,14 +75,41 @@
            nil))
     "No spaces mean it's not a winning move."))
 
-(defn indexed-attacks [attack-generator]
-  (gen/fmap (fn [attack]
-              (vec (map vector
-                    (map (fn [x]
-                           [0 x])
-                         (range 3))
-                    attack)))
-            attack-generator))
+(defn simple-indexer [attack]
+  (vec (map vector
+            (map (fn [x]
+                   [0 x])
+                 (range 3))
+            attack)))
+
+(defn compound-indexer [[el attack]]
+  (let [indexed-attack (simple-indexer attack)]
+    [(some (fn [[idx mark]]
+             (when (= mark board/blank)
+               [idx el]))
+           indexed-attack)
+     indexed-attack]))
+
+(defn indexed-attacks [attack-generator indexer]
+  (gen/fmap indexer attack-generator))
+
+(defspec true-negatives-are-not-winning-attacks
+  (prop/for-all [attack (indexed-attacks true-negative-attack-gen
+                                         simple-indexer)]
+    (= (winning-attack? attack)
+       nil)))
+
+(defspec false-positives-are-not-winning-attacks
+  (prop/for-all [attack (indexed-attacks false-positive-attack-gen
+                                         simple-indexer)]
+    (= (winning-attack? attack)
+       nil)))
+
+(defspec true-positives-are-winning-attacks
+  (prop/for-all [[el attack] (indexed-attacks true-positive-attack-gen
+                                              compound-indexer)]
+    (= (winning-attack? attack)
+       el)))
 
 (deftest winning-attack?-test
   (testing "False positives"
