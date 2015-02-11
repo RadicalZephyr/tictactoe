@@ -115,7 +115,9 @@
       Double/POSITIVE_INFINITY
       Double/NEGATIVE_INFINITY)
 
-    (when-let [subtree-values
+    (if (board/cats-game? board)
+      0
+      (if-let [subtree-values
                (->> (range 9)
                     (filter (partial board/valid-move-i? board))
                     (map (partial board/make-move-i board
@@ -124,6 +126,6 @@
                            (minimax b
                                     (board/next-player maximizing-player)
                                     marks))))]
-      (case maximizing-player
-        :ai     (apply max subtree-values)
-        :player (apply min subtree-values)))))
+        (case maximizing-player
+          :ai     (apply max subtree-values)
+          :player (apply min subtree-values))))))
