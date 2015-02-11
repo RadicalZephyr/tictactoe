@@ -5,7 +5,11 @@
             [clojure.test.check :as tc]
             [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop]
-            [clojure.test.check.clojure-test :refer [defspec]]))
+            [clojure.test.check.clojure-test :refer [defspec]]
+            [clojure.math.combinatorics :refer [permutations]]))
+
+(def op-mark {"x" "o"
+              "o" "x"})
 
 ;;; #################################################################
 ;;; Generators for non-indexed attacks
@@ -58,44 +62,21 @@
 (deftest check-winning-move-test
   (testing "False positives"
     (doseq [mark ["x" "o"]]
-      (are [attack]
-        (= (check-winning-move attack)
-           nil)
-
-        [mark " " " "]
-
-        [" " mark " "]
-
-        [" " " " mark])))
+      (doseq [attack (permutations [mark " " " "])]
+        (is (= (check-winning-move attack)
+               nil)))))
 
   (testing "True positives"
     (doseq [mark ["x" "o"]]
-     (are [attack]
-       (= (check-winning-move attack)
-          mark)
-
-       [" " mark mark]
-
-       [mark " " mark]
-
-       [mark mark " "])))
+      (doseq [attack (permutations [" " mark mark])]
+        (is (= (check-winning-move attack)
+               mark)))))
 
   (testing "True negatives"
-    (are [attack]
-      (= (check-winning-move attack)
-         nil)
-
-      ["o" "o" "x"]
-
-      ["x" "x" "o"]
-
-      ["x" "o" "o"]
-
-      ["o" "x" "x"]
-
-      ["x" "o" "x"]
-
-      ["o" "x" "o"])))
+    (doseq [mark ["x" "o"]]
+      (doseq [attack (permutations [mark mark (op-mark mark)])]
+        (is (= (check-winning-move attack)
+               nil))))))
 
 
 ;;; #################################################################
