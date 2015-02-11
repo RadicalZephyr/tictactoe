@@ -211,7 +211,13 @@
                      "o" "x" "x"
                      "x" "x" "o"]
                     :ai {:ai "o" :player "x"})
-           neg-inf)))
+           neg-inf))
+
+    (is (= (minimax ["x" "x" "o"
+                     "o" "o" "x"
+                     "x" "x" "o"]
+                    :ai {:ai "o" :player "x"})
+           0)))
 
   (testing "One to complete boards"
     (is (= (minimax ["o" "x" "o"
@@ -225,6 +231,18 @@
                      " " "o" "x"]
                     :ai {:ai "o" :player "x"})
            pos-inf))
+
+    (is (= (minimax ["x" "o" "o"
+                     "o" "x" "x"
+                     " " "x" "o"]
+                    :ai {:ai "o" :player "x"})
+           0))
+
+    (is (= (minimax ["x" "o" "o"
+                     "o" "x" "x"
+                     " " "x" "o"]
+                    :player {:ai "o" :player "x"})
+           0))
 
     (is (= (minimax [" " " " " "
                      "o" "x" " "
