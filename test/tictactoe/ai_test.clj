@@ -217,17 +217,18 @@
                "x" "x" "o"]))
 
   (testing "One to complete boards"
-    (is (= (minimax ["o" "x" "o"
-                     "o" "x" "x"
-                     "x" " " "o"]
-                    :player {:ai "o" :player "x"})
-           neg-inf))
-
-    (is (= (minimax ["o" "x" "o"
-                     "o" "x" "x"
-                     " " "o" "x"]
-                    :ai {:ai "o" :player "x"})
-           pos-inf))
+    (doseq [board [["o" "x" "o"
+                    "o" "x" "x"
+                    "x" " " "o"]
+                   [" " " " " "
+                    "o" "x" " "
+                    "x" " " " "]
+                   ]]
+      (are [result to-play marks]
+        (= (minimax board to-play marks)
+           result)
+        neg-inf :player {:ai "o" :player "x"}
+        pos-inf :ai     {:ai "x" :player "o"}))
 
     (is (= (minimax ["x" "o" "o"
                      "o" "x" "x"
@@ -239,19 +240,7 @@
                      "o" "x" "x"
                      " " "x" "o"]
                     :player {:ai "o" :player "x"})
-           0))
-
-    (is (= (minimax [" " " " " "
-                     "o" "x" " "
-                     "x" " " " "]
-                    :player {:ai "o" :player "x"})
-           neg-inf))
-
-    (is (= (minimax [" " " " " "
-                     "o" "x" " "
-                     "x" " " " "]
-                    :ai {:ai "x" :player "o"})
-           pos-inf)))
+           0)))
 
   (testing "Fork handling"
     (doseq [board [["x" " " "x"
