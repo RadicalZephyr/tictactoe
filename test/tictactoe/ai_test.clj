@@ -75,6 +75,15 @@
            nil))
     "No spaces mean it's not a winning move."))
 
+(defn indexed-attacks [attack-generator]
+  (gen/fmap (fn [attack]
+              (vec (map vector
+                    (map (fn [x]
+                           [0 x])
+                         (range 3))
+                    attack)))
+            attack-generator))
+
 (deftest winning-attack?-test
   (testing "False positives"
     (doseq [mark ["x" "o"]
