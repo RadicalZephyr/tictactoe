@@ -15,7 +15,7 @@
                    (when (not (#{" "} el))
                      el)))))))
 
-(defn winning-group [indexed-attack]
+(defn winning-attack? [indexed-attack]
   (let [raw-attack (map board/mark indexed-attack)]
     (when-let [move (check-winning-move raw-attack)]
       (some (fn [cell]
@@ -27,7 +27,7 @@
   (let [winning-moves
         (->> board
              board/all-indexed-attacks
-             (map winning-group)
+             (map winning-attack?)
              (filter identity)
              (group-by second))]
     (when (not (empty? winning-moves))

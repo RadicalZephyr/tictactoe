@@ -35,24 +35,24 @@
             nil))
         "No spaces mean it's not a winning move.")))
 
-(deftest is-winning-group?-test
+(deftest winning-attack?-test
   (testing "False positives"
     (doseq [mark ["x" "o"]
             op-mark ["o" "x"]]
-      (is (= (winning-group [[[0 0] mark] [[0 1] op-mark] [[0 2] op-mark]])
+      (is (= (winning-attack? [[[0 0] mark] [[0 1] op-mark] [[0 2] op-mark]])
              nil))
-      (is (= (winning-group [[[0 0] op-mark] [[0 1] mark] [[0 2] op-mark]])
+      (is (= (winning-attack? [[[0 0] op-mark] [[0 1] mark] [[0 2] op-mark]])
              nil))
-      (is (= (winning-group [[[0 0] op-mark] [[0 1] op-mark] [[0 2] mark]])
+      (is (= (winning-attack? [[[0 0] op-mark] [[0 1] op-mark] [[0 2] mark]])
              nil))))
 
   (testing "True positives"
     (doseq [mark ["x" "o"]]
-      (is (= (winning-group [[[0 0] " "] [[0 1] mark] [[0 2] mark]])
+      (is (= (winning-attack? [[[0 0] " "] [[0 1] mark] [[0 2] mark]])
             [[0 0] mark]))
-      (is (= (winning-group [[[0 0] mark] [[0 1] " "] [[0 2] mark]])
+      (is (= (winning-attack? [[[0 0] mark] [[0 1] " "] [[0 2] mark]])
             [[0 1] mark]))
-      (is (= (winning-group [[[0 0] mark] [[0 1] mark] [[0 2] " "]])
+      (is (= (winning-attack? [[[0 0] mark] [[0 1] mark] [[0 2] " "]])
              [[0 2] mark])))))
 
 (deftest get-winning-move-test
