@@ -113,21 +113,21 @@
        (map (partial board/make-move-i board mark))))
 
 (defn minimax [board player marks]
-  (if-let [winner (board/which-winner? board)]
-    (if (= (marks :ai)
-           winner)
-      Double/POSITIVE_INFINITY
-      Double/NEGATIVE_INFINITY)
+  (if-let [winner (or
+                   (board/which-winner? board)
+                   (board/cats-game? board))]
+    (cond
+      (= (marks :ai) winner)     Double/POSITIVE_INFINITY
+      (= (marks :player) winner) Double/NEGATIVE_INFINITY
+      :else 0)
 
-    (if (board/cats-game? board)
-      0
-      (if-let [subtree-values (->> board
-                                   (all-sequential-moves (marks player))
-                                   (map (fn [b]
-                                          (minimax b
-                                                   (board/next-player player)
-                                                   marks))))]
+    (if-let [subtree-values (->> board
+                                 (all-sequential-moves (marks player))
+                                 (map (fn [b]
+                                        (minimax b
+                                                 (board/next-player player)
+                                                 marks))))]
 
-        (case player
-          :ai     (apply max subtree-values)
-          :player (apply min subtree-values))))))
+      (case player
+        :ai     (apply max subtree-values)
+        :player (apply min subtree-values)))))
