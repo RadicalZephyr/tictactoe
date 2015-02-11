@@ -291,6 +291,9 @@
                    [" " "o" " "
                     " " "x" " "
                     "x" " " " "]
+                   ["o" " " " "
+                    " " " " " "
+                    "x" "x" "o"]
                    ]]
       (are [result to-play marks]
         (= (minimax board to-play marks)
