@@ -40,6 +40,7 @@
                        first ; Get the first move off that list
                        board/index)))))
 
+
 ;;; #################################################################
 ;;; The most basic naive heuristic for playing tic-tac-toe
 ;;; #################################################################
@@ -67,6 +68,7 @@
     (or (get-winning-move board my-mark)
         (get-best-available-move board my-mark))))
 
+
 ;;; #################################################################
 ;;; Better performance than the naive heuristic, but still makes bad
 ;;; moves.  Generally does fairly well except in predicting the
@@ -83,6 +85,7 @@
      first
      ((fn [[pos ranking]]
         pos)))))
+
 
 ;;; #################################################################
 ;;; AI that uses the minimax decision algorithm.  Should be impossible
