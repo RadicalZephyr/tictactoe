@@ -220,10 +220,14 @@
     (doseq [board [["o" "x" "o"
                     "o" "x" "x"
                     "x" " " "o"]
+
                    [" " " " " "
                     "o" "x" " "
                     "x" " " " "]
-                   ]]
+
+                   [" " " " " "
+                    "o" " " " "
+                    "x" "x" " "]]]
       (are [result to-play marks]
         (= (minimax board to-play marks)
            result)
@@ -240,8 +244,7 @@
 
                    ["x" "o" "x"
                     " " "x" "o"
-                    "o" "x" "o"]
-                   ]]
+                    "o" "x" "o"]]]
       (are [result to-play marks]
         (= (minimax board to-play marks)
            result)
@@ -263,8 +266,7 @@
 
                    ["o" " " " "
                     " " "o" "x"
-                    " " "x" "x"]
-                   ]]
+                    " " "x" "x"]]]
       (are [result to-play marks]
         (= (minimax board to-play marks)
            result)
@@ -286,8 +288,7 @@
 
                    ["o" " " " "
                     " " " " " "
-                    "x" "x" "o"]
-                   ]]
+                    "x" "x" "o"]]]
       (are [result to-play marks]
         (= (minimax board to-play marks)
            result)
