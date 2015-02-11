@@ -171,7 +171,7 @@
            (nil? e))
       (swap! game-state do-move :ai (-> @game-state
                                         :board
-                                        (ai/best-ranked-move (get-marks))
+                                        (ai/best-minimax-move (get-marks))
                                         board/xy->index))
 
       :else nil)))
