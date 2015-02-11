@@ -44,14 +44,13 @@
 
 (deftest winning-move-test
   (testing "False positives"
-    (is (and
-         (= (check-winning-move '("x" " " " "))
-            nil)
-         (= (check-winning-move '(" " "x" " "))
-            nil)
-         (= (check-winning-move '(" " " " "x"))
-            nil))
-        "Two spaces and a mark are not a winning move."))
+    (is (= (check-winning-move '("x" " " " "))
+           nil))
+    (is (= (check-winning-move '(" " "x" " "))
+           nil))
+    (is (= (check-winning-move '(" " " " "x"))
+           nil))
+    "Two spaces and a mark are not a winning move.")
 
   (testing "True positives"
     (is (= (check-winning-move '(" " "x" "x"))
@@ -62,20 +61,19 @@
            "x")))
 
   (testing "True negatives"
-    (is (and
-         (= (check-winning-move '("o" "o" "x"))
-            nil)
-         (= (check-winning-move '("x" "x" "o"))
-            nil)
-         (= (check-winning-move '("x" "o" "o"))
-            nil)
-         (= (check-winning-move '("o" "x" "x"))
-            nil)
-         (= (check-winning-move '("x" "o" "x"))
-            nil)
-         (= (check-winning-move '("o" "x" "o"))
-            nil))
-        "No spaces mean it's not a winning move.")))
+    (is (= (check-winning-move '("o" "o" "x"))
+           nil))
+    (is (= (check-winning-move '("x" "x" "o"))
+           nil))
+    (is (= (check-winning-move '("x" "o" "o"))
+           nil))
+    (is (= (check-winning-move '("o" "x" "x"))
+           nil))
+    (is (= (check-winning-move '("x" "o" "x"))
+           nil))
+    (is (= (check-winning-move '("o" "x" "o"))
+           nil))
+    "No spaces mean it's not a winning move."))
 
 (deftest winning-attack?-test
   (testing "False positives"
