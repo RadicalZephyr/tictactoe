@@ -7,6 +7,9 @@
             [clojure.test.check.properties :as prop]
             [clojure.test.check.clojure-test :refer [defspec]]))
 
+;;; #################################################################
+;;; Generators for non-indexed attacks
+;;; #################################################################
 
 (def char-strings (gen/fmap str gen/char-alphanumeric))
 
@@ -27,6 +30,11 @@
                                           [x (shuffle [x x board/blank])])
                                         char-strings))
 
+
+;;; #################################################################
+;;; Property tests for check-winning-move
+;;; #################################################################
+
 (defspec true-negatives-are-not-wins
   (prop/for-all [attack true-negative-attack-gen]
     (= (check-winning-move attack)
@@ -42,7 +50,12 @@
     (= (check-winning-move attack)
        val)))
 
-(deftest winning-move-test
+
+;;; #################################################################
+;;; Unit tests for check-winning-move
+;;; #################################################################
+
+(deftest check-winning-move-test
   (testing "False positives"
     (doseq [mark ["x" "o"]]
       (are [attack]
@@ -84,6 +97,11 @@
 
       ["o" "x" "o"])))
 
+
+;;; #################################################################
+;;; Generator's for indexed attacks
+;;; #################################################################
+
 (defn simple-indexer [attack]
   (vec (map vector
             (map (fn [x]
@@ -102,6 +120,11 @@
 (defn indexed-attacks [attack-generator indexer]
   (gen/fmap indexer attack-generator))
 
+
+;;; #################################################################
+;;; Property tests for winning-attack?
+;;; #################################################################
+
 (defspec true-negatives-are-not-winning-attacks
   (prop/for-all [attack (indexed-attacks true-negative-attack-gen
                                          simple-indexer)]
@@ -119,6 +142,11 @@
                                               compound-indexer)]
     (= (winning-attack? attack)
        el)))
+
+
+;;; #################################################################
+;;; Unit tests for winning-attack?
+;;; #################################################################
 
 (deftest winning-attack?-test
   (testing "False positives"
@@ -145,6 +173,11 @@
         [[0 1] mark] [[[0 0] mark] [[0 1] " "] [[0 2] mark]]
 
         [[0 2] mark] [[[0 0] mark] [[0 1] mark] [[0 2] " "]]))))
+
+
+;;; #################################################################
+;;; Unit tests for get-winning-move
+;;; #################################################################
 
 (deftest get-winning-move-test
   (testing "True negatives"
@@ -202,6 +235,11 @@
           [1 3] [" " " " mark
                  " " mark " "
                  " " " " " "]))))
+
+
+;;; #################################################################
+;;; Unit tests for minimax
+;;; #################################################################
 
 (def pos-inf Double/POSITIVE_INFINITY)
 (def neg-inf Double/NEGATIVE_INFINITY)
