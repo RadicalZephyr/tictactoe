@@ -107,8 +107,12 @@
 ;;       bestValue := min(bestValue, val)
 ;;     return bestValue
 
+(defn all-sequential-moves [mark board]
+  (->> (range 9)
+       (filter (partial board/valid-move-i? board))
+       (map (partial board/make-move-i board mark))))
 
-(defn minimax [board maximizing-player marks]
+(defn minimax [board player marks]
   (if-let [winner (board/which-winner? board)]
     (if (= (marks :ai)
            winner)
@@ -117,15 +121,13 @@
 
     (if (board/cats-game? board)
       0
-      (if-let [subtree-values
-               (->> (range 9)
-                    (filter (partial board/valid-move-i? board))
-                    (map (partial board/make-move-i board
-                                  (marks maximizing-player)))
-                    (map (fn [b]
-                           (minimax b
-                                    (board/next-player maximizing-player)
-                                    marks))))]
-        (case maximizing-player
+      (if-let [subtree-values (->> board
+                                   (all-sequential-moves (marks player))
+                                   (map (fn [b]
+                                          (minimax b
+                                                   (board/next-player player)
+                                                   marks))))]
+
+        (case player
           :ai     (apply max subtree-values)
           :player (apply min subtree-values))))))
