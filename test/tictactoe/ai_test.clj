@@ -151,4 +151,35 @@
                      "o" "x" "x"
                      "x" " " "o"]
                     :ai {:ai "o" :player "x"})
+           0)))
+
+  (testing "Fork handling"
+    (is (= (minimax ["x" " " "x"
+                     " " "o" " "
+                     " " " " "x"]
+                    :ai {:ai "o" :player "x"})
+           Double/NEGATIVE_INFINITY))
+    (is (= (minimax ["o" "o" "x"
+                     " " "x" " "
+                     " " " " "x"]
+                    :ai {:ai "o" :player "x"})
+           Double/NEGATIVE_INFINITY)))
+
+  (testing "Fork prediction"
+    (is (= (minimax ["x" " " "o"
+                     " " "o" " "
+                     " " " " "x"]
+                    :player {:ai "o" :player "x"})
+           Double/NEGATIVE_INFINITY)))
+
+  (testing "Previous AI failure modes"
+    (is (= (minimax ["x" "o" " "
+                     " " "o" " "
+                     " " " " "x"]
+                    :player {:ai "o" :player "x"})
+           0))
+    (is (= (minimax ["x" " " " "
+                     " " "o" " "
+                     " " " " "x"]
+                    :ai {:ai "o" :player "x"})
            0))))
