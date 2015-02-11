@@ -282,29 +282,23 @@
            neg-inf)))
 
   (testing "Fork prediction"
-    (is (= (minimax ["x" " " "o"
-                     " " "o" " "
-                     " " " " "x"]
-                    :player {:ai "o" :player "x"})
-           neg-inf))
+    (are [result to-play marks]
+      (= (minimax ["x" " " "o"
+                   " " "o" " "
+                   " " " " "x"]
+                  to-play marks)
+         result)
+      neg-inf :player {:ai "o" :player "x"}
+      pos-inf :ai     {:ai "x" :player "o"})
 
-    (is (= (minimax ["x" " " "o"
-                     " " "o" " "
-                     " " " " "x"]
-                    :ai {:ai "x" :player "o"})
-           pos-inf))
-
-    (is (= (minimax [" " " " " "
-                     " " "x" "o"
-                     " " " " " "]
-                    :player {:ai "o" :player "x"})
-           neg-inf))
-
-    (is (= (minimax [" " " " " "
-                     " " "x" "o"
-                     " " " " " "]
-                    :ai {:ai "x" :player "o"})
-           pos-inf)))
+    (are [result to-play marks]
+      (= (minimax [" " " " " "
+                   " " "x" "o"
+                   " " " " " "]
+                  to-play marks)
+         result)
+      neg-inf :player {:ai "o" :player "x"}
+      pos-inf :ai     {:ai "x" :player "o"}))
 
   (testing "Previous AI failure modes"
     (is (= (minimax ["x" "o" " "
