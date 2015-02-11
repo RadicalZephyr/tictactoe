@@ -115,21 +115,27 @@
   (testing "False positives"
     (doseq [mark ["x" "o"]
             op-mark ["o" "x"]]
-      (is (= (winning-attack? [[[0 0] mark] [[0 1] op-mark] [[0 2] op-mark]])
-             nil))
-      (is (= (winning-attack? [[[0 0] op-mark] [[0 1] mark] [[0 2] op-mark]])
-             nil))
-      (is (= (winning-attack? [[[0 0] op-mark] [[0 1] op-mark] [[0 2] mark]])
-             nil))))
+      (are [attack]
+        (= (winning-attack? attack)
+           nil)
+
+        [[[0 0] mark] [[0 1] op-mark] [[0 2] op-mark]]
+
+        [[[0 0] op-mark] [[0 1] mark] [[0 2] op-mark]]
+
+        [[[0 0] op-mark] [[0 1] op-mark] [[0 2] mark]])))
 
   (testing "True positives"
     (doseq [mark ["x" "o"]]
-      (is (= (winning-attack? [[[0 0] " "] [[0 1] mark] [[0 2] mark]])
-             [[0 0] mark]))
-      (is (= (winning-attack? [[[0 0] mark] [[0 1] " "] [[0 2] mark]])
-             [[0 1] mark]))
-      (is (= (winning-attack? [[[0 0] mark] [[0 1] mark] [[0 2] " "]])
-             [[0 2] mark])))))
+      (are [result attack]
+        (= (winning-attack? attack)
+           result)
+
+        [[0 0] mark] [[[0 0] " "] [[0 1] mark] [[0 2] mark]]
+
+        [[0 1] mark] [[[0 0] mark] [[0 1] " "] [[0 2] mark]]
+
+        [[0 2] mark] [[[0 0] mark] [[0 1] mark] [[0 2] " "]]))))
 
 (deftest get-winning-move-test
   (testing "True negatives"
