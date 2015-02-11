@@ -1,6 +1,46 @@
 (ns tictactoe.ai-test
   (:require [tictactoe.ai :refer :all]
-            [clojure.test :refer :all]))
+            [clojure.test :refer :all]
+            [tictactoe.board :as board]
+            [clojure.test.check :as tc]
+            [clojure.test.check.generators :as gen]
+            [clojure.test.check.properties :as prop]
+            [clojure.test.check.clojure-test :refer [defspec]]))
+
+
+(def char-strings (gen/fmap str gen/char-alphanumeric))
+
+(def two-chars (gen/tuple char-strings
+                          char-strings))
+
+(def true-negative-attack-gen (gen/fmap (fn [[a b]]
+                                      (shuffle [a a b]))
+                                     two-chars))
+
+(def false-positive-attack-gen (gen/fmap (fn [x]
+                                       (shuffle [x
+                                                 board/blank
+                                                 board/blank]))
+                                     char-strings))
+
+(def true-positive-attack-gen (gen/fmap (fn [x]
+                                      [x (shuffle [x x board/blank])])
+                                    char-strings))
+
+(defspec true-negatives-are-not-wins
+  (prop/for-all [attack true-negative-attack-gen]
+    (= (check-winning-move attack)
+       nil)))
+
+(defspec false-positives-are-not-wins
+  (prop/for-all [attack false-positive-attack-gen]
+    (= (check-winning-move attack)
+       nil)))
+
+(defspec true-positives-win-with-double-mark
+  (prop/for-all [[val attack] true-positive-attack-gen]
+    (= (check-winning-move attack)
+       val)))
 
 (deftest winning-move-test
   (testing "False positives"
