@@ -108,4 +108,22 @@
 ;;     return bestValue
 
 
-(defn minimax [board depth maximizing-player])
+(defn minimax [board maximizing-player marks]
+  (if-let [winner (board/which-winner? board)]
+    (if (= (marks :ai)
+           winner)
+      Double/POSITIVE_INFINITY
+      Double/NEGATIVE_INFINITY)
+
+    (when-let [subtree-values
+               (->> (range 9)
+                    (filter (partial board/valid-move-i? board))
+                    (map (partial board/make-move-i board
+                                  (marks maximizing-player)))
+                    (map (fn [b]
+                           (minimax b
+                                    (board/next-player maximizing-player)
+                                    marks))))]
+      (case maximizing-player
+        :ai     (apply max subtree-values)
+        :player (apply min subtree-values)))))
