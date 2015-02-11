@@ -181,8 +181,9 @@
 
 (deftest get-winning-move-test
   (testing "True negatives"
-    (are [board]
-        (= (get-winning-move board "x")
+    (doseq [mark ["x" "o"]]
+      (are [board]
+        (= (get-winning-move board mark)
            nil)
 
         [" " " " " "
@@ -195,7 +196,7 @@
 
         ["o" "x" " "
          "x" " " "o"
-         " " "o" "x"]))
+         " " "o" "x"])))
 
   (testing "Simple positives"
     (doseq [mark ["x" "o"]
