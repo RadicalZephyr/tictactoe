@@ -233,9 +233,14 @@
     (doseq [board [["x" "o" "o"
                     "o" "x" "x"
                     " " "x" "o"]
+
                    ["x" "o" "o"
                     "o" "x" "x"
                     " " "x" "o"]
+
+                   ["x" "o" "x"
+                    " " "x" "o"
+                    "o" "x" "o"]
                    ]]
       (are [result to-play marks]
         (= (minimax board to-play marks)
