@@ -133,68 +133,60 @@
 
 (deftest get-winning-move-test
   (testing "True negatives"
-    (is (= (get-winning-move [" " " " " "
-                              " " " " " "
-                              " " " " " "]
-                             "x")
-           nil))
-    (is (= (get-winning-move ["o" "x" "o"
-                              "o" "x" "o"
-                              "x" "o" "x"]
-                             "x")
-           nil))
-    (is (= (get-winning-move ["o" "x" " "
-                              "x" " " "o"
-                              " " "o" "x"]
-                             "x")
-           nil)))
+    (are [board]
+        (= (get-winning-move board "x")
+           nil)
+
+        [" " " " " "
+         " " " " " "
+         " " " " " "]
+
+        ["o" "x" "o"
+         "o" "x" "o"
+         "x" "o" "x"]
+
+        ["o" "x" " "
+         "x" " " "o"
+         " " "o" "x"]))
 
   (testing "Simple positives"
     (doseq [mark ["x" "o"]
             op-mark ["o" "x"]]
-      (is (= (get-winning-move [" " mark mark
-                                " " " " " "
-                                " " " " " "]
-                               op-mark)
-             [1 1]))
-      (is (= (get-winning-move [mark mark " "
-                                " " " " " "
-                                " " " " " "]
-                               op-mark)
-             [3 1]))
+      (are [result board]
+          (= (get-winning-move board op-mark)
+              result)
 
-      (is (= (get-winning-move [" " " " " "
-                                mark " " " "
-                                mark " " " "]
-                               op-mark)
-             [1 1]))
-      (is (= (get-winning-move [mark " " " "
-                                mark " " " "
-                                " " " " " "]
-                               op-mark)
-             [1 3]))
+          [1 1] [" " mark mark
+                 " " " " " "
+                 " " " " " "]
 
-      (is (= (get-winning-move [" " " " " "
-                                " " mark " "
-                                " " " " mark]
-                               op-mark)
-             [1 1]))
-      (is (= (get-winning-move [mark " " " "
-                                " " mark " "
-                                " " " " " "]
-                               op-mark)
-             [3 3]))
+          [3 1] [mark mark " "
+                 " " " " " "
+                 " " " " " "]
 
-      (is (= (get-winning-move [" " " " " "
-                                " " mark " "
-                                mark " " " "]
-                               op-mark)
-             [3 1]))
-      (is (= (get-winning-move [" " " " mark
-                                " " mark " "
-                                " " " " " "]
-                               op-mark)
-             [1 3])))))
+          [1 1] [" " " " " "
+                 mark " " " "
+                 mark " " " "]
+
+          [1 3] [mark " " " "
+                 mark " " " "
+                 " " " " " "]
+
+          [1 1] [" " " " " "
+                 " " mark " "
+                 " " " " mark]
+
+          [3 3] [mark " " " "
+                 " " mark " "
+                 " " " " " "]
+
+          [3 1] [" " " " " "
+                 " " mark " "
+                 mark " " " "]
+
+          [1 3] [" " " " mark
+                 " " mark " "
+                 " " " " " "]))))
 
 (def pos-inf Double/POSITIVE_INFINITY)
 (def neg-inf Double/NEGATIVE_INFINITY)
