@@ -120,82 +120,85 @@
                                op-mark)
              [1 3])))))
 
+(def pos-inf Double/POSITIVE_INFINITY)
+(def neg-inf Double/NEGATIVE_INFINITY)
+
 (deftest minimax-test
   (testing "Completed boards"
     (is (= (minimax ["o" "x" "o"
                      "o" "x" "x"
                      "o" "o" "x"]
                     :ai {:ai "o" :player "x"})
-           Double/POSITIVE_INFINITY))
+           pos-inf))
 
     (is (= (minimax ["o" "x" "o"
                      "o" "x" "x"
                      "x" "x" "o"]
                     :ai {:ai "o" :player "x"})
-           Double/NEGATIVE_INFINITY)))
+           neg-inf)))
 
   (testing "One to complete boards"
     (is (= (minimax ["o" "x" "o"
                      "o" "x" "x"
                      "x" " " "o"]
                     :player {:ai "o" :player "x"})
-           Double/NEGATIVE_INFINITY))
+           neg-inf))
 
     (is (= (minimax ["o" "x" "o"
                      "o" "x" "x"
                      " " "o" "x"]
                     :ai {:ai "o" :player "x"})
-           Double/POSITIVE_INFINITY))
+           pos-inf))
 
     (is (= (minimax [" " " " " "
                      "o" "x" " "
                      "x" " " " "]
                     :player {:ai "o" :player "x"})
-           Double/NEGATIVE_INFINITY))
+           neg-inf))
 
     (is (= (minimax [" " " " " "
                      "o" "x" " "
                      "x" " " " "]
                     :ai {:ai "x" :player "o"})
-           Double/POSITIVE_INFINITY)))
+           pos-inf)))
 
   (testing "Fork handling"
     (is (= (minimax ["x" " " "x"
                      " " "o" " "
                      " " " " "x"]
                     :ai {:ai "o" :player "x"})
-           Double/NEGATIVE_INFINITY))
+           neg-inf))
 
     (is (= (minimax ["o" "o" "x"
                      " " "x" " "
                      " " " " "x"]
                     :ai {:ai "o" :player "x"})
-           Double/NEGATIVE_INFINITY)))
+           neg-inf)))
 
   (testing "Fork prediction"
     (is (= (minimax ["x" " " "o"
                      " " "o" " "
                      " " " " "x"]
                     :player {:ai "o" :player "x"})
-           Double/NEGATIVE_INFINITY))
+           neg-inf))
 
     (is (= (minimax ["x" " " "o"
                      " " "o" " "
                      " " " " "x"]
                     :ai {:ai "x" :player "o"})
-           Double/POSITIVE_INFINITY))
+           pos-inf))
 
     (is (= (minimax [" " " " " "
                      " " "x" "o"
                      " " " " " "]
                     :player {:ai "o" :player "x"})
-           Double/NEGATIVE_INFINITY))
+           neg-inf))
 
     (is (= (minimax [" " " " " "
                      " " "x" "o"
                      " " " " " "]
                     :ai {:ai "x" :player "o"})
-           Double/POSITIVE_INFINITY)))
+           pos-inf)))
 
   (testing "Previous AI failure modes"
     (is (= (minimax ["x" "o" " "
@@ -207,6 +210,4 @@
                      " " "o" " "
                      " " " " "x"]
                     :ai {:ai "o" :player "x"})
-           0)))
-
-  (testing ""))
+           0))))
