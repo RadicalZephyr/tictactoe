@@ -6,7 +6,7 @@
 (defn check-winning-move [attack]
   (let [freqs (frequencies attack)]
     (when (and (= (count freqs)
-                2)
+                  2)
                (= (freqs blank)
                   1))
       (->> freqs
@@ -26,10 +26,10 @@
 (defn get-winning-move [board mark]
   (let [winning-moves
         (->> board
-              board/all-indexed-attacks
-              (map winning-group)
-              (filter identity)
-              (group-by second))]
+             board/all-indexed-attacks
+             (map winning-group)
+             (filter identity)
+             (group-by second))]
     (when (not (empty? winning-moves))
       (cond (contains? winning-moves mark)
             (board/index (get-in winning-moves [mark 0]))
@@ -64,8 +64,8 @@
 
 (defn best-move [board marks]
   (let [my-mark (marks :ai)]
-      (or (get-winning-move board my-mark)
-          (get-best-available-move board my-mark))))
+    (or (get-winning-move board my-mark)
+        (get-best-available-move board my-mark))))
 
 ;;; #################################################################
 ;;; Better performance than the naive heuristic, but still makes bad
