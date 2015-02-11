@@ -14,18 +14,18 @@
                           char-strings))
 
 (def true-negative-attack-gen (gen/fmap (fn [[a b]]
-                                      (shuffle [a a b]))
-                                     two-chars))
+                                          (shuffle [a a b]))
+                                        two-chars))
 
 (def false-positive-attack-gen (gen/fmap (fn [x]
-                                       (shuffle [x
-                                                 board/blank
-                                                 board/blank]))
-                                     char-strings))
+                                           (shuffle [x
+                                                     board/blank
+                                                     board/blank]))
+                                         char-strings))
 
 (def true-positive-attack-gen (gen/fmap (fn [x]
-                                      [x (shuffle [x x board/blank])])
-                                    char-strings))
+                                          [x (shuffle [x x board/blank])])
+                                        char-strings))
 
 (defspec true-negatives-are-not-wins
   (prop/for-all [attack true-negative-attack-gen]
@@ -125,9 +125,9 @@
   (testing "True positives"
     (doseq [mark ["x" "o"]]
       (is (= (winning-attack? [[[0 0] " "] [[0 1] mark] [[0 2] mark]])
-            [[0 0] mark]))
+             [[0 0] mark]))
       (is (= (winning-attack? [[[0 0] mark] [[0 1] " "] [[0 2] mark]])
-            [[0 1] mark]))
+             [[0 1] mark]))
       (is (= (winning-attack? [[[0 0] mark] [[0 1] mark] [[0 2] " "]])
              [[0 2] mark])))))
 
