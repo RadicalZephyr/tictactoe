@@ -164,7 +164,7 @@
       (when-let [index (click->index e)]
         (swap! game-state do-move :player index)
         ;; The AI should always play right after the player
-        (recur nil))
+        (.start (Thread. (partial process-move nil))))
 
       (and (= (:to-play @game-state)
               :ai)
@@ -206,7 +206,7 @@
   (reset-board!)
   (show-board (s/to-root e))
   ;; We attempt to make an AI move here in case the AI should go first
-  (process-move nil))
+  (.start (Thread. (partial process-move nil))))
 
 (defn show-choose-player [root & winner]
   (let [[w h] (get-size root)]
