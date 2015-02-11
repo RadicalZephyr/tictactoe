@@ -127,8 +127,28 @@
                      "o" "o" "x"]
                     :ai {:ai "o" :player "x"})
            Double/POSITIVE_INFINITY))
+
     (is (= (minimax ["o" "x" "o"
                      "o" "x" "x"
                      "x" "x" "o"]
                     :ai {:ai "o" :player "x"})
-           Double/NEGATIVE_INFINITY))))
+           Double/NEGATIVE_INFINITY)))
+
+  (testing "One to complete boards"
+    (is (= (minimax ["o" "x" "o"
+                     "o" "x" "x"
+                     "x" " " "o"]
+                    :player {:ai "o" :player "x"})
+           Double/NEGATIVE_INFINITY))
+
+    (is (= (minimax ["o" "x" "o"
+                     "o" "x" "x"
+                     " " "o" "x"]
+                    :ai {:ai "o" :player "x"})
+           Double/POSITIVE_INFINITY))
+
+    (is (= (minimax ["o" "x" "o"
+                     "o" "x" "x"
+                     "x" " " "o"]
+                    :ai {:ai "o" :player "x"})
+           0))))
