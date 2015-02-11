@@ -257,29 +257,21 @@
            pos-inf)))
 
   (testing "Fork handling"
-    (is (= (minimax ["x" " " "x"
-                     " " "o" " "
-                     "o" " " "x"]
-                    :ai {:ai "o" :player "x"})
-           neg-inf))
-
-    (is (= (minimax ["o" "o" "x"
-                     " " "x" " "
-                     " " " " "x"]
-                    :ai {:ai "o" :player "x"})
-           neg-inf))
-
-    (is (= (minimax [" " "o" "x"
-                     " " "x" "x"
-                     "o" " " " "]
-                    :ai {:ai "o" :player "x"})
-           neg-inf))
-
-    (is (= (minimax ["o" " " " "
-                     " " "o" "x"
-                     " " "x" "x"]
-                    :ai {:ai "o" :player "x"})
-           neg-inf)))
+    (doseq [board [["x" " " "x"
+                    " " "o" " "
+                    "o" " " "x"]
+                   ["o" "o" "x"
+                    " " "x" " "
+                    " " " " "x"]
+                   [" " "o" "x"
+                    " " "x" "x"
+                    "o" " " " "]
+                   ["o" " " " "
+                    " " "o" "x"
+                    " " "x" "x"]
+                   ]]
+      (is (= (minimax board :ai {:ai "o" :player "x"})
+             neg-inf))))
 
   (testing "Fork prediction"
     (doseq [board [["x" " " "o"
