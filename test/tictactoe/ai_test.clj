@@ -147,11 +147,17 @@
                     :ai {:ai "o" :player "x"})
            Double/POSITIVE_INFINITY))
 
-    (is (= (minimax ["o" "x" "o"
-                     "o" "x" "x"
-                     "x" " " "o"]
-                    :ai {:ai "o" :player "x"})
-           0)))
+    (is (= (minimax [" " " " " "
+                     "o" "x" " "
+                     "x" " " " "]
+                    :player {:ai "o" :player "x"})
+           Double/NEGATIVE_INFINITY))
+
+    (is (= (minimax [" " " " " "
+                     "o" "x" " "
+                     "x" " " " "]
+                    :ai {:ai "x" :player "o"})
+           Double/POSITIVE_INFINITY)))
 
   (testing "Fork handling"
     (is (= (minimax ["x" " " "x"
@@ -159,6 +165,7 @@
                      " " " " "x"]
                     :ai {:ai "o" :player "x"})
            Double/NEGATIVE_INFINITY))
+
     (is (= (minimax ["o" "o" "x"
                      " " "x" " "
                      " " " " "x"]
@@ -169,6 +176,12 @@
     (is (= (minimax ["x" " " "o"
                      " " "o" " "
                      " " " " "x"]
+                    :player {:ai "o" :player "x"})
+           Double/NEGATIVE_INFINITY))
+
+    (is (= (minimax [" " " " " "
+                     " " "x" "o"
+                     " " " " " "]
                     :player {:ai "o" :player "x"})
            Double/NEGATIVE_INFINITY)))
 
@@ -182,4 +195,6 @@
                      " " "o" " "
                      " " " " "x"]
                     :ai {:ai "o" :player "x"})
-           0))))
+           0)))
+
+  (testing ""))
