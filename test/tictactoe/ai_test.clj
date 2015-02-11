@@ -179,11 +179,23 @@
                     :player {:ai "o" :player "x"})
            Double/NEGATIVE_INFINITY))
 
+    (is (= (minimax ["x" " " "o"
+                     " " "o" " "
+                     " " " " "x"]
+                    :ai {:ai "x" :player "o"})
+           Double/POSITIVE_INFINITY))
+
     (is (= (minimax [" " " " " "
                      " " "x" "o"
                      " " " " " "]
                     :player {:ai "o" :player "x"})
-           Double/NEGATIVE_INFINITY)))
+           Double/NEGATIVE_INFINITY))
+
+    (is (= (minimax [" " " " " "
+                     " " "x" "o"
+                     " " " " " "]
+                    :ai {:ai "x" :player "o"})
+           Double/POSITIVE_INFINITY)))
 
   (testing "Previous AI failure modes"
     (is (= (minimax ["x" "o" " "
