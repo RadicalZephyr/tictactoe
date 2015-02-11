@@ -230,17 +230,18 @@
         neg-inf :player {:ai "o" :player "x"}
         pos-inf :ai     {:ai "x" :player "o"}))
 
-    (is (= (minimax ["x" "o" "o"
-                     "o" "x" "x"
-                     " " "x" "o"]
-                    :ai {:ai "o" :player "x"})
-           0))
-
-    (is (= (minimax ["x" "o" "o"
-                     "o" "x" "x"
-                     " " "x" "o"]
-                    :player {:ai "o" :player "x"})
-           0)))
+    (doseq [board [["x" "o" "o"
+                    "o" "x" "x"
+                    " " "x" "o"]
+                   ["x" "o" "o"
+                    "o" "x" "x"
+                    " " "x" "o"]
+                   ]]
+      (are [result to-play marks]
+        (= (minimax board to-play marks)
+           result)
+        0 :player {:ai "o" :player "x"}
+        0 :ai     {:ai "x" :player "o"})))
 
   (testing "Fork handling"
     (doseq [board [["x" " " "x"
