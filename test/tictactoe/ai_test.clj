@@ -270,8 +270,11 @@
                     " " "o" "x"
                     " " "x" "x"]
                    ]]
-      (is (= (minimax board :ai {:ai "o" :player "x"})
-             neg-inf))))
+      (are [result to-play marks]
+        (= (minimax board to-play marks)
+           result)
+        neg-inf :player {:ai "o" :player "x"}
+        pos-inf :ai     {:ai "x" :player "o"})))
 
   (testing "Fork prediction"
     (doseq [board [["x" " " "o"
