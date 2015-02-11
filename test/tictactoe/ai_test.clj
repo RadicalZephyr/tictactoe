@@ -201,23 +201,20 @@
 
 (deftest minimax-test
   (testing "Completed boards"
-    (is (= (minimax ["o" "x" "o"
-                     "o" "x" "x"
-                     "o" "o" "x"]
-                    :ai {:ai "o" :player "x"})
-           pos-inf))
+    (are [result board]
+      (= (minimax board :ai {:ai "o" :player "x"})
+         result)
+      pos-inf ["o" "x" "o"
+               "o" "x" "x"
+               "o" "o" "x"]
 
-    (is (= (minimax ["o" "x" "o"
-                     "o" "x" "x"
-                     "x" "x" "o"]
-                    :ai {:ai "o" :player "x"})
-           neg-inf))
+      neg-inf ["o" "x" "o"
+               "o" "x" "x"
+               "x" "x" "o"]
 
-    (is (= (minimax ["x" "x" "o"
-                     "o" "o" "x"
-                     "x" "x" "o"]
-                    :ai {:ai "o" :player "x"})
-           0)))
+      0       ["x" "x" "o"
+               "o" "o" "x"
+               "x" "x" "o"]))
 
   (testing "One to complete boards"
     (is (= (minimax ["o" "x" "o"
