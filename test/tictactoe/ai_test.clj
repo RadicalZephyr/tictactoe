@@ -119,3 +119,16 @@
                                 " " " " " "]
                                op-mark)
              [1 3])))))
+
+(deftest minimax-test
+  (testing "Completed boards"
+    (is (= (minimax ["o" "x" "o"
+                     "o" "x" "x"
+                     "o" "o" "x"]
+                    :ai {:ai "o" :player "x"})
+           Double/POSITIVE_INFINITY))
+    (is (= (minimax ["o" "x" "o"
+                     "o" "x" "x"
+                     "x" "x" "o"]
+                    :ai {:ai "o" :player "x"})
+           Double/NEGATIVE_INFINITY))))
