@@ -44,36 +44,45 @@
 
 (deftest winning-move-test
   (testing "False positives"
-    (is (= (check-winning-move '("x" " " " "))
-           nil))
-    (is (= (check-winning-move '(" " "x" " "))
-           nil))
-    (is (= (check-winning-move '(" " " " "x"))
-           nil))
-    "Two spaces and a mark are not a winning move.")
+    (doseq [mark ["x" "o"]]
+      (are [attack]
+        (= (check-winning-move attack)
+           nil)
+
+        [mark " " " "]
+
+        [" " mark " "]
+
+        [" " " " mark])))
 
   (testing "True positives"
-    (is (= (check-winning-move '(" " "x" "x"))
-           "x"))
-    (is (= (check-winning-move '("x" " " "x"))
-           "x"))
-    (is (= (check-winning-move '("x" "x" " "))
-           "x")))
+    (doseq [mark ["x" "o"]]
+     (are [attack]
+       (= (check-winning-move attack)
+          mark)
+
+       [" " mark mark]
+
+       [mark " " mark]
+
+       [mark mark " "])))
 
   (testing "True negatives"
-    (is (= (check-winning-move '("o" "o" "x"))
-           nil))
-    (is (= (check-winning-move '("x" "x" "o"))
-           nil))
-    (is (= (check-winning-move '("x" "o" "o"))
-           nil))
-    (is (= (check-winning-move '("o" "x" "x"))
-           nil))
-    (is (= (check-winning-move '("x" "o" "x"))
-           nil))
-    (is (= (check-winning-move '("o" "x" "o"))
-           nil))
-    "No spaces mean it's not a winning move."))
+    (are [attack]
+      (= (check-winning-move attack)
+         nil)
+
+      ["o" "o" "x"]
+
+      ["x" "x" "o"]
+
+      ["x" "o" "o"]
+
+      ["o" "x" "x"]
+
+      ["x" "o" "x"]
+
+      ["o" "x" "o"])))
 
 (defn simple-indexer [attack]
   (vec (map vector
