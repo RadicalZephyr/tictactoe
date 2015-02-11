@@ -259,13 +259,25 @@
   (testing "Fork handling"
     (is (= (minimax ["x" " " "x"
                      " " "o" " "
-                     " " " " "x"]
+                     "o" " " "x"]
                     :ai {:ai "o" :player "x"})
            neg-inf))
 
     (is (= (minimax ["o" "o" "x"
                      " " "x" " "
                      " " " " "x"]
+                    :ai {:ai "o" :player "x"})
+           neg-inf))
+
+    (is (= (minimax [" " "o" "x"
+                     " " "x" "x"
+                     "o" " " " "]
+                    :ai {:ai "o" :player "x"})
+           neg-inf))
+
+    (is (= (minimax ["o" " " " "
+                     " " "o" "x"
+                     " " "x" "x"]
                     :ai {:ai "o" :player "x"})
            neg-inf)))
 
