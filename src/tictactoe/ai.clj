@@ -138,3 +138,16 @@
       (case player
         :ai     (apply max subtree-values)
         :player (apply min subtree-values)))))
+
+(defn minimax-rank-move [board marks index]
+  [index (minimax (board/make-move-i board (marks :ai) index) :player marks)])
+
+(defn best-minimax-move [board marks]
+  (->> board
+       all-valid-moves
+       (map (partial minimax-rank-move board marks))
+       (sort (fn [[_ r1] [_ r2]]
+               (compare r2 r1)))
+       first
+       ((fn [[index _]]
+          (board/index->xy index)))))
