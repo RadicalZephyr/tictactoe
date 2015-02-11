@@ -45,9 +45,11 @@
 (deftest winning-move-test
   (testing "False positives"
     (is (and
+         (= (check-winning-move '("x" " " " "))
+            nil)
          (= (check-winning-move '(" " "x" " "))
             nil)
-         (= (check-winning-move '(" " "o" " "))
+         (= (check-winning-move '(" " " " "x"))
             nil))
         "Two spaces and a mark are not a winning move."))
 
