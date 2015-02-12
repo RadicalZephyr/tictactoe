@@ -43,7 +43,7 @@
 (defn next-player [state]
   (update-in state [:to-play] board/next-player))
 
-(defn do-move [state player index]
+(defn try-move [state player index]
   (if (board/valid-move-i? (:board state) index)
     (let [new-state (-> state
                         (update-in [:board] board/make-move-i
@@ -161,7 +161,7 @@
          (= (:to-play @game-state)
             :ai))
     (swap! game-state
-           do-move :ai (-> @game-state
+           try-move :ai (-> @game-state
                            :board
                            (ai/best-minimax-move (get-marks))
                            board/xy->index))))
@@ -172,7 +172,7 @@
          (= (:to-play @game-state)
             :player))
     (when-let [index (click->index e)]
-      (swap! game-state do-move :player index)
+      (swap! game-state try-move :player index)
       ;; The AI should always play right after the player
       (.start (Thread. try-ai-move)))))
 
