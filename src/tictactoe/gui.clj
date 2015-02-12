@@ -15,6 +15,8 @@
                                :player "x"}
                        :plays-first :player}))
 
+(defn start-thread [fn]
+  (.start (Thread. fn)))
 
 ;;; #################################################################
 ;;; Game State Manipulation Functions
@@ -196,7 +198,7 @@
     (when-let [index (click->index e)]
       (swap! game-state try-move :player index)
       ;; The AI should always play right after the player
-      (.start (Thread. try-ai-move)))))
+      (start-thread try-ai-move))))
 
 (declare show-choose-player)
 
@@ -228,7 +230,7 @@
   (reset-board!)
   (show-board (s/to-root e))
   ;; We attempt to make an AI move here in case the AI should go first
-  (.start (Thread. try-ai-move)))
+  (start-thread try-ai-move))
 
 (defn show-choose-player [root & winner]
   (let [[w h] (get-size root)]
