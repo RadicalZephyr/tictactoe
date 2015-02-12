@@ -113,6 +113,39 @@
 (defn valid-move? [board pos]
   (valid-move-i? board (xy->index pos)))
 
-
 (def next-player {:player :ai
                   :ai :player})
+
+(defn has-lr-sym? [board]
+  (let [[l _ r] (vertical-attacks board)]
+    (= l r)))
+
+(defn has-tb-sym? [board]
+  (let [[t _ b] (horizontal-attacks board)]
+    (= t b)))
+
+(defn at-index= [board [a b]]
+  (= (nth board a)
+     (nth board b)))
+
+(defn has-tl-br-sym? [board]
+  (every? (partial at-index= board)
+          [[1 3] [2 6] [5 7]]))
+
+(defn has-tr-bl-sym? [board]
+  (every? (partial at-index= board)
+          [[3 7] [0 8] [1 5]]))
+
+(def all-syms
+  (juxt has-lr-sym?
+        has-tb-sym?
+        has-tl-br-sym?
+        has-tr-bl-sym?))
+
+(defn get-symmetries [board]
+  (set
+   (map (fn [has-sym symbol]
+          (when has-sym
+            symbol))
+        (all-syms board)
+        [:lr :tb :tl-br :tr-bl])))
