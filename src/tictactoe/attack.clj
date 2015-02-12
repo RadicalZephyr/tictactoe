@@ -2,6 +2,17 @@
   (:require [tictactoe.board :as board
                              :refer [blank]]))
 
+;; This ns contains code for classifying attacks.  But the AI using
+;; this code is not unbeatable and the approach isn't very extensible.
+
+;; To make it work, you'd need to make the analysis recognize
+;; potential forks and allow it to move somewhere else. But it's not
+;; really clear how to make that happen except on a case-by-case
+;; basis.
+
+;; For the current AI code see the usage of minimax in the
+;; tictactoe.ai ns.
+
 (defn classify [attack my-mark other-mark]
   (let [marks (set attack)
         freqs (frequencies attack)]
