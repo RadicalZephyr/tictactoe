@@ -145,5 +145,10 @@
        "o" " " "x"
        " " "o" " "])
 
+    (are [result inds board]
+      (= (at-index= board inds)
+         result)
 
-    ))
+      true  [0 1] [0 0]
+      true  [1 3] [0 1 3 1]
+      false [0 1] [0 1])))
