@@ -43,17 +43,24 @@
 (defn next-player [state]
   (update-in state [:to-play] board/next-player))
 
+(defn do-move [state player index]
+  (-> state
+      (update-in [:board] board/make-move-i
+                 ((get-marks) player) index)
+      next-player))
+
+(defn check-end-game [state]
+  (if-let [winner (or
+                   (board/which-winner? (:board state))
+                   (board/cats-game? (:board state)))]
+    (toggle-playing state)
+    state))
+
 (defn try-move [state player index]
   (if (board/valid-move-i? (:board state) index)
-    (let [new-state (-> state
-                        (update-in [:board] board/make-move-i
-                                   ((get-marks) player) index)
-                        next-player)]
-      (if-let [winner (or
-                       (board/which-winner? (:board new-state))
-                       (board/cats-game? (:board new-state)))]
-        (toggle-playing new-state)
-        new-state))
+    (-> state
+        (do-move player index)
+        check-end-game)
     state))
 
 
