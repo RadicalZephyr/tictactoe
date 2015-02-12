@@ -126,17 +126,17 @@
     (when (= t b)
       :tb)))
 
-(defn at-index= [board [a b]]
+(defn =at-index [board [a b]]
   (= (nth board a)
      (nth board b)))
 
 (defn has-tl-br-sym? [board]
-  (when (every? (partial at-index= board)
+  (when (every? (partial =at-index board)
                 [[1 3] [2 6] [5 7]])
     :tl-br))
 
 (defn has-tr-bl-sym? [board]
-  (when (every? (partial at-index= board)
+  (when (every? (partial =at-index board)
                 [[3 7] [0 8] [1 5]])
     :tr-bl))
 
