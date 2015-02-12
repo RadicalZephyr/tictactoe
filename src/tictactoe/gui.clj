@@ -106,6 +106,17 @@
                              (get-size root))]
     (grid->rect [20 10] [w h] dim)))
 
+(defn draw-x [g2d tl tr bl br style]
+  (do
+    (g/draw g2d (g/polygon tl br)
+            style)
+    (g/draw g2d (g/polygon tr bl)
+            style)))
+
+(defn draw-o [g2d x y width height style]
+  (g/draw g2d (g/ellipse x y width height)
+          style))
+
 (defn draw-letter [g2d rect letter style]
   (let [min-x (.getMinX rect)
         min-y (.getMinY rect)
@@ -116,23 +127,21 @@
         inset-w (* 0.1 width)
         inset-h (* 0.1 height)]
     (case letter
-      "x" (do
-            (g/draw g2d (g/polygon
-                         [(+ inset-w min-x)
-                          (- max-y inset-h)]
-                         [(- max-x inset-w)
-                          (+ inset-h min-y)])
-                    style)
-            (g/draw g2d (g/polygon
-                         [(+ inset-w min-x)
-                          (+ inset-h min-y)]
-                         [(- max-x inset-w)
-                          (- max-y inset-h)])
-                    style))
-      "o" (g/draw g2d (g/ellipse (+ inset-w min-x)
-                                 (+ inset-h min-y)
-                                 (* 0.8 width)
-                                 (* 0.8 height))
+      "x" (draw-x g2d
+                  [(+ inset-w min-x)
+                   (+ inset-h min-y)]
+                  [(- max-x inset-w)
+                   (- max-y inset-h)]
+                  [(+ inset-w min-x)
+                   (- max-y inset-h)]
+                  [(- max-x inset-w)
+                   (+ inset-h min-y)])
+
+      "o" (draw-o g2d
+                  (+ inset-w min-x)
+                  (+ inset-h min-y)
+                  (* 0.8 width)
+                  (* 0.8 height)
                   style))))
 
 (defn draw-board [canvas g2d]
@@ -171,9 +180,9 @@
             :ai))
     (swap! game-state
            try-move :ai (-> @game-state
-                           :board
-                           (ai/best-minimax-move (get-marks))
-                           board/xy->index))))
+                            :board
+                            (ai/best-minimax-move (get-marks))
+                            board/xy->index))))
 
 (defn try-player-move [e]
   (when (and
