@@ -232,6 +232,14 @@
   ;; We attempt to make an AI move here in case the AI should go first
   (start-thread try-ai-move))
 
+(defn vertically-centered [num-fills & items]
+  (let [fills (repeat num-fills :fill-v)]
+    (s/vertical-panel :items `[~@fills ~@items ~@fills])))
+
+(defn horizontally-centered [num-fills & items]
+  (let [fills (repeat num-fills :fill-h)]
+    (s/horizontal-panel :items `[~@fills ~@items ~@fills])))
+
 (defn show-choose-player [root & winner]
   (let [[w h] (get-size root)]
     (s/config!
