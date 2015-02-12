@@ -155,32 +155,32 @@
     (when (not= index -1)
       index)))
 
-(defn process-move [e]
-  (when (:playing? @game-state)
-    (cond
-      (and (= (:to-play @game-state)
-              :player)
-           (not (nil? e)))
-      (when-let [index (click->index e)]
-        (swap! game-state do-move :player index)
-        ;; The AI should always play right after the player
-        (.start (Thread. (partial process-move nil))))
+(defn try-ai-move []
+  (when (and
+         (:playing? @game-state)
+         (= (:to-play @game-state)
+            :ai))
+    (swap! game-state
+           do-move :ai (-> @game-state
+                           :board
+                           (ai/best-minimax-move (get-marks))
+                           board/xy->index))))
 
-      (and (= (:to-play @game-state)
-              :ai)
-           (nil? e))
-      (swap! game-state do-move :ai (-> @game-state
-                                        :board
-                                        (ai/best-minimax-move (get-marks))
-                                        board/xy->index))
-
-      :else nil)))
+(defn try-player-move [e]
+  (when (and
+         (:playing? @game-state)
+         (= (:to-play @game-state)
+            :player))
+    (when-let [index (click->index e)]
+      (swap! game-state do-move :player index)
+      ;; The AI should always play right after the player
+      (.start (Thread. try-ai-move)))))
 
 (declare show-choose-player)
 
 (defn handle-click [e]
   (if (:playing? @game-state)
-    (process-move e)
+    (try-player-move e)
     (show-choose-player (s/to-root e))))
 
 
@@ -206,7 +206,7 @@
   (reset-board!)
   (show-board (s/to-root e))
   ;; We attempt to make an AI move here in case the AI should go first
-  (.start (Thread. (partial process-move nil))))
+  (.start (Thread. try-ai-move)))
 
 (defn show-choose-player [root & winner]
   (let [[w h] (get-size root)]
