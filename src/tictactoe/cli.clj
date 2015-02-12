@@ -153,7 +153,7 @@
                        "Please enter either \"yes\" or \"no\".")
               (recur (safe-read))))))
 
-(defn start-game []
+(defn -main []
   (println "Let's play tictactoe!")
   (loop [goes-first (read-player)]
     (game-loop board/empty-board

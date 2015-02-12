@@ -16,6 +16,6 @@
     (case (first args)
       ("-h" "--help") (print-usage)
       ("-g" "--gui")  (gui/-main)
-      ("-c" "--cli")  (cli/start-game)
+      ("-c" "--cli")  (cli/-main)
       (print-usage))
-    (cli/start-game)))
+    (cli/-main)))
