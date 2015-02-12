@@ -232,28 +232,35 @@
   ;; We attempt to make an AI move here in case the AI should go first
   (start-thread try-ai-move))
 
-(defn vertically-centered [num-fills & items]
-  (let [fills (repeat num-fills :fill-v)]
-    (s/vertical-panel :items `[~@fills ~@items ~@fills])))
+(defn centered
+  "Center a number of items using a horizontal or vertical panel.
 
-(defn horizontally-centered [num-fills & items]
-  (let [fills (repeat num-fills :fill-h)]
-    (s/horizontal-panel :items `[~@fills ~@items ~@fills])))
+  The num-fills argument controls how many :fill-x's are placed before
+  and after the items in the panel.  This only has an effect when you
+  also include one or more :fill-x's in the items.  In this case it
+  changes the proportion of space around the edge to the spaces in the
+  middle."
+  [direction num-fills & items]
+  (let [[panel fill-key] (case direction
+                           :vertically [s/vertical-panel :fill-v]
+                           :horizontally [s/horizontal-panel :fill-h])
+        fills (repeat num-fills fill-key)]
+    (panel :items `[~@fills ~@items ~@fills])))
 
 (defn show-choose-player [root & winner]
   (let [[_ h] (get-size root)]
     (s/config!
      root
      :content
-     (vertically-centered 1
-         (horizontally-centered 1
-             (s/label :text "Who should play first?"
-                      :font (font/font :name :serif
-                                       :size 32)))
+     (centered :vertically 1
+       (centered :horizontally 1
+         (s/label :text "Who should play first?"
+                  :font (font/font :name :serif
+                                   :size 32)))
        [:fill-v (* 0.1 h)]
-       (horizontally-centered 2
-           (s/action :name "Human"
-                     :handler (partial start-game :player))
+       (centered :horizontally 2
+         (s/action :name "Human"
+                   :handler (partial start-game :player))
          :fill-h
          (s/action :name "Computer"
                    :handler (partial start-game :ai)))))))
