@@ -241,7 +241,7 @@
     (s/horizontal-panel :items `[~@fills ~@items ~@fills])))
 
 (defn show-choose-player [root & winner]
-  (let [[w h] (get-size root)]
+  (let [[_ h] (get-size root)]
     (s/config!
      root
      :content
