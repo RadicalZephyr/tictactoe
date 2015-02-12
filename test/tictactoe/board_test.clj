@@ -188,4 +188,21 @@
 
       #{:tl-br :tr-bl} ["x" " " " "
                         " " " " " "
-                        " " " " "x"])))
+                        " " " " "x"]))
+
+  (testing "Index classification"
+    (are [result index]
+      (= (classify-index index)
+         result)
+
+      :corner 0
+      :corner 2
+      :corner 6
+      :corner 8
+
+      :side 1
+      :side 3
+      :side 5
+      :side 7
+
+      :center 4)))
