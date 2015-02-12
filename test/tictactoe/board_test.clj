@@ -62,3 +62,88 @@
             [(make-indexed-cell [1 1] 1) (make-indexed-cell [2 1] 2) (make-indexed-cell [3 1] 3)
              (make-indexed-cell [1 2] 4) (make-indexed-cell [2 2] 5) (make-indexed-cell [3 2] 6)
              (make-indexed-cell [1 3] 7) (make-indexed-cell [2 3] 8) (make-indexed-cell [3 3] 9)])))))
+
+(deftest symmetries-test
+  (testing "Individual symmetry fns"
+    (are [board]
+      (= (has-lr-sym? board)
+         :lr)
+
+      [" " " " " "
+       " " " " " "
+       " " " " " "]
+
+      [" " " " " "
+       "x" " " "x"
+       " " " " " "]
+
+      ["x" " " "x"
+       "o" " " "o"
+       "x" " " "x"]
+
+      ["x" " " "x"
+       " " " " " "
+       "o" " " "o"])
+
+    (are [board]
+      (= (has-tb-sym? board)
+         :tb)
+
+      [" " " " " "
+       " " " " " "
+       " " " " " "]
+
+      [" " "x" " "
+       " " " " " "
+       " " "x" " "]
+
+      ["x" "o" "x"
+       " " " " " "
+       "x" "o" "x"]
+
+      ["x" " " "o"
+       " " " " " "
+       "x" " " "o"])
+
+    (are [board]
+      (= (has-tl-br-sym? board)
+         :tl-br)
+
+      [" " " " " "
+       " " " " " "
+       " " " " " "]
+
+      [" " " " "x"
+       " " " " " "
+       "x" " " " "]
+
+      [" " "x" "o"
+       "x" " " "x"
+       "o" "x" " "]
+
+      [" " "x" " "
+       "x" " " "o"
+       " " "o" " "])
+
+    (are [board]
+      (= (has-tr-bl-sym? board)
+         :tr-bl)
+
+      [" " " " " "
+       " " " " " "
+       " " " " " "]
+
+      ["x" " " " "
+       " " " " " "
+       " " " " "x"]
+
+      ["o" "x" " "
+       "x" " " "x"
+       " " "x" "o"]
+
+      [" " "x" " "
+       "o" " " "x"
+       " " "o" " "])
+
+
+    ))
