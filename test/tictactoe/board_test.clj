@@ -151,4 +151,40 @@
 
       true  [0 1] [0 0]
       true  [1 3] [0 1 3 1]
-      false [0 1] [0 1])))
+      false [0 1] [0 1])
+
+    (are [result board]
+      (= (get-symmetries board)
+         result)
+
+      #{:lr :tb :tl-br :tr-bl} empty-board
+
+      #{} (range 9)
+
+      #{} ["x" "x" " "
+           " " "x" " "
+           " " " " " "]
+
+      #{:lr} ["x" " " "x"
+              " " " " " "
+              " " " " " "]
+
+      #{:tb} ["x" " " " "
+              " " " " " "
+              "x" " " " "]
+
+      #{:tl-br} ["o" " " "x"
+                 " " " " " "
+                 "x" " " " "]
+
+      #{:tr-bl} ["x" " " " "
+                 " " " " " "
+                 "o" " " "x"]
+
+      #{:tl-br :tr-bl} [" " " " "x"
+                        " " " " " "
+                        "x" " " " "]
+
+      #{:tl-br :tr-bl} ["x" " " " "
+                        " " " " " "
+                        " " " " "x"])))
