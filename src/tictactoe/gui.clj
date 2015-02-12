@@ -120,8 +120,8 @@
             (g/draw g2d (g/polygon
                          [(+ inset-w min-x)
                           (- max-y inset-h)]
-                         [(- max-x inset-h)
-                          (+ inset-w min-y)])
+                         [(- max-x inset-w)
+                          (+ inset-h min-y)])
                     style)
             (g/draw g2d (g/polygon
                          [(+ inset-w min-x)
