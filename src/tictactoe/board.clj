@@ -118,23 +118,27 @@
 
 (defn has-lr-sym? [board]
   (let [[l _ r] (vertical-attacks board)]
-    (= l r)))
+    (when (= l r)
+      :lr)))
 
 (defn has-tb-sym? [board]
   (let [[t _ b] (horizontal-attacks board)]
-    (= t b)))
+    (when (= t b)
+      :tb)))
 
 (defn at-index= [board [a b]]
   (= (nth board a)
      (nth board b)))
 
 (defn has-tl-br-sym? [board]
-  (every? (partial at-index= board)
-          [[1 3] [2 6] [5 7]]))
+  (when (every? (partial at-index= board)
+                [[1 3] [2 6] [5 7]])
+    :tl-br))
 
 (defn has-tr-bl-sym? [board]
-  (every? (partial at-index= board)
-          [[3 7] [0 8] [1 5]]))
+  (when (every? (partial at-index= board)
+                [[3 7] [0 8] [1 5]])
+    :tr-bl))
 
 (def all-syms
   (juxt has-lr-sym?
@@ -144,8 +148,5 @@
 
 (defn get-symmetries [board]
   (set
-   (map (fn [has-sym symbol]
-          (when has-sym
-            symbol))
-        (all-syms board)
-        [:lr :tb :tl-br :tr-bl])))
+   (keep identity
+         (all-syms board))))
