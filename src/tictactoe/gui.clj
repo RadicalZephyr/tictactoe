@@ -245,25 +245,18 @@
     (s/config!
      root
      :content
-     (s/vertical-panel
-      :items [:fill-v
-              (s/horizontal-panel
-               :items
-               [:fill-h
-                (s/label :text "Who should play first?"
-                         :font (font/font :name :serif
-                                          :size 32))
-                :fill-h])
-              [:fill-v (* 0.1 h)]
-              (s/horizontal-panel
-               :items [:fill-h :fill-h
-                       (s/action :name "Human"
-                                 :handler (partial start-game :player))
-                       :fill-h
-                       (s/action :name "Computer"
-                                 :handler (partial start-game :ai))
-                       :fill-h :fill-h])
-              :fill-v]))))
+     (vertically-centered 1
+         (horizontally-centered 1
+             (s/label :text "Who should play first?"
+                      :font (font/font :name :serif
+                                       :size 32)))
+       [:fill-v (* 0.1 h)]
+       (horizontally-centered 2
+           (s/action :name "Human"
+                     :handler (partial start-game :player))
+         :fill-h
+         (s/action :name "Computer"
+                   :handler (partial start-game :ai)))))))
 
 (defn show-frame [frame]
   (s/invoke-later
