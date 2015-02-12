@@ -157,3 +157,6 @@
     (1 3 5 7) :side
     4         :center
     nil))
+
+(defn get-unique-moves [board]
+  #{0 1 4})

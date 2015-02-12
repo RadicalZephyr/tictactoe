@@ -205,4 +205,11 @@
       :side 5
       :side 7
 
-      :center 4)))
+      :center 4))
+
+  (testing "Get unique moves of a board"
+    (are [result board]
+      (= (get-unique-moves board)
+         result)
+
+      #{0 1 4} empty-board)))
