@@ -119,6 +119,10 @@
   (g/draw g2d (g/ellipse x y width height)
           style))
 
+(defn draw-c [g2d [x y] width height style]
+  (g/draw g2d (g/arc x y width height 45 270)
+          style))
+
 (defn get-inset-coords [rect]
   (let [min-x (.getMinX rect)
         min-y (.getMinY rect)
@@ -148,13 +152,14 @@
     (case letter
       "x" (draw-x g2d tl tr bl br style)
 
-      "o" (draw-o g2d tl width height style))))
+      "o" (draw-o g2d tl width height style)
+
+      "c" (draw-c g2d tl width height style )
+      nil)))
 
 (defn screen-rect [root]
   (let [[width height] (get-size root)]
     (g/rect 0 0 width height)))
-
-(defn draw-cats [g2d])
 
 (defn draw-board [canvas g2d]
   (let [root (s/to-root canvas)
@@ -174,13 +179,13 @@
     (when-let [winner (or
                        (board/which-winner? board)
                        (board/cats-game? board))]
-      (case winner
-        ("x" "o") (draw-letter g2d (screen-rect root) winner
-                               (g/style :foreground "red"
-                                        :stroke (g/stroke
-                                                 :width 20)))
-        true      (draw-cats g2d)
-        nil))))
+      (draw-letter g2d (screen-rect root) (case winner
+                                            ("x" "o") winner
+                                            true      "c"
+                                            nil)
+                   (g/style :foreground "red"
+                            :stroke (g/stroke
+                                     :width 20))))))
 
 
 ;;; #################################################################
