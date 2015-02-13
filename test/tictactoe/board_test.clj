@@ -209,13 +209,13 @@
     ;; If there is no symmetry, all tiles are unique
     (doseq [index (range 9)]
       (is (= (get-all-equivalent-moves #{} index)
-             #{})))
+             #{index})))
 
     ;; No matter what the symmetry, nothing is ever equivalent with
     ;; the center tile
     (doseq [symm (subsets [:lr :tb :tl-br :tr-bl])]
       (is (= (get-all-equivalent-moves (set symm) 4)
-             #{}))))
+             #{4}))))
 
   (testing "Get unique moves of a board"
     (are [result board]
