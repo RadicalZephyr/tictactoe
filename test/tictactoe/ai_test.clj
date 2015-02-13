@@ -334,6 +334,11 @@
                     :ai {:ai "o" :player "x"})
            0))))
 
+;; For testing the game-driver
+;; (defn swap-marks [{:keys [ai player]}]
+;;   {:ai player
+;;    :player ai})
+
 (defn make-ai-move [board to-play marks]
   (board/make-move board
                    (marks to-play)
@@ -348,6 +353,10 @@
 
 (defn next-move [board to-play marks move-list]
   (case to-play
+    ;; For testing the game-driver
+    ;; :ai (make-test-move board
+    ;;                     (marks to-play)
+    ;;                     move-list)
     :ai     (make-ai-move board to-play marks)
     :player (make-test-move board
                             (marks to-play)
@@ -377,3 +386,27 @@
                   {plays-first "x"
                    (board/next-player plays-first) "o"}
                   move-list))
+
+;; For testing the game-driver.  To utilize this code, you must modify
+;; `next-move' to call `make-test-move' for both players
+
+;; (deftest test-game-driver-test
+;;   (testing "The test fixtures"
+;;     (are [result plays-first move-list]
+;;       (= (test-game-driver plays-first move-list)
+;;          result)
+
+;;       :player :player [0 3 1 4 2 5]
+;;       :ai     :player [0 3 1 4 6 5]
+
+;;       :player :ai     [0 3 1 4 6 5]
+;;       :ai     :ai     [0 3 1 4 2 5]
+
+;;       :draw :player [0 1 2 4 3 6 5 8 7]
+;;       :draw :ai     [0 1 2 4 3 6 5 8 7]
+
+;;       :draw :player [0 1 2 3 5 4 6 8 7]
+;;       :draw :ai     [0 1 2 3 5 4 6 8 7]
+
+;;       :draw :player [0 1 2 3 4 6 5 8 7]
+;;       :draw :ai     [0 1 2 3 4 6 5 8 7])))
