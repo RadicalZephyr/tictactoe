@@ -162,12 +162,12 @@
     (g/rect (* 0.1 width)
             0
             (* 0.8  width)
-            (* 0.8 height))))
+            (* 0.75 height))))
 
 (defn text-rect [root]
   (let [[width height] (get-size root)]
     (g/rect 0
-            (* 0.8 height)
+            (* 0.85 height)
             width
             (* 0.2 height))))
 
@@ -199,13 +199,14 @@
                                             ("x" "o") winner
                                             true      "c"
                                             nil)
-                   (g/style :foreground "palevioletred"
+                   (g/style :foreground "peru"
                             :stroke (g/stroke
                                      :width 20)))
       (draw-text g2d (text-rect root) "Click to play again"
                  (g/style :foreground "tomato"
                           :font (font/font :name :serif
-                                           :size 64))))))
+                                           :style :bold
+                                           :size 60))))))
 
 
 ;;; #################################################################
