@@ -122,29 +122,27 @@
    :tl-br [#{1 3} #{2 6} #{5 7}]
    :tr-bl [#{0 8} #{1 5} #{3 7}]})
 
-(defn has-lr-sym? [board]
-  (let [[l _ r] (vertical-attacks board)]
-    (when (= l r)
-      :lr)))
-
-(defn has-tb-sym? [board]
-  (let [[t _ b] (horizontal-attacks board)]
-    (when (= t b)
-      :tb)))
-
 (defn =at-index [board [a b]]
   (= (nth board a)
      (nth board b)))
 
-(defn has-tl-br-sym? [board]
+(defn has-sym? [board sym-type]
   (when (every? (partial =at-index board)
-                [[1 3] [2 6] [5 7]])
-    :tl-br))
+                (map vec
+                     (index-equivalences sym-type)))
+    sym-type))
+
+(defn has-lr-sym? [board]
+  (has-sym? board :lr))
+
+(defn has-tb-sym? [board]
+  (has-sym? board :tb))
+
+(defn has-tl-br-sym? [board]
+  (has-sym? board :tl-br))
 
 (defn has-tr-bl-sym? [board]
-  (when (every? (partial =at-index board)
-                [[3 7] [0 8] [1 5]])
-    :tr-bl))
+  (has-sym? board :tr-bl))
 
 (def all-syms
   (juxt has-lr-sym?
