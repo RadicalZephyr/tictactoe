@@ -175,7 +175,18 @@
 
 (defn draw-text [g2d rect text style]
   (let [{:keys [tl width height]} (get-inset-coords rect)
-        [x y] tl]
+        [x y] tl
+        f (:font style)]
+    (g/push g2d
+      (when f (.setFont g2d f))
+      (let [fm (.getFontMetrics g2d)
+            fm-rect (.getStringBounds fm text g2d)
+            text-rect (g/rect x (- y (.getAscent fm))
+                              (.getWidth  fm-rect)
+                              (.getHeight fm-rect))
+            bg (:background style)]
+        (g/draw g2d text-rect (g/style :foreground bg
+                                       :background bg))))
     (g/draw g2d (g/string-shape x y text)
             style)))
 
@@ -191,11 +202,13 @@
 
                                             :else "It's a tie.")
              (g/style :foreground "peru"
+                      :background "white"
                       :font (font/font :name :serif
                                        :style :bold
                                        :size 60)))
   (draw-text g2d (text-rect root :bottom) "Click to play again"
              (g/style :foreground "tomato"
+                      :background "white"
                       :font (font/font :name :serif
                                        :style :bold
                                        :size 60))))
