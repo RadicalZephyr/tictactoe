@@ -23,13 +23,15 @@
                 [(board/index cell) move]))
             indexed-attack))))
 
+(defn get-winning-moves [board]
+  (->> board
+       board/all-indexed-attacks
+       (map winning-attack?)
+       (filter identity)
+       (group-by second)))
+
 (defn get-winning-move [board mark]
-  (let [winning-moves
-        (->> board
-             board/all-indexed-attacks
-             (map winning-attack?)
-             (filter identity)
-             (group-by second))]
+  (let [winning-moves (get-winning-moves board)]
     (when (not (empty? winning-moves))
       (cond (contains? winning-moves mark)
             (board/index (get-in winning-moves [mark 0]))
