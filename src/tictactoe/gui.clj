@@ -50,9 +50,7 @@
       next-player))
 
 (defn check-end-game [state]
-  (if-let [winner (or
-                   (board/which-winner? (:board state))
-                   (board/cats-game? (:board state)))]
+  (if-let [result (board/game-result state (get-marks))]
     (toggle-playing state)
     state))
 
@@ -190,22 +188,16 @@
     (g/draw g2d (g/string-shape x y text)
             style)))
 
-(defn draw-end-game-notifications [g2d root winner]
+(defn draw-end-game-notifications [g2d root result]
   (let [text-style (g/style :foreground "tomato"
                             :background "white"
                             :font (font/font :name :serif
                                              :style :bold
                                              :size 60))
-        winner-text (cond
-                      (= ((get-marks) :player)
-                         winner)
-                      "You won!"
-
-                      (= ((get-marks) :ai)
-                         winner)
-                      "The Computer won."
-
-                      :else "It's a tie.")]
+        winner-text (case result
+                      :player "You won!"
+                      :ai "The Computer won."
+                      :draw "It's a tie.")]
     (draw-text g2d (text-rect root :middle) winner-text
                text-style)
     (draw-text g2d (text-rect root :bottom) "Click to play again."
@@ -226,10 +218,8 @@
                g2d r mark rect-style)))
           rects
           board))
-    (when-let [winner (or
-                       (board/which-winner? board)
-                       (board/cats-game? board))]
-      (draw-end-game-notifications g2d root winner))))
+    (when-let [result (board/game-result board (get-marks))]
+      (draw-end-game-notifications g2d root result))))
 
 
 ;;; #################################################################

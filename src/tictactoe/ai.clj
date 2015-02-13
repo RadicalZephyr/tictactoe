@@ -138,13 +138,11 @@
 (def minimax
   (memoize
    (fn [board player marks]
-     (if-let [winner (or
-                      (board/which-winner? board)
-                      (board/cats-game? board))]
-       (cond
-         (= (marks :ai) winner)     Double/POSITIVE_INFINITY
-         (= (marks :player) winner) Double/NEGATIVE_INFINITY
-         :else 0)
+     (if-let [result (board/game-result board marks)]
+       (case result
+         :ai     Double/POSITIVE_INFINITY
+         :player Double/NEGATIVE_INFINITY
+         :draw   0)
 
        (if-let [subtree-values (->> board
                                     (all-sequential-moves (marks player))

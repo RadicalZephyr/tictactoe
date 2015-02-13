@@ -384,18 +384,8 @@
                             move-list)))
 
 (defn test-game-loop [board to-play marks move-list]
-  (if-let [winner (or (board/which-winner? board)
-                      (board/cats-game? board))]
-    (cond
-      (= (marks :player)
-         winner)
-      :player
-
-      (= (marks :ai)
-         winner)
-      :ai
-
-      :else :draw)
+  (if-let [result (board/game-result board marks)]
+    result
 
     (recur (next-move board to-play marks move-list)
            (board/next-player to-play)
