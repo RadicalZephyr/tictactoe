@@ -332,7 +332,25 @@
                      " " "o" " "
                      " " " " "x"]
                     :ai {:ai "o" :player "x"})
-           0))))
+           0)))
+
+  (testing "First moves"
+    (are [board]
+      (= (minimax board
+                  :player {:ai "x" :player "o"})
+         0)
+
+      [" " " " " "
+       " " " " " "
+       " " " " "x"]
+
+      [" " " " " "
+       " " " " " "
+       " " "x" " "]
+
+      [" " " " " "
+       " " "x" " "
+       " " " " " "])))
 
 ;; For testing the game-driver
 ;; (defn swap-marks [{:keys [ai player]}]
