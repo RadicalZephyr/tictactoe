@@ -396,6 +396,11 @@
                       (test-game-driver plays-first ml)) %)))
        (apply merge-with +)))
 
+(defn do-consistency-test []
+  (dotimes [i 4]
+    (prn
+     [(test-all-ai :player) (test-all-ai :ai)])))
+
 ;; For testing the game-driver.  To utilize this code, you must modify
 ;; `next-move' to call `make-test-move' for both players
 
