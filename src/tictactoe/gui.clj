@@ -6,8 +6,6 @@
             [seesaw.font :as font]
             [seesaw.graphics :as g]))
 
-(def root (atom nil))
-
 (def game-state (atom {:board board/empty-board
                        :playing? true
                        :to-play :player
@@ -318,9 +316,8 @@
        s/show!)))
 
 (defn -main [& args]
-  (compare-and-set!
-   root nil (s/frame :title "Tic-Tac-Toe"
-                     :size [600 :by 480]
-                     :on-close :exit
-                     ))
-  (show-frame @root))
+  (->
+   (s/frame :title "Tic-Tac-Toe"
+            :size [600 :by 480]
+            :on-close :exit)
+   show-frame))
