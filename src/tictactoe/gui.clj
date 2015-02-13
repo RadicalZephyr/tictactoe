@@ -150,8 +150,15 @@
 
       "o" (draw-o g2d tl width height style))))
 
+(defn screen-rect [root]
+  (let [[width height] (get-size root)]
+    (g/rect 0 0 width height)))
+
+(defn draw-cats [g2d])
+
 (defn draw-board [canvas g2d]
   (let [root (s/to-root canvas)
+        board (:board @game-state)
         rect-style (g/style :foreground "black"
                             :stroke (g/stroke
                                      :width 5))
@@ -163,7 +170,17 @@
               (draw-letter
                g2d r mark rect-style)))
           rects
-          (:board @game-state)))))
+          board))
+    (when-let [winner (or
+                       (board/which-winner? board)
+                       (board/cats-game? board))]
+      (case winner
+        ("x" "o") (draw-letter g2d (screen-rect root) winner
+                               (g/style :foreground "red"
+                                        :stroke (g/stroke
+                                                 :width 20)))
+        true      (draw-cats g2d)
+        nil))))
 
 
 ;;; #################################################################
