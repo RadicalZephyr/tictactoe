@@ -189,31 +189,7 @@
 
       #{:tl-br :tr-bl} ["x" " " " "
                         " " " " " "
-                        " " " " "x"]))
-
-  (testing "Index classification"
-    (are [result index]
-      (= (classify-index index)
-         result)
-
-      :corner 0
-      :corner 2
-      :corner 6
-      :corner 8
-
-      :side 1
-      :side 3
-      :side 5
-      :side 7
-
-      :center 4))
-
-  (testing "Get unique moves of a board"
-    (are [result board]
-      (= (get-unique-moves board)
-         result)
-
-      #{0 1 4} empty-board)))
+                        " " " " "x"])))
 
 (deftest move-equivalences
   (testing "Move equivalences"

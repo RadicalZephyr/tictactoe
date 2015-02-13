@@ -155,13 +155,6 @@
    (keep identity
          (all-syms board))))
 
-(defn classify-index [index]
-  (case index
-    (0 2 6 8) :corner
-    (1 3 5 7) :side
-    4         :center
-    nil))
-
 (defn get-move-equivalences [symmetries]
   (->> symmetries
        (map index-equivalences)
