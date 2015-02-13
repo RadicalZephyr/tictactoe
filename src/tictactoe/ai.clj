@@ -115,6 +115,24 @@
        board/all-valid-moves
        (map (partial board/make-move-i board mark))))
 
+;; Memoizing minimax is a fairly cheap way to make it a more "dynamic
+;; programming" type of solution. Since the tictactoe state tree is
+;; fairly limited, and different paths eventually lead to the same
+;; nodes this actually leads to a *very* dramatic increase in
+;; speed. Even on the first call, the general time used goes from
+;; uncomfortably long to a simply noticeable pause.
+
+;; Another benefit is that the AI is now only ever calculating the
+;; whole tree once. Continuing to play the AI multiple times means
+;; that the memoized calls are still available and thus the AI can
+;; calculate it's moves VERY quickly.
+
+;; Finally, it's reasonable to memoize minimax in terms of memory
+;; usage because the arguments are simple (a small vector, one of two
+;; keywords and an unchanging map). Further, because of the
+;; immutability and shared structure of clojure's persistent vectors
+;; even representing the full set of unique tictactoe configurations
+;; is probably fairly small still.
 (def minimax
   (memoize
    (fn [board player marks]
