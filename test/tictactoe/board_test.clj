@@ -1,6 +1,7 @@
 (ns tictactoe.board-test
   (:require [tictactoe.board :refer :all]
-            [clojure.test :refer :all]))
+            [clojure.test :refer :all]
+            [clojure.math.combinatorics :refer [subsets]]))
 
 (deftest which-winner?-test
   (testing "No false positives"
@@ -227,4 +228,15 @@
 
     (doseq [index [0 2 6 8]]
       (is (= (get-all-equivalent-moves #{:lr :tb :tl-br :tr-bl} index)
-             #{0 2 6 8})))))
+             #{0 2 6 8})))
+
+    ;; If there is no symmetry, all tiles are unique
+    (doseq [index (range 9)]
+      (is (= (get-all-equivalent-moves #{} index)
+             #{})))
+
+    ;; No matter what the symmetry, nothing is ever equivalent with
+    ;; the center tile
+    (doseq [symm (subsets [:lr :tb :tl-br :tr-bl])]
+      (is (= (get-all-equivalent-moves (set symm) 4)
+             #{})))))
