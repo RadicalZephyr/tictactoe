@@ -206,7 +206,7 @@
                       :font (font/font :name :serif
                                        :style :bold
                                        :size 60)))
-  (draw-text g2d (text-rect root :bottom) "Click to play again"
+  (draw-text g2d (text-rect root :bottom) "Click to play again."
              (g/style :foreground "tomato"
                       :background "white"
                       :font (font/font :name :serif
