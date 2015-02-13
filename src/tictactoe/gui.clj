@@ -276,7 +276,7 @@
                                    :size 32)))
        [:fill-v (* 0.1 h)]
        (centered :horizontally 2
-         (s/action :name "Human"
+         (s/action :name "You"
                    :handler (partial start-game :player))
          :fill-h
          (s/action :name "Computer"
