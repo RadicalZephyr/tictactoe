@@ -387,20 +387,6 @@
                    (board/next-player plays-first) "o"}
                   move-list))
 
-(defn test-all-ai [plays-first]
-  (->> (range 9)
-       permutations
-       (partition 75000)
-       (pmap #(frequencies
-               (map (fn [ml]
-                      (test-game-driver plays-first ml)) %)))
-       (apply merge-with +)))
-
-(defn do-consistency-test []
-  (dotimes [i 4]
-    (prn
-     [(test-all-ai :player) (test-all-ai :ai)])))
-
 ;; For testing the game-driver.  To utilize this code, you must modify
 ;; `next-move' to call `make-test-move' for both players
 
@@ -424,3 +410,23 @@
 
 ;;       :draw :player [0 1 2 3 4 6 5 8 7]
 ;;       :draw :ai     [0 1 2 3 4 6 5 8 7])))
+
+(defn test-all-ai [plays-first]
+  (->> (range 9)
+       permutations
+       (partition 75000)
+       (pmap #(frequencies
+               (map (fn [ml]
+                      (test-game-driver plays-first ml)) %)))
+       (apply merge-with +)))
+
+(defn do-consistency-test []
+  (for [i (range 4)]
+    [(test-all-ai :player) (test-all-ai :ai)]))
+
+(deftest ai-consistency-test
+  ((let [freq-seq (do-consistency-test)]
+     (is (apply = freq-seq))
+
+     (is (= (set (keys (first freq-seq)))
+            #{:ai :draw})))))
