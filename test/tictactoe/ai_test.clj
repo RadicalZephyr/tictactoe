@@ -445,9 +445,13 @@
   (for [i (range 4)]
     [(test-all-ai :player) (test-all-ai :ai)]))
 
-(deftest ai-consistency-test
-  ((let [freq-seq (do-consistency-test)]
-     (is (apply = freq-seq))
 
-     (is (= (set (keys (first freq-seq)))
-            #{:ai :draw})))))
+;; This test is commented out because it takes a VERY long time to run.
+;; Like, 10 minutes...
+
+;; (deftest ai-consistency-test
+;;   ((let [freq-seq (do-consistency-test)]
+;;      (is (apply = freq-seq))
+
+;;      (is (= (set (keys (first freq-seq)))
+;;             #{:ai :draw})))))
