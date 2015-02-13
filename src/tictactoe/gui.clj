@@ -321,9 +321,6 @@
   (compare-and-set!
    root nil (s/frame :title "Tic-Tac-Toe"
                      :size [600 :by 480]
-                     ;; :on-close :exit TODO: remove
+                     :on-close :exit
                      ))
   (show-frame @root))
-
-;; TODO: remove!!
-(use 'seesaw.dev)
