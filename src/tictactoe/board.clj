@@ -114,6 +114,10 @@
 (defn valid-move? [board pos]
   (valid-move-i? board (xy->index pos)))
 
+(defn all-valid-moves [board]
+  (->> (range 9)
+       (filter (partial valid-move-i? board))))
+
 (def next-player {:player :ai
                   :ai :player})
 

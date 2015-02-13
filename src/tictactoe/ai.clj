@@ -110,13 +110,9 @@
 ;;       bestValue := min(bestValue, val)
 ;;     return bestValue
 
-(defn all-valid-moves [board]
-  (->> (range 9)
-       (filter (partial board/valid-move-i? board))))
-
 (defn all-sequential-moves [mark board]
   (->> board
-       all-valid-moves
+       board/all-valid-moves
        (map (partial board/make-move-i board mark))))
 
 (defn minimax [board player marks]
@@ -144,7 +140,7 @@
 
 (defn best-minimax-move [board marks]
   (->> board
-       all-valid-moves
+       board/all-valid-moves
        (map (partial minimax-rank-move board marks))
        (sort (fn [[_ r1] [_ r2]]
                (compare r2 r1)))
