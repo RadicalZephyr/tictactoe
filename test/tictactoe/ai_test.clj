@@ -387,6 +387,15 @@
                    (board/next-player plays-first) "o"}
                   move-list))
 
+(defn test-all-ai [plays-first]
+  (->> (range 9)
+       permutations
+       (partition 75000)
+       (pmap #(frequencies
+               (map (fn [ml]
+                      (test-game-driver plays-first ml)) %)))
+       (apply merge-with +)))
+
 ;; For testing the game-driver.  To utilize this code, you must modify
 ;; `next-move' to call `make-test-move' for both players
 
