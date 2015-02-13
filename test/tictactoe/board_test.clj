@@ -213,3 +213,18 @@
          result)
 
       #{0 1 4} empty-board)))
+
+(deftest move-equivalences
+  (testing "Move equivalences"
+    (are [result symmetries index]
+      (= (get-all-equivalent-moves symmetries index)
+         result)
+
+      #{0 2 6} #{:lr :tb} 0
+      #{0 2 8} #{:lr :tb} 2
+      #{0 6 8} #{:lr :tb} 6
+      #{2 6 8} #{:lr :tb} 8)
+
+    (doseq [index [0 2 6 8]]
+      (is (= (get-all-equivalent-moves #{:lr :tb :tl-br :tr-bl} index)
+             #{0 2 6 8})))))
