@@ -116,6 +116,12 @@
 (def next-player {:player :ai
                   :ai :player})
 
+(def index-equivalences
+  {:lr    [#{0 2} #{3 5} #{6 8}]
+   :tb    [#{0 6} #{1 7} #{2 8}]
+   :tl-br [#{1 3} #{2 6} #{5 7}]
+   :tr-bl [#{0 8} #{1 5} #{3 7}]})
+
 (defn has-lr-sym? [board]
   (let [[l _ r] (vertical-attacks board)]
     (when (= l r)
