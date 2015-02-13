@@ -333,3 +333,47 @@
                      " " " " "x"]
                     :ai {:ai "o" :player "x"})
            0))))
+
+(defn make-ai-move [board to-play marks]
+  (board/make-move board
+                   (marks to-play)
+                   (best-minimax-move board marks)))
+
+(defn make-test-move [board mark move-list]
+  (->> move-list
+       (some (fn [i]
+               (when (board/valid-move-i? board i)
+                 i)))
+       (board/make-move-i board mark)))
+
+(defn next-move [board to-play marks move-list]
+  (case to-play
+    :ai     (make-ai-move board to-play marks)
+    :player (make-test-move board
+                            (marks to-play)
+                            move-list)))
+
+(defn test-game-loop [board to-play marks move-list]
+  (if-let [winner (or (board/which-winner? board)
+                      (board/cats-game? board))]
+    (cond
+      (= (marks :player)
+         winner)
+      :player
+
+      (= (marks :ai)
+         winner)
+      :ai
+
+      :else :draw)
+
+    (recur (next-move board to-play marks move-list)
+           (board/next-player to-play)
+           marks
+           move-list)))
+
+(defn test-game-driver [plays-first move-list]
+  (test-game-loop board/empty-board plays-first
+                  {plays-first "x"
+                   (board/next-player plays-first) "o"}
+                  move-list))
