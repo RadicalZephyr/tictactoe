@@ -323,16 +323,19 @@
         pos-inf :ai     {:ai "x" :player "o"})))
 
   (testing "Previous AI failure modes"
-    (is (= (minimax ["x" "o" " "
-                     " " "o" " "
-                     " " " " "x"]
-                    :player {:ai "o" :player "x"})
-           0))
-    (is (= (minimax ["x" " " " "
-                     " " "o" " "
-                     " " " " "x"]
-                    :ai {:ai "o" :player "x"})
-           0)))
+    (are [to-play board]
+      (= (minimax board to-play {:ai "o" :player "x"})
+         0)
+
+      :player
+      ["x" "o" " "
+       " " "o" " "
+       " " " " "x"]
+
+      :ai
+      ["x" " " " "
+       " " "o" " "
+       " " " " "x"]))
 
   (testing "First moves"
     (are [board]
