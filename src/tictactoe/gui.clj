@@ -177,6 +177,20 @@
     (g/draw g2d (g/string-shape x y text)
             style)))
 
+(defn draw-end-game-notifications [g2d root winner]
+  (draw-letter g2d (screen-rect root) (case winner
+                                        ("x" "o") winner
+                                        true      "c"
+                                        nil)
+               (g/style :foreground "peru"
+                        :stroke (g/stroke
+                                 :width 20)))
+  (draw-text g2d (text-rect root) "Click to play again"
+             (g/style :foreground "tomato"
+                      :font (font/font :name :serif
+                                       :style :bold
+                                       :size 60))))
+
 (defn draw-board [canvas g2d]
   (let [root (s/to-root canvas)
         board (:board @game-state)
@@ -195,18 +209,7 @@
     (when-let [winner (or
                        (board/which-winner? board)
                        (board/cats-game? board))]
-      (draw-letter g2d (screen-rect root) (case winner
-                                            ("x" "o") winner
-                                            true      "c"
-                                            nil)
-                   (g/style :foreground "peru"
-                            :stroke (g/stroke
-                                     :width 20)))
-      (draw-text g2d (text-rect root) "Click to play again"
-                 (g/style :foreground "tomato"
-                          :font (font/font :name :serif
-                                           :style :bold
-                                           :size 60))))))
+      (draw-end-game-notifications g2d root winner))))
 
 
 ;;; #################################################################
