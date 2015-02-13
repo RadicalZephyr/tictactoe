@@ -167,5 +167,4 @@
        (filter (fn [s] (contains? s index)))
        (apply set/union)))
 
-(defn get-unique-moves [board]
-  #{0 1 4})
+(defn get-unique-move-sets [board])
