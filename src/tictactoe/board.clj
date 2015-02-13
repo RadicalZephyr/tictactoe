@@ -1,5 +1,6 @@
 (ns tictactoe.board
-  (:require [clojure.string :as s]))
+  (:require [clojure.string :as s]
+            [clojure.set    :as set]))
 
 (def blank " ")
 
@@ -160,6 +161,18 @@
     (1 3 5 7) :side
     4         :center
     nil))
+
+(defn get-move-equivalences [symmetries]
+  (->> symmetries
+       (map index-equivalences)
+       (apply concat)
+       (map set)))
+
+(defn get-all-equivalent-moves [symmetries index]
+  (->> symmetries
+       get-move-equivalences
+       (filter (fn [s] (contains? s index)))
+       (apply set/union)))
 
 (defn get-unique-moves [board]
   #{0 1 4})
