@@ -199,11 +199,11 @@
                                             ("x" "o") winner
                                             true      "c"
                                             nil)
-                   (g/style :foreground "red"
+                   (g/style :foreground "palevioletred"
                             :stroke (g/stroke
                                      :width 20)))
-      (draw-text g2d (text-rect root) "Click to play again."
-                 (g/style :foreground "gray"
+      (draw-text g2d (text-rect root) "Click to play again"
+                 (g/style :foreground "tomato"
                           :font (font/font :name :serif
                                            :size 64))))))
 
