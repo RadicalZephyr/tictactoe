@@ -171,4 +171,9 @@
        (filter (fn [s] (contains? s index)))
        (apply set/union #{index})))
 
-(defn get-unique-move-sets [board])
+(defn get-unique-move-sets [board]
+  (let [symmetries (get-symmetries board)
+        valid-moves (all-valid-moves board)]
+    (set
+     (map (partial get-all-equivalent-moves symmetries)
+          valid-moves))))

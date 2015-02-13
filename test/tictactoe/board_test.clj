@@ -222,6 +222,6 @@
       (= (get-unique-move-sets board)
          result)
 
-      '(#{0 2 6 8}
+      #{#{0 2 6 8}
         #{1 3 5 7}
-        #{4}) empty-board)))
+        #{4}} empty-board)))
