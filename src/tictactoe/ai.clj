@@ -161,6 +161,10 @@
   (let [index (first move-set)]
    [move-set (minimax (board/make-move-i board (marks :ai) index) :player marks)]))
 
+(defn move-set->index [[move-set _]]
+  (let [index (first (seq move-set))] ; Get first move in set
+    (board/index->xy index)))
+
 (defn best-minimax-move [board marks]
   (->> board
        board/get-unique-move-sets
@@ -169,6 +173,4 @@
        (sort (fn [[_ r1] [_ r2]]
                (compare r2 r1)))
        first ; Get the highest ranked move-set/ranking pair
-       ((fn [[move-set _]]
-          (let [index (first (seq move-set))] ; Choose a random move
-            (board/index->xy index))))))
+       move-set->index))
