@@ -86,6 +86,13 @@
 (defn cats-game? [board]
   (not-any? s/blank? board))
 
+(defn game-result [board marks]
+  (if-let [winner (which-winner? board)]
+    (let [inv-marks (set/map-invert marks)]
+      (inv-marks winner))
+    (when (cats-game? board)
+      :draw)))
+
 (defn xy->index [[x y]]
   (+ (dec x)
      (* 3 (dec y))))
