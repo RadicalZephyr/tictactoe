@@ -408,8 +408,8 @@
                    (board/next-player plays-first) "o"}
                   move-list))
 
-;; For testing the game-driver.  To utilize this code, you must modify
-;; `next-move' to call `make-test-move' for both players
+;; For testing the game-driver.  To make these tests pass, you must
+;; modify `next-move' to call `make-test-move' for both players
 
 ;; (deftest test-game-driver-test
 ;;   (testing "The test fixtures"
