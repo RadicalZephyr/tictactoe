@@ -191,27 +191,24 @@
             style)))
 
 (defn draw-end-game-notifications [g2d root winner]
-  (draw-text g2d (text-rect root :middle) (cond
-                                            (= ((get-marks) :player)
-                                               winner)
-                                            "You won!"
+  (let [text-style (g/style :foreground "tomato"
+                            :background "white"
+                            :font (font/font :name :serif
+                                             :style :bold
+                                             :size 60))]
+    (draw-text g2d (text-rect root :middle) (cond
+                                              (= ((get-marks) :player)
+                                                 winner)
+                                              "You won!"
 
-                                            (= ((get-marks) :ai)
-                                               winner)
-                                            "The AI won..."
+                                              (= ((get-marks) :ai)
+                                                 winner)
+                                              "The Computer won."
 
-                                            :else "It's a tie.")
-             (g/style :foreground "peru"
-                      :background "white"
-                      :font (font/font :name :serif
-                                       :style :bold
-                                       :size 60)))
-  (draw-text g2d (text-rect root :bottom) "Click to play again."
-             (g/style :foreground "tomato"
-                      :background "white"
-                      :font (font/font :name :serif
-                                       :style :bold
-                                       :size 60))))
+                                              :else "It's a tie.")
+               text-style)
+    (draw-text g2d (text-rect root :bottom) "Click to play again."
+               text-style)))
 
 (defn draw-board [canvas g2d]
   (let [root (s/to-root canvas)
