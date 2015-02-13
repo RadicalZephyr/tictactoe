@@ -117,10 +117,10 @@
                   :ai :player})
 
 (def index-equivalences
-  {:lr    [#{0 2} #{3 5} #{6 8}]
-   :tb    [#{0 6} #{1 7} #{2 8}]
-   :tl-br [#{1 3} #{2 6} #{5 7}]
-   :tr-bl [#{0 8} #{1 5} #{3 7}]})
+  {:lr    #{[6 8] [0 2] [3 5]}
+   :tb    #{[7 1] [2 8] [0 6]}
+   :tl-br #{[1 3] [7 5] [6 2]}
+   :tr-bl #{[7 3] [1 5] [0 8]}})
 
 (defn =at-index [board [a b]]
   (= (nth board a)
@@ -128,8 +128,7 @@
 
 (defn has-sym? [board sym-type]
   (when (every? (partial =at-index board)
-                (map vec
-                     (index-equivalences sym-type)))
+                (index-equivalences sym-type))
     sym-type))
 
 (defn has-lr-sym? [board]
