@@ -162,10 +162,14 @@
             (* 0.8  width)
             (* 0.75 height))))
 
-(defn text-rect [root]
-  (let [[width height] (get-size root)]
+(defn text-rect [root row]
+  (let [[width height] (get-size root)
+        row-mod (case row
+                  :top 0.15
+                  :middle 0.45
+                  :bottom 0.85)]
     (g/rect 0
-            (* 0.85 height)
+            (* row-mod height)
             width
             (* 0.2 height))))
 
@@ -176,14 +180,21 @@
             style)))
 
 (defn draw-end-game-notifications [g2d root winner]
-  (draw-letter g2d (screen-rect root) (case winner
-                                        ("x" "o") winner
-                                        true      "c"
-                                        nil)
-               (g/style :foreground "peru"
-                        :stroke (g/stroke
-                                 :width 20)))
-  (draw-text g2d (text-rect root) "Click to play again"
+  (draw-text g2d (text-rect root :middle) (cond
+                                            (= ((get-marks) :player)
+                                               winner)
+                                            "You won!"
+
+                                            (= ((get-marks) :ai)
+                                               winner)
+                                            "The AI won..."
+
+                                            :else "It's a tie.")
+             (g/style :foreground "peru"
+                      :font (font/font :name :serif
+                                       :style :bold
+                                       :size 60)))
+  (draw-text g2d (text-rect root :bottom) "Click to play again"
              (g/style :foreground "tomato"
                       :font (font/font :name :serif
                                        :style :bold
