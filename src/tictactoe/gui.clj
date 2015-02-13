@@ -159,7 +159,23 @@
 
 (defn screen-rect [root]
   (let [[width height] (get-size root)]
-    (g/rect 0 0 width height)))
+    (g/rect (* 0.1 width)
+            0
+            (* 0.8  width)
+            (* 0.8 height))))
+
+(defn text-rect [root]
+  (let [[width height] (get-size root)]
+    (g/rect 0
+            (* 0.8 height)
+            width
+            (* 0.2 height))))
+
+(defn draw-text [g2d rect text style]
+  (let [{:keys [tl width height]} (get-inset-coords rect)
+        [x y] tl]
+    (g/draw g2d (g/string-shape x y text)
+            style)))
 
 (defn draw-board [canvas g2d]
   (let [root (s/to-root canvas)
@@ -185,7 +201,11 @@
                                             nil)
                    (g/style :foreground "red"
                             :stroke (g/stroke
-                                     :width 20))))))
+                                     :width 20)))
+      (draw-text g2d (text-rect root) "Click to play again."
+                 (g/style :foreground "gray"
+                          :font (font/font :name :serif
+                                           :size 64))))))
 
 
 ;;; #################################################################
