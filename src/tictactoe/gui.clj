@@ -195,17 +195,18 @@
                             :background "white"
                             :font (font/font :name :serif
                                              :style :bold
-                                             :size 60))]
-    (draw-text g2d (text-rect root :middle) (cond
-                                              (= ((get-marks) :player)
-                                                 winner)
-                                              "You won!"
+                                             :size 60))
+        winner-text (cond
+                      (= ((get-marks) :player)
+                         winner)
+                      "You won!"
 
-                                              (= ((get-marks) :ai)
-                                                 winner)
-                                              "The Computer won."
+                      (= ((get-marks) :ai)
+                         winner)
+                      "The Computer won."
 
-                                              :else "It's a tie.")
+                      :else "It's a tie.")]
+    (draw-text g2d (text-rect root :middle) winner-text
                text-style)
     (draw-text g2d (text-rect root :bottom) "Click to play again."
                text-style)))
