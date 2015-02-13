@@ -155,15 +155,19 @@
            :ai     (apply max subtree-values)
            :player (apply min subtree-values)))))))
 
-(defn minimax-rank-move [board marks index]
-  [index (minimax (board/make-move-i board (marks :ai) index) :player marks)])
+(defn minimax-rank-move [board marks move-set]
+  ;; Since all moves in the move-set are equivalent it doesn't matter
+  ;; which we explore.
+  (let [index (first move-set)]
+   [move-set (minimax (board/make-move-i board (marks :ai) index) :player marks)]))
 
 (defn best-minimax-move [board marks]
   (->> board
-       board/all-valid-moves
+       board/get-unique-move-sets
        (map (partial minimax-rank-move board marks))
        (sort (fn [[_ r1] [_ r2]]
                (compare r2 r1)))
-       first
-       ((fn [[index _]]
-          (board/index->xy index)))))
+       first ;; Get the highest ranked move-set/ranking pair
+       ((fn [[move-set _]]
+          (let [index (rand-nth (seq move-set))] ; Choose a random move
+            (board/index->xy index))))))
