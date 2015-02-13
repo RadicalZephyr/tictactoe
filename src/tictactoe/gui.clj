@@ -315,7 +315,7 @@
         fills (repeat num-fills fill-key)]
     (panel :items `[~@fills ~@items ~@fills])))
 
-(defn show-choose-player [root & winner]
+(defn show-choose-player [root]
   (let [[_ h] (get-size root)]
     (s/config!
      root
