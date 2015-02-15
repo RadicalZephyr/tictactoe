@@ -1,4 +1,4 @@
-(defproject tictactoe "0.2.1"
+(defproject tictactoe "0.2.2-SNAPSHOT"
   :description "A tictactoe game with an UNBEATABLE AI."
   :url "http://www.zephyrizing.net/tictactoe/"
   :license {:name "Eclipse Public License"
