@@ -236,15 +236,16 @@
       index)))
 
 (defn try-ai-move []
-  (when (and
-         (:playing? @game-state)
-         (= (:to-play @game-state)
-            :ai))
-    (swap! game-state
-           try-move :ai (-> @game-state
-                            :board
-                            (ai/best-minimax-move (get-marks))
-                            board/xy->index))))
+  (let [state @game-state]
+    (when (and
+           (:playing? state)
+           (= (:to-play state)
+              :ai))
+      (swap! game-state
+             try-move :ai (-> state
+                              :board
+                              (ai/best-minimax-move (get-marks))
+                              board/xy->index)))))
 
 (defn try-player-move [e]
   (when (and
