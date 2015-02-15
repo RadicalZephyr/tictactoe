@@ -302,17 +302,23 @@
                     " " "o" " "
                     " " " " "x"]
 
-                   [" " " " " "
-                    " " "x" "o"
-                    " " " " " "]
-
-                   [" " "o" " "
-                    " " "x" " "
-                    "x" " " " "]
-
                    ["o" " " " "
                     " " " " " "
                     "x" "x" "o"]]]
+      (are [result to-play marks]
+        (= (minimax board to-play marks 1)
+           result)
+        -6 :player {:ai "o" :player "x"}
+         6 :ai     {:ai "x" :player "o"})))
+
+  (testing "Immediate wins and losses are more important than forks"
+    (doseq [board [[" " "o" " "
+                    " " "x" " "
+                    "x" " " " "]
+
+                   [" " "o" " "
+                    " " " " " "
+                    "x" "x" " "]]]
       (are [result to-play marks]
         (= (minimax board to-play marks 1)
            result)
