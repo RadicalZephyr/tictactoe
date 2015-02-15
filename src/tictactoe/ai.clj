@@ -137,11 +137,12 @@
 ;; is probably fairly small still.
 (def minimax
   (memoize
-   (fn [board player marks]
+   (fn [board player marks depth]
      (if-let [result (board/game-result board marks)]
        (case result
-         :ai     Double/POSITIVE_INFINITY
-         :player Double/NEGATIVE_INFINITY
+         :ai        (- 10 depth) ; The greater the depth, the less important
+         :player (* (- 10 depth) ; a win or loss becomes.
+                    -1)
          :draw   0)
 
        (if-let [subtree-values (->> board
@@ -149,7 +150,8 @@
                                     (map (fn [b]
                                            (minimax b
                                                     (board/next-player player)
-                                                    marks))))]
+                                                    marks
+                                                    (inc depth)))))]
 
          (case player
            :ai     (apply max subtree-values)
@@ -159,7 +161,10 @@
   ;; Since all moves in the move-set are equivalent it doesn't matter
   ;; which we explore.
   (let [index (first move-set)]
-   [move-set (minimax (board/make-move-i board (marks :ai) index) :player marks)]))
+    [move-set (minimax (board/make-move-i board (marks :ai) index)
+                       :player
+                       marks
+                       1)]))
 
 (defn move-set->index [[move-set _]]
   (let [index (first (seq move-set))] ; Get first move in set

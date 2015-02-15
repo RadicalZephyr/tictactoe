@@ -223,21 +223,18 @@
 ;;; Unit tests for minimax
 ;;; #################################################################
 
-(def pos-inf Double/POSITIVE_INFINITY)
-(def neg-inf Double/NEGATIVE_INFINITY)
-
 (deftest minimax-test
   (testing "Completed boards"
     (are [result board]
-      (= (minimax board :ai {:ai "o" :player "x"})
+      (= (minimax board :ai {:ai "o" :player "x"} 1)
          result)
-      pos-inf ["o" "x" "o"
-               "o" "x" "x"
-               "o" "o" "x"]
+      9 ["o" "x" "o"
+         "o" "x" "x"
+         "o" "o" "x"]
 
-      neg-inf ["o" "x" "o"
-               "o" "x" "x"
-               "x" "x" "o"]
+      -9 ["o" "x" "o"
+          "o" "x" "x"
+          "x" "x" "o"]
 
       0       ["x" "x" "o"
                "o" "o" "x"
@@ -256,10 +253,10 @@
                     "o" " " " "
                     "x" "x" " "]]]
       (are [result to-play marks]
-        (= (minimax board to-play marks)
+        (= (minimax board to-play marks 1)
            result)
-        neg-inf :player {:ai "o" :player "x"}
-        pos-inf :ai     {:ai "x" :player "o"}))
+        -8 :player {:ai "o" :player "x"}
+         8 :ai     {:ai "x" :player "o"}))
 
     (doseq [board [["x" "o" "o"
                     "o" "x" "x"
@@ -273,7 +270,7 @@
                     " " "x" "o"
                     "o" "x" "o"]]]
       (are [result to-play marks]
-        (= (minimax board to-play marks)
+        (= (minimax board to-play marks 1)
            result)
         0 :player {:ai "o" :player "x"}
         0 :ai     {:ai "x" :player "o"})))
@@ -295,10 +292,10 @@
                     " " "o" "x"
                     " " "x" "x"]]]
       (are [result to-play marks]
-        (= (minimax board to-play marks)
+        (= (minimax board to-play marks 1)
            result)
-        neg-inf :player {:ai "o" :player "x"}
-        pos-inf :ai     {:ai "x" :player "o"})))
+        -8 :player {:ai "o" :player "x"}
+         8 :ai     {:ai "x" :player "o"})))
 
   (testing "Fork prediction"
     (doseq [board [["x" " " "o"
@@ -317,14 +314,14 @@
                     " " " " " "
                     "x" "x" "o"]]]
       (are [result to-play marks]
-        (= (minimax board to-play marks)
+        (= (minimax board to-play marks 1)
            result)
-        neg-inf :player {:ai "o" :player "x"}
-        pos-inf :ai     {:ai "x" :player "o"})))
+        -8 :player {:ai "o" :player "x"}
+         8 :ai     {:ai "x" :player "o"})))
 
   (testing "Previous AI failure modes"
     (are [to-play board]
-      (= (minimax board to-play {:ai "o" :player "x"})
+      (= (minimax board to-play {:ai "o" :player "x"} 1)
          0)
 
       :player
@@ -340,7 +337,7 @@
   (testing "First moves"
     (are [board]
       (= (minimax board
-                  :player {:ai "x" :player "o"})
+                  :player {:ai "x" :player "o"} 1)
          0)
 
       [" " " " " "
@@ -353,7 +350,9 @@
 
       [" " " " " "
        " " "x" " "
-       " " " " " "])))
+       " " " " " "]))
+
+  (testing "Prefer immediate wins"))
 
 ;; For testing the game-driver
 ;; (defn swap-marks [{:keys [ai player]}]
