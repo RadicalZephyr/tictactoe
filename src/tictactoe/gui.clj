@@ -46,7 +46,7 @@
 (defn do-move [state player index]
   (-> state
       (update-in [:board] board/make-move-i
-                 ((get-marks) player) index)
+                 ((:marks state) player) index)
       next-player))
 
 (defn check-end-game [state]
