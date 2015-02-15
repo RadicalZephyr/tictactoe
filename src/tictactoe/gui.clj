@@ -20,9 +20,6 @@
 ;;; Game State Manipulation Functions
 ;;; #################################################################
 
-(defn get-marks []
-  (:marks @game-state))
-
 (defn reset-board! []
   (swap! game-state (fn [state]
                       (-> state
@@ -206,7 +203,8 @@
 
 (defn draw-board [canvas g2d]
   (let [root (s/to-root canvas)
-        board (:board @game-state)
+        state @game-state
+        board (:board state)
         rect-style (g/style :foreground "black"
                             :stroke (g/stroke
                                      :width 5))
@@ -219,7 +217,8 @@
                g2d r mark rect-style)))
           rects
           board))
-    (when-let [result (board/game-result board (get-marks))]
+    (when-let [result (board/game-result board
+                                         (:marks state))]
       (draw-end-game-notifications g2d root result))))
 
 
@@ -245,7 +244,7 @@
       (swap! game-state
              try-move :ai (-> state
                               :board
-                              (ai/best-minimax-move (get-marks))
+                              (ai/best-minimax-move (:marks state))
                               board/xy->index)))))
 
 (defn try-player-move [e]
