@@ -4,13 +4,13 @@ A tictactoe game with an UNBEATABLE AI.
 
 ## Installation
 
-Download from http://www.zephyrizing.net/tictactoe/releases/tictactoe-0.2.0-standalone.jar
+Download from http://www.zephyrizing.net/tictactoe/releases/tictactoe-0.2.1-standalone.jar
 
 ## Usage
 
 To play the game, run this in a terminal (make sure you have Java 7 installed!):
 
-    $ java -jar tictactoe-0.2.0-standalone.jar
+    $ java -jar tictactoe-0.2.1-standalone.jar
 
 You can pass `-g` or `--gui` as options to run a graphical version. By
 default it runs a text based game.
