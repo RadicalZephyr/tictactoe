@@ -50,7 +50,8 @@
       next-player))
 
 (defn check-end-game [state]
-  (if-let [result (board/game-result state (get-marks))]
+  (if-let [result (board/game-result (:board state)
+                                     (:marks state))]
     (toggle-playing state)
     state))
 
