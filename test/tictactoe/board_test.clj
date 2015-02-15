@@ -55,6 +55,53 @@
                              mark " " " "])
              mark)))))
 
+(deftest game-result-test
+  (are [result board marks]
+    (= (game-result board marks)
+       result)
+
+    nil
+    [" " " " " "
+     " " " " " "
+     " " " " " "]
+    {:player "x"
+     :ai     "o"}
+
+    :player
+    [" " " " "x"
+     " " "x" " "
+     "x" " " " "]
+    {:player "x"
+     :ai     "o"}
+
+    :ai
+    [" " " " "o"
+     " " "o" " "
+     "o" " " " "]
+    {:player "x"
+     :ai     "o"}
+
+    :draw
+    ["o" "x" "o"
+     "x" "o" "x"
+     "x" "o" "x"]
+    {:player "x"
+     :ai     "o"}
+
+    :draw
+    ["o" "x" "o"
+     "o" "x" "x"
+     "x" "o" "x"]
+    {:player "x"
+     :ai     "o"}
+
+    :draw
+    ["o" "x" "o"
+     "x" "x" "o"
+     "o" "o" "x"]
+    {:player "x"
+     :ai     "o"}))
+
 (deftest indexed-groups-test
   (testing "Output"
     (is (= (sort
