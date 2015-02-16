@@ -105,13 +105,6 @@
     :ai     (println "The AI wins again. As it should.")
     :draw   (println "It's a draw. This time...")))
 
-(defn game-loop [board to-play marks]
-  (if-let [result (board/game-result board marks)]
-    (do-end-game board result)
-    (recur (next-move board to-play marks)
-           (board/next-player to-play)
-           marks)))
-
 (defn assign-marks [goes-first]
   {goes-first "X"
    (board/next-player goes-first) "O"})
@@ -150,9 +143,7 @@
 (defn -main []
   (println "Let's play tictactoe!")
   (loop [goes-first (read-player)]
-    (game-loop board/empty-board
-               goes-first
-               (assign-marks goes-first))
-
+    (board/game-loop do-end-game next-move
+      [board/empty-board goes-first (assign-marks goes-first)])
     (when (play-again?)
       (recur (read-player)))))
