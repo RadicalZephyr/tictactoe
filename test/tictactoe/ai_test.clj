@@ -403,8 +403,10 @@
                    (board/next-player plays-first) "o"}
                   move-list))
 
-;; For testing the game-driver.  To make these tests pass, you must
-;; modify `next-move' to call `make-test-move' for both players
+;; This test is for testing the above testing functions.
+
+;; To make these tests pass, you must modify `next-move' to call
+;; `make-test-move' for both players
 
 ;; (deftest test-game-driver-test
 ;;   (testing "The test fixtures"
