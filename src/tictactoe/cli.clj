@@ -97,16 +97,17 @@
     :player (make-player-move board
                               (marks to-play))))
 
+(defn do-end-game [board result]
+  (print-board board)
+  (case result
+    :player (println "How did this happen?!?!?!"
+                     "The AI is suppposed to be UNBEATABLE!!!")
+    :ai     (println "The AI wins again. As it should.")
+    :draw   (println "It's a draw. This time...")))
+
 (defn game-loop [board to-play marks]
   (if-let [result (board/game-result board marks)]
-    (do
-      (print-board board)
-      (case result
-        :player (println "How did this happen?!?!?!"
-                         "The AI is suppposed to be UNBEATABLE!!!")
-        :ai     (println "The AI wins again. As it should.")
-        :draw   (println "It's a draw. This time...")))
-
+    (do-end-game board result)
     (recur (next-move board to-play marks)
            (board/next-player to-play)
            marks)))
