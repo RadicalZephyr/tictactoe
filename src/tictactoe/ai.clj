@@ -167,13 +167,13 @@
                        1)]))
 
 (defn move-set->index [[move-set _]]
-  (let [index (first (seq move-set))] ; Get first move in set
+  (let [index (rand-nth (seq move-set))] ; Get first move in set
     (board/index->xy index)))
 
 (defn best-minimax-move [board marks]
   (->> board
        board/get-unique-move-sets
-       ;; shuffle ; Sort to get some randomization on the first move
+       shuffle ; Shuffle to get some randomization on the first move
        (map (partial minimax-rank-move board marks))
        (sort (fn [[_ r1] [_ r2]]
                (compare r2 r1)))
