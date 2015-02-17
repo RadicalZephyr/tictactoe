@@ -12,7 +12,7 @@
   (index [cell])
   (mark  [cell]))
 
-(defrecord ICell [_index _mark]
+(defrecord IndexedCellRec [_index _mark]
   java.lang.Comparable
   (compareTo [this o] (compare
                        (index this)
@@ -23,7 +23,7 @@
   (mark  [_] _mark))
 
 (defn make-indexed-cell [index mark]
-  (ICell. index mark))
+  (IndexedCellRec. index mark))
 
 (defn horizontal-attacks [board]
   (partition 3 board))
