@@ -370,64 +370,56 @@
                    (marks to-play)
                    (best-minimax-move board marks)))
 
-(defn make-test-move [board mark move-list]
+(def ^:dynamic move-list nil)
+
+(defn make-test-move [board mark]
   (->> move-list
        (some (fn [i]
                (when (board/valid-move-i? board i)
                  i)))
        (board/make-move-i board mark)))
 
-(defn next-move [board to-play marks move-list]
+(defn next-move [board to-play marks]
   (case to-play
     ;; For testing the game-driver
-    ;; :ai (make-test-move board
-    ;;                     (marks to-play)
-    ;;                     move-list)
-    :ai     (make-ai-move board to-play marks)
+    :ai     (make-test-move board
+                            (marks to-play))
+    ;; :ai     (make-ai-move board to-play marks)
     :player (make-test-move board
-                            (marks to-play)
-                            move-list)))
-
-(defn test-game-loop [board to-play marks move-list]
-  (if-let [result (board/game-result board marks)]
-    result
-
-    (recur (next-move board to-play marks move-list)
-           (board/next-player to-play)
-           marks
-           move-list)))
+                            (marks to-play))))
 
 (defn test-game-driver [plays-first move-list]
-  (test-game-loop board/empty-board plays-first
-                  {plays-first "x"
-                   (board/next-player plays-first) "o"}
-                  move-list))
+  (binding [move-list move-list]
+    (board/game-loop (fn [board result] result) next-move
+      [board/empty-board plays-first
+       {plays-first "x"
+        (board/next-player plays-first) "o"}])))
 
 ;; This test is for testing the above testing functions.
 
 ;; To make these tests pass, you must modify `next-move' to call
 ;; `make-test-move' for both players
 
-;; (deftest test-game-driver-test
-;;   (testing "The test fixtures"
-;;     (are [result plays-first move-list]
-;;       (= (test-game-driver plays-first move-list)
-;;          result)
+(deftest test-game-driver-test
+  (testing "The test fixtures"
+    (are [result plays-first move-list]
+      (= (test-game-driver plays-first move-list)
+         result)
 
-;;       :player :player [0 3 1 4 2 5]
-;;       :ai     :player [0 3 1 4 6 5]
+      :player :player [0 3 1 4 2 5]
+      :ai     :player [0 3 1 4 6 5]
 
-;;       :player :ai     [0 3 1 4 6 5]
-;;       :ai     :ai     [0 3 1 4 2 5]
+      :player :ai     [0 3 1 4 6 5]
+      :ai     :ai     [0 3 1 4 2 5]
 
-;;       :draw :player [0 1 2 4 3 6 5 8 7]
-;;       :draw :ai     [0 1 2 4 3 6 5 8 7]
+      :draw :player [0 1 2 4 3 6 5 8 7]
+      :draw :ai     [0 1 2 4 3 6 5 8 7]
 
-;;       :draw :player [0 1 2 3 5 4 6 8 7]
-;;       :draw :ai     [0 1 2 3 5 4 6 8 7]
+      :draw :player [0 1 2 3 5 4 6 8 7]
+      :draw :ai     [0 1 2 3 5 4 6 8 7]
 
-;;       :draw :player [0 1 2 3 4 6 5 8 7]
-;;       :draw :ai     [0 1 2 3 4 6 5 8 7])))
+      :draw :player [0 1 2 3 4 6 5 8 7]
+      :draw :ai     [0 1 2 3 4 6 5 8 7])))
 
 (defn test-all-ai [plays-first]
   (->> (range 9)
