@@ -140,10 +140,23 @@
                        "Please enter either \"yes\" or \"no\".")
               (recur (safe-read))))))
 
+(defmacro game-loop
+  "Run a game loop  that uses the given end-game and
+  next-move functions."
+  [end-game-fn next-move-fn [starting-board plays-first marks]]
+  `(loop [board#   ~starting-board
+          to-play# ~plays-first
+          marks#   ~marks]
+     (if-let [result# (board/game-result board# marks#)]
+       (~end-game-fn board# result#)
+       (recur (~next-move-fn board# to-play# marks#)
+              (board/next-player to-play#)
+              marks#))))
+
 (defn -main []
   (println "Let's play tictactoe!")
   (loop [goes-first (read-player)]
-    (board/game-loop do-end-game next-move
+    (game-loop do-end-game next-move
       [board/empty-board goes-first (assign-marks goes-first)])
     (when (play-again?)
       (recur (read-player)))))

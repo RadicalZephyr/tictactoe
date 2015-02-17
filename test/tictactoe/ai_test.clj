@@ -2,6 +2,7 @@
   (:require [tictactoe.ai :refer :all]
             [clojure.test :refer :all]
             [tictactoe.board :as board]
+            [tictactoe.cli :refer [game-loop]]
             [clojure.test.check :as tc]
             [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop]
@@ -390,7 +391,7 @@
 
 (defn test-game-driver [plays-first move-list]
   (binding [move-list move-list]
-    (board/game-loop (fn [board result] result) next-move
+    (game-loop (fn [board result] result) next-move
       [board/empty-board plays-first
        {plays-first "x"
         (board/next-player plays-first) "o"}])))

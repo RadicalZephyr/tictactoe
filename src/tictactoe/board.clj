@@ -184,16 +184,3 @@
     (set
      (map (partial get-all-equivalent-moves symmetries)
           valid-moves))))
-
-(defmacro game-loop
-  "Run a game loop  that uses the given end-game and
-  next-move functions."
-  [end-game-fn next-move-fn [starting-board plays-first marks]]
-  `(loop [board#   ~starting-board
-          to-play# ~plays-first
-          marks#   ~marks]
-     (if-let [result# (game-result board# marks#)]
-       (~end-game-fn board# result#)
-       (recur (~next-move-fn board# to-play# marks#)
-              (next-player to-play#)
-              marks#))))
