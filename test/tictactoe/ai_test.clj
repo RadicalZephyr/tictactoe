@@ -85,7 +85,7 @@
 ;;; #################################################################
 
 (defn simple-indexer [attack]
-  (vec (map vector
+  (vec (map board/make-indexed-cell
             (map (fn [x]
                    [0 x])
                  (range 3))
@@ -93,9 +93,9 @@
 
 (defn compound-indexer [[el attack]]
   (let [indexed-attack (simple-indexer attack)]
-    [(some (fn [[idx mark]]
-             (when (= mark board/blank)
-               [idx el]))
+    [(some (fn [icell]
+             (when (= (board/mark icell) board/blank)
+               [(board/index icell) el]))
            indexed-attack)
      indexed-attack]))
 

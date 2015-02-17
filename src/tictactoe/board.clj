@@ -25,11 +25,6 @@
 (defn make-indexed-cell [index mark]
   (ICell. index mark))
 
-(extend-type clojure.lang.IPersistentVector
-  IndexedCell
-  (index [cell] (first cell))
-  (mark  [cell] (second cell)))
-
 (defn horizontal-attacks [board]
   (partition 3 board))
 
